@@ -1,0 +1,22 @@
+services:
+  # FastAPI API service hosting details
+  - type: web
+    name: keralax-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    rootDir: backend
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: keralax-db
+          property: connectionString
+
+databases:
+  # Free-tier PostgreSQL instance on Render
+  - name: keralax-db
+    databaseName: keralax_db
+    user: keralax_admin
+    plan: free
