@@ -7,7 +7,7 @@ This document provides a high-level overview of completed milestones, upcoming p
 ## 1. Project Health Summary
 
 - **Current State**: Stabilized. Frontend compiles with zero errors/warnings (except minified bundle size limit). Backend DB seeds and runs cleanly.
-- **Git Branch**: `master` (All local modifications committed).
+- **Git Branch**: `main` (All local modifications committed).
 - **Working Tree**: Clean.
 
 ---
@@ -25,7 +25,7 @@ This document provides a high-level overview of completed milestones, upcoming p
   - Circular category quick-links matching the `Mézenc` design.
   - Interactive Map widget loading custom generated graphic map photos of Kerala and overlaying glowing pins linked to the region data panels (inspired by `epic` UI).
   - Staggered vertical booking steps layout inspired by the `MNTN` design.
-- **Dockerization & Configuration Configs**: Multi-stage docker configs for Nginx frontend and Uvicorn backend, alongside ready-to-use `vercel.json` and `render.yaml` descriptors.
+- **Dockerization & Configuration Configs**: Multi-stage docker configs for Nginx frontend and Uvicorn backend, alongside ready-to-use `vercel.json` and Koyeb build scripts.
 
 ---
 
@@ -38,7 +38,7 @@ graph LR
         UI --> Router[React Router]
     end
 
-    subgraph Backend [FastAPI - Render]
+    subgraph Backend [FastAPI - Koyeb]
         API[API Routers] --> Services[AI Planner Service]
         API --> DB[SQLAlchemy ORM]
     end

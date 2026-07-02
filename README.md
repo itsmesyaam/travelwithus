@@ -55,7 +55,8 @@ travelwithme/
 │   ├── vercel.json          # Redirect rules for client-side routing on Vercel
 │   └── vite.config.ts       # Vite bundler alias maps & tailwind integration
 ├── docker-compose.yml       # Monorepo container orchestrator
-└── render.yaml              # Render infrastructure manifest
+└── README.md                # Project documentation entrypoint
+
 ```
 
 ---
