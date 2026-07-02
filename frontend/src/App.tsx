@@ -3,6 +3,12 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import Navbar from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { HomePage } from '@/pages/HomePage';
+import { ExplorePage } from '@/pages/ExplorePage';
+import DestinationDetailsPage from '@/pages/DestinationDetailsPage';
+import { DistrictExplorerPage } from '@/pages/DistrictExplorerPage';
+import { SeasonalExplorerPage } from '@/pages/SeasonalExplorerPage';
+import { ThematicExplorerPage } from '@/pages/ThematicExplorerPage';
+import { AboutPage, ContactPage, PrivacyPage, TermsPage } from '@/pages/StaticPages';
 
 // Scroll to top on route change helper
 function ScrollToTop() {
@@ -35,6 +41,16 @@ function App() {
         <div className="flex-grow pt-16">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/explore" element={<ExplorePage />} />
+            <Route path="/destination/:slug" element={<DestinationDetailsPage />} />
+            <Route path="/districts" element={<DistrictExplorerPage />} />
+            <Route path="/seasons" element={<SeasonalExplorerPage />} />
+            <Route path="/theme/:themeSlug" element={<ThematicExplorerPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            
             {/* Fallback route */}
             <Route
               path="*"
