@@ -1,43 +1,39 @@
 import React from 'react';
 import { HeroSection } from '@/components/landing/HeroSection';
-import { TrendingDestinations } from '@/components/landing/TrendingDestinations';
-import { ExperiencesSection } from '@/components/landing/ExperiencesSection';
-import { SeasonalSection } from '@/components/landing/SeasonalSection';
+import { BrandValueSection } from '@/components/landing/BrandValueSection';
+import { FeaturedCarousel } from '@/components/landing/FeaturedCarousel';
+import { TourPackagesSection } from '@/components/landing/TourPackagesSection';
+import { BookingStepsSection } from '@/components/landing/BookingStepsSection';
 import { KeralaMap } from '@/components/landing/KeralaMap';
-import { AIPlannerCTA } from '@/components/landing/AIPlannerCTA';
-import { TestimonialsSection } from '@/components/landing/TestimonialsSection';
 import { BlogSection } from '@/components/landing/BlogSection';
-import { destinations, experiences, seasons, testimonials, blogPosts } from '@/data/kerala';
+import { blogPosts } from '@/data/kerala';
 
 /**
  * Landing page — the cinematic home page for KeralaX AI.
- * Assembles all landing page sections in a carefully ordered flow.
+ * Assembles all landing page sections in a carefully ordered flow matching the WANDER concept.
  */
 export function HomePage() {
   return (
-    <main>
-      {/* 1. Cinematic hero with search widget */}
+    <main className="bg-white dark:bg-slate-950 transition-colors duration-300">
+      {/* 1. Bento floating hero */}
       <HeroSection />
 
-      {/* 2. Trending destinations grid */}
-      <TrendingDestinations destinations={destinations} />
+      {/* 2. Split stats and value points */}
+      <BrandValueSection />
 
-      {/* 3. Experiences / categories */}
-      <ExperiencesSection experiences={experiences} />
+      {/* 3. Top Destinations portrait slider */}
+      <FeaturedCarousel />
 
-      {/* 4. Seasonal recommendations */}
-      <SeasonalSection seasons={seasons} />
+      {/* 4. Tour Packages bento grid */}
+      <TourPackagesSection />
 
-      {/* 5. Interactive Kerala map */}
+      {/* 5. Interactive Kerala map by region */}
       <KeralaMap />
 
-      {/* 6. AI Trip Planner CTA */}
-      <AIPlannerCTA />
+      {/* 6. Booking made easy 1-2-3 steps */}
+      <BookingStepsSection />
 
-      {/* 7. Testimonials */}
-      <TestimonialsSection testimonials={testimonials} />
-
-      {/* 8. Blog highlights */}
+      {/* 7. Blog highlights */}
       <BlogSection posts={blogPosts} />
     </main>
   );
