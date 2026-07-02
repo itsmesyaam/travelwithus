@@ -1,5 +1,6 @@
 import React from 'react';
 import { HeroSection } from '@/components/landing/HeroSection';
+import { QuickLinksSection } from '@/components/landing/QuickLinksSection';
 import { BrandValueSection } from '@/components/landing/BrandValueSection';
 import { FeaturedCarousel } from '@/components/landing/FeaturedCarousel';
 import { TourPackagesSection } from '@/components/landing/TourPackagesSection';
@@ -15,26 +16,30 @@ import { blogPosts } from '@/data/kerala';
 export function HomePage() {
   return (
     <main className="bg-white dark:bg-slate-950 transition-colors duration-300">
-      {/* 1. Bento floating hero */}
+      {/* 1. Full-viewport Hero */}
       <HeroSection />
 
-      {/* 2. Split stats and value points */}
+      {/* 2. Circular quick links (Mezenc concept) */}
+      <QuickLinksSection />
+
+      {/* 3. Split stats and value points */}
       <BrandValueSection />
 
-      {/* 3. Top Destinations portrait slider */}
+      {/* 4. Top Destinations portrait slider */}
       <FeaturedCarousel />
 
-      {/* 4. Tour Packages bento grid */}
+      {/* 5. Tour Packages bento grid */}
       <TourPackagesSection />
 
-      {/* 5. Interactive Kerala map by region */}
+      {/* 6. Interactive Kerala map by region (Epic concept) */}
       <KeralaMap />
 
-      {/* 6. Booking made easy 1-2-3 steps */}
+      {/* 7. Booking made easy 1-2-3 steps (MNTN concept) */}
       <BookingStepsSection />
 
-      {/* 7. Blog highlights */}
+      {/* 8. Blog highlights */}
       <BlogSection posts={blogPosts} />
     </main>
   );
 }
+
