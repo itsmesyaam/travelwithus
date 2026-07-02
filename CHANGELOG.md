@@ -7,6 +7,12 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] — 2026-07-02
 
 ### Added
+- **Bento-Style Landing Page Redesign (WANDER Concept)**:
+  - Redesigned the hero section as a floating bento card with full-screen dynamic imagery, massive title fonts, and dual custom pills CTAs.
+  - Implemented the "Why Choose Us" split grid widget containing left-side statistics row and right-side stacked translucent value feature cards.
+  - Engineered the "Top Destinations" portrait card slider display with stars review levels and starting price badges.
+  - Added the three-column "Tour Packages" bento block showing custom routes.
+  - Built the "1-2-3 Booking Steps" horizontal workflow checklist.
 - **Landing Page Immersive Visuals & Trust Seals Redesign**:
   - Implemented a Ken Burns cross-fading background image slider featuring Munnar, Alleppey, and Varkala travel imagery.
   - Added a top utility header contact bar in the navbar displaying telephone, email, and travel tips links.
