@@ -9,6 +9,9 @@ import { DistrictExplorerPage } from '@/pages/DistrictExplorerPage';
 import { SeasonalExplorerPage } from '@/pages/SeasonalExplorerPage';
 import { ThematicExplorerPage } from '@/pages/ThematicExplorerPage';
 import { TripPlannerPage } from '@/pages/TripPlannerPage';
+import { DashboardPage } from '@/pages/DashboardPage';
+import { AdminPage } from '@/pages/AdminPage';
+import { BlogPage, BlogPostDetailPage } from '@/pages/BlogPage';
 import { AboutPage, ContactPage, PrivacyPage, TermsPage } from '@/pages/StaticPages';
 
 // Scroll to top on route change helper
@@ -52,6 +55,10 @@ function App() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/terms" element={<TermsPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<BlogPostDetailPage />} />
             
             {/* Fallback route */}
             <Route
