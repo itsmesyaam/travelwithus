@@ -111,7 +111,7 @@ export function AdminPage() {
 
   // Mock users
   const mockUsers = [
-    { id: 1, email: "admin@keralax.ai", full_name: "Staff Admin", role: "admin", is_active: true, created_at: "2026-07-02" },
+    { id: 1, email: "admin@travelwithus.ai", full_name: "Staff Admin", role: "admin", is_active: true, created_at: "2026-07-02" },
     { id: 2, email: "john.doe@gmail.com", full_name: "John Doe", role: "user", is_active: true, created_at: "2026-07-01" },
     { id: 3, email: "sara.smith@yahoo.com", full_name: "Sara Smith", role: "user", is_active: true, created_at: "2026-06-28" }
   ];
@@ -123,7 +123,7 @@ export function AdminPage() {
       <div className="container px-4 mx-auto max-w-6xl">
         <SectionHeader
           badge="Admin Console"
-          title="KeralaX Control Center"
+          title="TravelWithUs Control Center"
           description="Manage destination records, user authorization profiles, and system databases."
         />
 

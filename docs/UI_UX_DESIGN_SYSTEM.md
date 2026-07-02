@@ -1,6 +1,6 @@
-# UI/UX Design System — KeralaX AI Platform
+# UI/UX Design System — TravelWithUs AI Platform
 
-This document outlines the UI tokens, visual guidelines, layout components, and animation patterns for the KeralaX platform. It draws inspiration from Apple’s clean spatial aesthetics, Airbnb’s card-driven clarity, and the natural tones of Kerala.
+This document outlines the UI tokens, visual guidelines, layout components, and animation patterns for the TravelWithUs platform. It draws inspiration from Apple’s clean spatial aesthetics, Airbnb’s card-driven clarity, and the natural tones of Kerala.
 
 ---
 

@@ -1,6 +1,6 @@
-# Version 1.0 Product Specification — KeralaX AI
+# Version 1.0 Product Specification — TravelWithUs AI
 
-This document defines the product scope, requirements, and technical boundaries for the Version 1.0 release of the KeralaX AI SaaS travel platform.
+This document defines the product scope, requirements, and technical boundaries for the Version 1.0 release of the TravelWithUs AI SaaS travel platform.
 
 ---
 

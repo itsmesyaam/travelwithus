@@ -1,5 +1,5 @@
 // ============================================================
-// KeralaX AI Travel Platform — Kerala Tourism Data
+// TravelWithUs AI Travel Platform — Kerala Tourism Data
 // ============================================================
 
 // ── Interfaces ──────────────────────────────────────────────
@@ -1164,7 +1164,7 @@ export const testimonials: Testimonial[] = [
     avatar: 'https://ui-avatars.com/api/?name=James+OBrien&background=random',
     location: 'Melbourne, Australia',
     rating: 5,
-    text: 'Munnar exceeded every expectation. We stayed at a heritage bungalow overlooking endless tea gardens, trekked through Eravikulam spotting Nilgiri tahr, and ended each day with cardamom-infused chai watching the sunset paint the hills gold. The KeralaX itinerary was flawless — every detail was perfectly planned.',
+    text: 'Munnar exceeded every expectation. We stayed at a heritage bungalow overlooking endless tea gardens, trekked through Eravikulam spotting Nilgiri tahr, and ended each day with cardamom-infused chai watching the sunset paint the hills gold. The TravelWithUs itinerary was flawless — every detail was perfectly planned.',
     tripType: 'Adventure',
     date: '2026-01-22',
   },

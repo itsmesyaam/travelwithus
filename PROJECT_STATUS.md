@@ -1,4 +1,4 @@
-# Project Status & Architecture Snapshot — KeralaX AI
+# Project Status & Architecture Snapshot — TravelWithUs AI
 
 This document provides a high-level overview of completed milestones, upcoming priorities, known issues, technical debt, and the current system architecture before deploying to production.
 

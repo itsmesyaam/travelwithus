@@ -20,7 +20,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
         <SectionHeader
           badge="What Travelers Say"
           title="Stories from Kerala"
-          description="Real experiences from travelers who explored God's Own Country with KeralaX."
+          description="Real experiences from travelers who explored God's Own Country with TravelWithUs."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

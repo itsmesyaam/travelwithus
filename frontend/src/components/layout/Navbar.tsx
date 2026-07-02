@@ -21,7 +21,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [dark, setDark] = useState(() => {
     if (typeof window === 'undefined') return false;
-    const stored = localStorage.getItem('keralax-dark');
+    const stored = localStorage.getItem('travelwithus-dark');
     return stored ? stored === 'true' : window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
@@ -40,7 +40,7 @@ export default function Navbar() {
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark);
-    localStorage.setItem('keralax-dark', String(dark));
+    localStorage.setItem('travelwithus-dark', String(dark));
   }, [dark]);
 
   const toggleDark = () => setDark((d) => !d);
@@ -63,7 +63,7 @@ export default function Navbar() {
                 <span>📞</span> +91 93883 53046
               </span>
               <span className="flex items-center gap-1.5 hover:text-emerald-400 transition-colors cursor-pointer">
-                <span>✉️</span> info@keralax.ai
+                <span>✉️</span> info@travelwithus.ai
               </span>
             </div>
             <div className="flex items-center gap-4 font-medium">
@@ -82,7 +82,7 @@ export default function Navbar() {
           <Link to="/" className="group flex items-center gap-2">
             <Compass className="h-7 w-7 text-emerald-500 transition-transform duration-300 group-hover:rotate-45" />
             <span className="bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-2xl font-extrabold tracking-tight text-transparent">
-              KeralaX
+              TravelWithUs
             </span>
           </Link>
 

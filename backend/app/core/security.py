@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Configuration
-SECRET_KEY = os.getenv("JWT_SECRET", "supersecretkeralaxkey1234567890abcdef")
+SECRET_KEY = os.getenv("JWT_SECRET", "supersecrettravelwithuskey1234567890abcdef")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 1440  # 24 hours for convenience
 

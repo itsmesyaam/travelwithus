@@ -1,4 +1,4 @@
-# UI/UX Design System Audit — KeralaX AI
+# UI/UX Design System Audit — TravelWithUs AI
 
 This audit evaluates the platform's visual design, layout rules, animations, mobile responsiveness, and WCAG accessibility standards.
 

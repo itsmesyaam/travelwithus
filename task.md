@@ -1,4 +1,4 @@
-# KeralaX AI — Task Tracker
+# TravelWithUs AI — Task Tracker
 
 ## Milestone 1: Foundation & Landing Page (COMPLETED)
 

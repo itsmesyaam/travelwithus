@@ -1,4 +1,4 @@
-# database Migration Plan — KeralaX Platform
+# database Migration Plan — TravelWithUs Platform
 
 This document describes the migration path from the basic relational database schema (designed for local SQLite/basic Postgres setups) to the production-grade PostgreSQL database schema designed for scale.
 
@@ -64,7 +64,7 @@ To support scale, the following indexes are required:
 ## 4. Ingestion Sync (Preventing Data Loss)
 
 To execute this migration without data corruption:
-1. Backup SQLite database file `keralax.db` or primary database.
+1. Backup SQLite database file `travelwithus.db` or primary database.
 2. Run database migration script `schema.sql` to generate new production tables.
 3. Execute a data-mapping Python script to load old database data and map destinations fields (converting inline string categories to categories tables map, converting coordinates to GIS geography, splitting tags and activity lists into matching records).
 4. Run validation checks to ensure counts match prior to cutover.

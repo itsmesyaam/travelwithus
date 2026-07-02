@@ -1,6 +1,6 @@
-# Engineering Standards — KeralaX Platform
+# Engineering Standards — TravelWithUs Platform
 
-This document establishes the official engineering constitution for all contributors to the KeralaX monorepo. It details code quality, architecture guidelines, patterns, and security constraints.
+This document establishes the official engineering constitution for all contributors to the TravelWithUs monorepo. It details code quality, architecture guidelines, patterns, and security constraints.
 
 ---
 

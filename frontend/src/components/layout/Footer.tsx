@@ -145,7 +145,7 @@ export function Footer() {
       <div className="border-t border-gray-800">
         <div className="container py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-500">
-            © {new Date().getFullYear()} KeralaX AI. All rights reserved.
+            © {new Date().getFullYear()} TravelWithUs AI. All rights reserved.
           </p>
           <p className="text-sm text-gray-500 flex items-center gap-1">
             Made with <Heart className="w-3.5 h-3.5 text-red-500 fill-red-500" /> for God's Own Country

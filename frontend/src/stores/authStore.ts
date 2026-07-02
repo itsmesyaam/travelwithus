@@ -23,7 +23,7 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
-  token: localStorage.getItem('keralax-token'),
+  token: localStorage.getItem('travelwithus-token'),
   user: null,
   isAuthenticated: false,
   isLoading: false,
@@ -46,7 +46,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       }
 
       const data = await response.json();
-      localStorage.setItem('keralax-token', data.access_token);
+      localStorage.setItem('travelwithus-token', data.access_token);
       set({ token: data.access_token });
       
       // Load user profile
@@ -83,7 +83,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   logout: () => {
-    localStorage.removeItem('keralax-token');
+    localStorage.removeItem('travelwithus-token');
     set({ token: null, user: null, isAuthenticated: false });
   },
 
@@ -107,7 +107,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ user: data, isAuthenticated: true });
       } else {
         // Token expired/invalid
-        localStorage.removeItem('keralax-token');
+        localStorage.removeItem('travelwithus-token');
         set({ token: null, user: null, isAuthenticated: false });
       }
     } catch (e) {

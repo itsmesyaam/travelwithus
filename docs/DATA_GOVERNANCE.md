@@ -1,6 +1,6 @@
-# Data Governance Plan — KeralaX Platform
+# Data Governance Plan — TravelWithUs Platform
 
-This document defines the strict policies, validation benchmarks, and metadata standards governing all data pipelines within the KeralaX platform.
+This document defines the strict policies, validation benchmarks, and metadata standards governing all data pipelines within the TravelWithUs platform.
 
 ---
 

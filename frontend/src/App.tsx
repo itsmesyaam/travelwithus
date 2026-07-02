@@ -28,7 +28,7 @@ function ScrollToTop() {
 function App() {
   // Initialize theme from localStorage on load
   useEffect(() => {
-    const theme = localStorage.getItem('keralax-dark');
+    const theme = localStorage.getItem('travelwithus-dark');
     if (theme === 'true' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark');
     } else {

@@ -1,7 +1,7 @@
 services:
   # FastAPI API service hosting details
   - type: web
-    name: keralax-backend
+    name: travelwithus-backend
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
@@ -11,12 +11,12 @@ services:
         generateValue: true
       - key: DATABASE_URL
         fromDatabase:
-          name: keralax-db
+          name: travelwithus-db
           property: connectionString
 
 databases:
   # Free-tier PostgreSQL instance on Render
-  - name: keralax-db
-    databaseName: keralax_db
-    user: keralax_admin
+  - name: travelwithus-db
+    databaseName: travelwithus_db
+    user: travelwithus_admin
     plan: free

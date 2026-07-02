@@ -1,6 +1,6 @@
-# Release Plan — KeralaX AI
+# Release Plan — TravelWithUs AI
 
-This document establishes the release phases, exit criteria, risks, and success metrics for the rollout of the KeralaX travel platform.
+This document establishes the release phases, exit criteria, risks, and success metrics for the rollout of the TravelWithUs travel platform.
 
 ---
 

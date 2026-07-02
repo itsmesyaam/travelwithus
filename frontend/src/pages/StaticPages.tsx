@@ -9,14 +9,14 @@ export function AboutPage() {
       <div className="container max-w-4xl">
         <SectionHeader
           badge="Our Story"
-          title="About KeralaX AI"
+          title="About TravelWithUs AI"
           description="We are redefining travel planning in God's Own Country using state-of-the-art artificial intelligence."
         />
 
         <div className="space-y-8">
           <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed text-center max-w-2xl mx-auto">
             Traditional travel booking is broken. Hours of manual search, rigid agent packages, and hidden fees make travel planning stressful. 
-            KeralaX AI combines deep local expertise with modern tech to put you in complete control.
+            TravelWithUs AI combines deep local expertise with modern tech to put you in complete control.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8">
@@ -73,7 +73,7 @@ export function ContactPage() {
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Email</h4>
-                  <p className="text-sm font-semibold">explore@keralax.ai</p>
+                  <p className="text-sm font-semibold">explore@travelwithus.ai</p>
                 </div>
               </div>
 
@@ -133,7 +133,7 @@ export function PrivacyPage() {
         <div className="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed space-y-6">
           <p>Last updated: July 2, 2026</p>
           <p>
-            At KeralaX AI, we take your privacy seriously. This privacy policy describes what personal data we collect, how we use it, and how we keep it safe when you use our services.
+            At TravelWithUs AI, we take your privacy seriously. This privacy policy describes what personal data we collect, how we use it, and how we keep it safe when you use our services.
           </p>
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mt-8 mb-2">1. Information We Collect</h3>
           <p>
@@ -157,11 +157,11 @@ export function TermsPage() {
         <div className="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed space-y-6">
           <p>Last updated: July 2, 2026</p>
           <p>
-            By accessing or using KeralaX AI, you agree to comply with and be bound by these Terms of Service.
+            By accessing or using TravelWithUs AI, you agree to comply with and be bound by these Terms of Service.
           </p>
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mt-8 mb-2">1. Use of Service</h3>
           <p>
-            You agree to use our travel planning platform only for personal, non-commercial purposes. AI-generated travel advice, itineraries, weather statistics, and travel warnings are curated as recommendations. KeralaX AI is not responsible for sudden local closures, delays, weather anomalies, or service disruptions during your actual trip.
+            You agree to use our travel planning platform only for personal, non-commercial purposes. AI-generated travel advice, itineraries, weather statistics, and travel warnings are curated as recommendations. TravelWithUs AI is not responsible for sudden local closures, delays, weather anomalies, or service disruptions during your actual trip.
           </p>
         </div>
       </div>

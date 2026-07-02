@@ -20,7 +20,7 @@ export function DashboardPage() {
 
   // Auth redirect check
   useEffect(() => {
-    if (!isAuthenticated && !localStorage.getItem('keralax-token')) {
+    if (!isAuthenticated && !localStorage.getItem('travelwithus-token')) {
       navigate('/');
     }
   }, [isAuthenticated, navigate]);
@@ -274,7 +274,7 @@ export function DashboardPage() {
                                   to={`/planner`}
                                   onClick={() => {
                                     // Pre-fill planning state (Mock or storage context)
-                                    localStorage.setItem('keralax-prefill-trip', JSON.stringify(trip));
+                                    localStorage.setItem('travelwithus-prefill-trip', JSON.stringify(trip));
                                   }}
                                   className="px-4 py-2 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-750 dark:text-gray-250 transition-colors"
                                 >

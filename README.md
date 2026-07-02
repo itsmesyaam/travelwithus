@@ -1,6 +1,6 @@
-# KeralaX AI — The Smartest Way to Explore God's Own Country
+# TravelWithUs AI — The Smartest Way to Explore God's Own Country
 
-KeralaX AI is a premium, engineering-grade travel planning platform designed to make exploring Kerala seamless, interactive, and personalized. Built from scratch with a modular monorepo architecture, it features a cinematic Apple-inspired light/dark UI and a robust FastAPI backend.
+TravelWithUs AI is a premium, engineering-grade travel planning platform designed to make exploring Kerala seamless, interactive, and personalized. Built from scratch with a modular monorepo architecture, it features a cinematic Apple-inspired light/dark UI and a robust FastAPI backend.
 
 ---
 
@@ -85,7 +85,7 @@ uv pip install -r requirements.txt
 # Launch server
 python -m uvicorn app.main:app --port 8000
 ```
-*Note: The SQLite database `keralax.db` will be automatically created and fully seeded with 14 districts, 20 destinations, and blog posts on first startup.*
+*Note: The SQLite database `travelwithus.db` will be automatically created and fully seeded with 14 districts, 20 destinations, and blog posts on first startup.*
 
 #### 2. Start the Frontend
 In a new terminal window, navigate to the frontend directory, install npm packages, and run dev server:

@@ -1,6 +1,6 @@
-# Product Vision — KeralaX AI SaaS Platform
+# Product Vision — TravelWithUs AI SaaS Platform
 
-This document defines the core purpose, product principles, and strategic roadmap of KeralaX AI as an enterprise-grade travel planner platform.
+This document defines the core purpose, product principles, and strategic roadmap of TravelWithUs AI as an enterprise-grade travel planner platform.
 
 ---
 
@@ -32,7 +32,7 @@ To set the global standard for smart destination discovery and travel orchestrat
 ### Business Model
 - **Consumer Freemium**: Free personalized itinerary generation, with premium upgrades (offline maps, real-time booking integrations, and priority customer service).
 - **B2B SaaS Subscriptions**: Multi-tiered subscriptions for local travel merchants to showcase inventory, bid for premium sponsor placement inside generated plans, and track conversions.
-- **API Licensing**: B2B licensing for travel portals and global airlines to embed the KeralaX AI route-planner engine.
+- **API Licensing**: B2B licensing for travel portals and global airlines to embed the TravelWithUs AI route-planner engine.
 
 ---
 

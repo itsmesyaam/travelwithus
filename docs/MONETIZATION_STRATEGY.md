@@ -1,6 +1,6 @@
-# Monetization Strategy — KeralaX AI SaaS Platform
+# Monetization Strategy — TravelWithUs AI SaaS Platform
 
-This document details the business model, pricing frameworks, partner integration paths, and B2B SaaS revenue models for the KeralaX platform.
+This document details the business model, pricing frameworks, partner integration paths, and B2B SaaS revenue models for the TravelWithUs platform.
 
 ---
 
@@ -31,11 +31,11 @@ To scale the platform sustainably, we define three main customer tiers:
 
 ### 2. Guide & Experience Marketplace
 - **Tour Booking Commissions**: Travelers can purchase tours and guide services directly inside the itinerary details panel.
-- **Revenue Model**: KeralaX charges a **12% transaction marketplace fee** on all tour bookings processed through the platform.
+- **Revenue Model**: TravelWithUs charges a **12% transaction marketplace fee** on all tour bookings processed through the platform.
 
 ### 3. Travel Agency API Licensing
 - **Model**: Enterprise SaaS licensing.
-- **Use Case**: Outbound travel agencies or airlines query the KeralaX route planning API to generate itineraries for clients.
+- **Use Case**: Outbound travel agencies or airlines query the TravelWithUs route planning API to generate itineraries for clients.
 - **Pricing**: Tiered API usage pricing (e.g. $0.05 per API query call above 1,000 requests/month).
 
 ---

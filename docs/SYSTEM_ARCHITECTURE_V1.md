@@ -1,6 +1,6 @@
-# System Architecture V1.0 — KeralaX AI
+# System Architecture V1.0 — TravelWithUs AI
 
-This document outlines the system architecture, component integrations, data flow patterns, and deployment configurations for the Version 1.0 release of the KeralaX platform.
+This document outlines the system architecture, component integrations, data flow patterns, and deployment configurations for the Version 1.0 release of the TravelWithUs platform.
 
 ---
 

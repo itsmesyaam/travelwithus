@@ -489,7 +489,7 @@ export default function DestinationDetailsPage() {
                 <div className="absolute top-0 right-0 w-24 h-24 rounded-full bg-white/5 translate-x-1/3 -translate-y-1/3" />
                 <div className="flex items-center gap-2.5 mb-2">
                   <Sparkles className="w-5 h-5 text-amber-300 fill-amber-300 animate-pulse" />
-                  <span className="text-xs font-bold uppercase tracking-widest text-emerald-100">KeralaX Concierge</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-emerald-100">TravelWithUs Concierge</span>
                 </div>
                 <h3 className="text-xl font-bold tracking-tight">Ask Travel AI</h3>
                 <p className="text-xs text-white/80 mt-1">Get instant personalized guidance for your journey to {destination.name}.</p>

@@ -1,4 +1,4 @@
-# Design Improvement Plan & Priorities — KeralaX AI
+# Design Improvement Plan & Priorities — TravelWithUs AI
 
 This document establishes a prioritized roadmap to remediate visual deficits, performance bottlenecks, and accessibility gaps before launching the application.
 

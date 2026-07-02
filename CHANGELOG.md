@@ -1,4 +1,4 @@
-# Changelog — KeralaX AI SaaS Platform
+# Changelog — TravelWithUs AI SaaS Platform
 
 All notable changes to this project will be documented in this file.
 

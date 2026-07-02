@@ -1,6 +1,6 @@
-# Product Review & Scoring — KeralaX AI
+# Product Review & Scoring — TravelWithUs AI
 
-This report presents a critical product review of the current KeralaX AI platform, evaluating user flows, onboarding friction, trust signals, and overall product polish.
+This report presents a critical product review of the current TravelWithUs AI platform, evaluating user flows, onboarding friction, trust signals, and overall product polish.
 
 ---
 

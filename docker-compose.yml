@@ -4,12 +4,12 @@ services:
   # Database container
   db:
     image: postgres:15-alpine
-    container_name: keralax_db
+    container_name: travelwithus_db
     restart: always
     environment:
-      POSTGRES_USER: keralax_admin
-      POSTGRES_PASSWORD: keralax_password123
-      POSTGRES_DB: keralax_db
+      POSTGRES_USER: travelwithus_admin
+      POSTGRES_PASSWORD: travelwithus_password123
+      POSTGRES_DB: travelwithus_db
     ports:
       - "5432:5432"
     volumes:
@@ -20,13 +20,13 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: keralax_backend
+    container_name: travelwithus_backend
     restart: always
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql://keralax_admin:keralax_password123@db:5432/keralax_db
-      - JWT_SECRET=supersecretkeralaxkey1234567890abcdef
+      - DATABASE_URL=postgresql://travelwithus_admin:travelwithus_password123@db:5432/travelwithus_db
+      - JWT_SECRET=supersecrettravelwithuskey1234567890abcdef
     depends_on:
       - db
 
@@ -35,7 +35,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: keralax_frontend
+    container_name: travelwithus_frontend
     restart: always
     ports:
       - "80:80"

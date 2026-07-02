@@ -15,7 +15,7 @@ finally:
     db.close()
 
 app = FastAPI(
-    title="KeralaX AI Backend",
+    title="TravelWithUs AI Backend",
     description="Enterprise-grade AI-powered Kerala travel planning backend API.",
     version="1.0.0"
 )
@@ -38,7 +38,7 @@ app.include_router(trips.router, prefix="/api")
 def read_root():
     return {
         "status": "online",
-        "message": "Welcome to KeralaX AI API Service. God's Own Country is waiting!",
+        "message": "Welcome to TravelWithUs AI API Service. God's Own Country is waiting!",
         "docs_url": "/docs"
     }
 

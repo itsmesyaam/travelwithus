@@ -10,7 +10,7 @@ import { BlogSection } from '@/components/landing/BlogSection';
 import { blogPosts } from '@/data/kerala';
 
 /**
- * Landing page — the cinematic home page for KeralaX AI.
+ * Landing page — the cinematic home page for TravelWithUs AI.
  * Assembles all landing page sections in a carefully ordered flow matching the WANDER concept.
  */
 export function HomePage() {

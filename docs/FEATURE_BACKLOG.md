@@ -1,6 +1,6 @@
-# Feature Backlog — KeralaX AI
+# Feature Backlog — TravelWithUs AI
 
-This document catalogs the complete feature backlog for the KeralaX platform, categorized by target release milestones.
+This document catalogs the complete feature backlog for the TravelWithUs platform, categorized by target release milestones.
 
 ---
 

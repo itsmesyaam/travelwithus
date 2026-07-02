@@ -1,6 +1,6 @@
-# Deployment Guide — KeralaX AI
+# Deployment Guide — TravelWithUs AI
 
-This guide describes how to deploy the KeralaX AI SaaS platform to production using **Vercel** (Frontend), **Render** (Backend), **Neon PostgreSQL** (Database), and **Cloudinary** (Object Storage).
+This guide describes how to deploy the TravelWithUs AI SaaS platform to production using **Vercel** (Frontend), **Render** (Backend), **Neon PostgreSQL** (Database), and **Cloudinary** (Object Storage).
 
 ---
 
@@ -30,7 +30,7 @@ graph TD
 ```
 
 ### Step 1: Database Setup (Neon PostgreSQL)
-1. Sign in to [Neon](https://neon.tech) and create a new project named `keralax-db`.
+1. Sign in to [Neon](https://neon.tech) and create a new project named `travelwithus-db`.
 2. Select PostgreSQL version **15** or **16**.
 3. Choose the region closest to your target audience (e.g., `aws-ap-south-1` Mumbai or `aws-eu-central-1` Frankfurt).
 4. Once created, copy the **Connection string** (PostgreSQL URI format, e.g., `postgresql://syam:PASSWORD@ep-noisy-wave-12345.ap-south-1.aws.neon.tech/neondb?sslmode=require`).
@@ -48,7 +48,7 @@ graph TD
 2. Click **New +** and select **Web Service**.
 3. Connect your GitHub repository and select the workspace root folder.
 4. Configure the Web Service settings:
-   - **Name**: `keralax-backend`
+   - **Name**: `travelwithus-backend`
    - **Region**: Same region as your Neon database (e.g., Frankfurt/Oregon)
    - **Runtime**: `Python 3`
    - **Build Command**: `pip install -r backend/requirements.txt`
@@ -63,7 +63,7 @@ graph TD
    | `CLOUDINARY_API_KEY` | *[Your API Key]* | Cloudinary access API key |
    | `CLOUDINARY_API_SECRET` | *[Your API Secret]* | Cloudinary access API secret |
 
-6. Deploy the Web Service. Render will build, run startup migrations, seed initial records, and output a URL (e.g., `https://keralax-backend.onrender.com`).
+6. Deploy the Web Service. Render will build, run startup migrations, seed initial records, and output a URL (e.g., `https://travelwithus-backend.onrender.com`).
 
 ### Step 4: Frontend Deployment (Vercel)
 1. Sign in to [Vercel](https://vercel.com).
@@ -76,7 +76,7 @@ graph TD
    - **Output Directory**: `dist`
 5. **Rewrites & Routing Configuration**:
    - The project includes a pre-configured [vercel.json](file:///c:/Users/syam1/OneDrive/Desktop/travelwithme/frontend/vercel.json) in the `frontend` folder that proxies `/api/*` traffic automatically to the production Render backend URL.
-   - If your Render backend URL differs from `https://keralax-backend.onrender.com`, update [vercel.json](file:///c:/Users/syam1/OneDrive/Desktop/travelwithme/frontend/vercel.json)'s `destination` path before committing/pushing.
+   - If your Render backend URL differs from `https://travelwithus-backend.onrender.com`, update [vercel.json](file:///c:/Users/syam1/OneDrive/Desktop/travelwithme/frontend/vercel.json)'s `destination` path before committing/pushing.
 6. Click **Deploy**.
 
 ---
@@ -105,6 +105,6 @@ Should a production deploy introduce breaking changes, revert to the last stable
    - Go to your Vercel Dashboard -> Deployments.
    - Locate the last stable deployment, click the three dots, and select **Redeploy** or **Promote to Production**.
 2. **Backend Rollback**:
-   - Go to the Render Dashboard -> Select `keralax-backend`.
+   - Go to the Render Dashboard -> Select `travelwithus-backend`.
    - Click **Deploy History**.
    - Locate the last successful commit build, click the three dots, and select **Rollback to this deploy**.

@@ -1,6 +1,6 @@
-# Project Rules & MANDATORY Instructions — KeralaX Platform
+# Project Rules & MANDATORY Instructions — TravelWithUs Platform
 
-This document defines the strict, non-negotiable guidelines governing every modification and addition to the KeralaX codebase. Violation of these rules constitutes a compile or PR rejection.
+This document defines the strict, non-negotiable guidelines governing every modification and addition to the TravelWithUs codebase. Violation of these rules constitutes a compile or PR rejection.
 
 ---
 
@@ -36,6 +36,7 @@ This document defines the strict, non-negotiable guidelines governing every modi
 - **SEO Elements**: Every frontend page route must contain descriptive title tags, meta descriptions, and clean heading structures.
 - **Bundle Weight**: Keep components focused, avoid massive third-party package dependencies, and split code chunks where possible.
 - **Accessibility (A11y)**: Use semantic HTML layout tags (`<header>`, `<nav>`, `<main>`, `<section>`), require `alt` descriptions on all images, and ensure appropriate color contrasts.
+
 
 ---
 

@@ -1,4 +1,4 @@
-# Technical Performance Audit — KeralaX AI
+# Technical Performance Audit — TravelWithUs AI
 
 This audit reports on frontend bundle sizing, database query speed, image optimization, and backend generation bottlenecks.
 

@@ -1,6 +1,6 @@
-# AI Layer Architecture — KeralaX Platform
+# AI Layer Architecture — TravelWithUs Platform
 
-This document describes the design of the KeralaX AI layer, which orchestrates route optimization, nearest-neighbor vector recommendations, weather-aware scheduling, and model provider abstraction.
+This document describes the design of the TravelWithUs AI layer, which orchestrates route optimization, nearest-neighbor vector recommendations, weather-aware scheduling, and model provider abstraction.
 
 ---
 

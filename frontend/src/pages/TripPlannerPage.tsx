@@ -104,7 +104,7 @@ export function TripPlannerPage() {
   };
 
   const handleSavePlan = async () => {
-    const token = localStorage.getItem('keralax-token');
+    const token = localStorage.getItem('travelwithus-token');
     if (!token) {
       // Trigger registration/login alert
       alert("Please sign in or register to save itineraries to your dashboard.");
@@ -487,7 +487,7 @@ export function TripPlannerPage() {
                   <Sparkles className="w-8 h-8 animate-pulse" />
                 </div>
               </div>
-              <h3 className="text-2xl font-bold mb-2">KeralaX AI Planning</h3>
+              <h3 className="text-2xl font-bold mb-2">TravelWithUs AI Planning</h3>
               <p className="text-sm text-gray-500 dark:text-gray-400 max-w-sm mx-auto animate-pulse">
                 Analyzing geographic connections, matching local spice resorts, and designing day-by-day scheduling for you...
               </p>
