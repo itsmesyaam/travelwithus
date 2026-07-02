@@ -7,6 +7,11 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] — 2026-07-02
 
 ### Added
+- **Premium UI Concept Redesign (Inspired by Apple, Airbnb, Epic, and MNTN)**:
+  - Refactored `HeroSection` into a full-viewport immersive landscape slider with a custom multi-layered SVG wave/water divider at the bottom.
+  - Implemented `QuickLinksSection` with circular category action buttons (Backwaters, Hill Stations, Beaches, Wildlife) below the hero transition (inspired by the `Mézenc` design).
+  - Redesigned `KeralaMap` into a custom interactive SVG map of Kerala featuring coordinates, Western Ghats path bounds, pulsing map markers, and pastel-toned hover regions (inspired by the `epic` map).
+  - Upgraded `BookingStepsSection` into a vertical staggered storytelling layout with huge background numbers, accent divider lines, and high-quality photography matching the `MNTN` design.
 - **Bento-Style Landing Page Redesign (WANDER Concept)**:
   - Redesigned the hero section as a floating bento card with full-screen dynamic imagery, massive title fonts, and dual custom pills CTAs.
   - Implemented the "Why Choose Us" split grid widget containing left-side statistics row and right-side stacked translucent value feature cards.
