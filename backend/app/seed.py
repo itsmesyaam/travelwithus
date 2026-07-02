@@ -158,25 +158,144 @@ SEED_BLOG_POSTS = [
     }
 ]
 
+def clean_slug(name):
+    import re
+    slug = name.lower().strip()
+    slug = re.sub(r'[^a-z0-9\s-]', '', slug)
+    slug = re.sub(r'[\s-]+', '-', slug)
+    return slug
+
+def load_destinations_from_csv(csv_path):
+    import csv
+    records = []
+    if not os.path.exists(csv_path):
+        return records
+    with open(csv_path, mode='r', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            if not row.get('name'):
+                continue
+            records.append({k.strip(): v.strip() for k, v in row.items()})
+    return records
+
 def seed_database(db: Session):
     """Seed the database with initial districts, destinations, and blog posts if empty."""
-    # Seed Districts
+    import os
+    
+    # Resolve CSV path dynamically
+    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    import_dir = os.path.join(base_dir, "import")
+    csv_path = os.path.join(import_dir, "central_kerala_destinations.csv")
+    
+    csv_exists = os.path.exists(csv_path)
+    
+    # 1. Seed Districts
     if db.query(District).count() == 0:
-        for dist_data in SEED_DISTRICTS:
-            db_dist = District(**dist_data)
-            db.add(db_dist)
-        db.commit()
-        print("Districts seeded successfully.")
+        if csv_exists:
+            print("Importing districts from CSV dataset...")
+            records = load_destinations_from_csv(csv_path)
+            dist_names = set(r.get('district', 'Ernakulam') for r in records)
+            for d_name in dist_names:
+                db_dist = District(
+                    name=d_name,
+                    slug=clean_slug(d_name),
+                    description=f"The beautiful district of {d_name} in Kerala.",
+                    image="/api/placeholder/400/300",
+                    destination_count=sum(1 for r in records if r.get('district') == d_name)
+                )
+                db.add(db_dist)
+            db.commit()
+            print("Districts seeded from CSV successfully.")
+        else:
+            for dist_data in SEED_DISTRICTS:
+                db_dist = District(**dist_data)
+                db.add(db_dist)
+            db.commit()
+            print("Districts seeded from fallback successfully.")
 
-    # Seed Destinations
+    # 2. Seed Destinations
     if db.query(Destination).count() == 0:
-        for dest_data in SEED_DESTINATIONS:
-            db_dest = Destination(**dest_data)
-            db.add(db_dest)
-        db.commit()
-        print("Destinations seeded successfully.")
+        if csv_exists:
+            print("Importing destinations from CSV dataset...")
+            records = load_destinations_from_csv(csv_path)
+            
+            # Map categories to standard slugs
+            for row in records:
+                name = row.get('name')
+                raw_cats = row.get('categories', '').split(';')
+                primary_cat = "heritage"
+                if raw_cats:
+                    first_cat = raw_cats[0].lower().strip()
+                    if "beach" in first_cat:
+                        primary_cat = "beach"
+                    elif "hill" in first_cat:
+                        primary_cat = "hill-station"
+                    elif "backwater" in first_cat:
+                        primary_cat = "backwaters"
+                    elif "wildlife" in first_cat or "sanctuary" in first_cat:
+                        primary_cat = "wildlife"
+                    elif "waterfall" in first_cat:
+                        primary_cat = "waterfall"
+                    elif "pilgrimage" in first_cat or "temple" in first_cat or "church" in first_cat:
+                        primary_cat = "pilgrimage"
+                    elif "adventure" in first_cat:
+                        primary_cat = "adventure"
 
-    # Seed Blog Posts
+                tags = [c.strip() for c in raw_cats if c.strip()]
+                itinerary_tags = row.get('itinerary_tags', '').split(';')
+                for t in itinerary_tags:
+                    t_clean = t.strip()
+                    if t_clean and t_clean not in tags:
+                        tags.append(t_clean)
+
+                activities = [a.strip() for a in row.get('activities', '').split(';') if a.strip()]
+                
+                highlights = []
+                if row.get('highlights'):
+                    highlights = [h.strip() for h in row.get('highlights').split(',') if h.strip()]
+                elif row.get('keywords'):
+                    highlights = [k.strip() for k in row.get('keywords').split(';') if k.strip()][:4]
+
+                lat = float(row.get('latitude', 9.9658))
+                lng = float(row.get('longitude', 76.2422))
+
+                db_dest = Destination(
+                    name=name,
+                    slug=clean_slug(name),
+                    district=row.get('district', 'Ernakulam'),
+                    region=row.get('region', 'Central Kerala'),
+                    description=row.get('description', 'A wonderful destination in Kerala.'),
+                    short_description=row.get('shortDescription') or row.get('description')[:120] + "...",
+                    image=row.get('image', '/api/placeholder/800/600'),
+                    cover_image=row.get('coverImage') or row.get('image', '/api/placeholder/1200/800'),
+                    category=primary_cat,
+                    tags=tags,
+                    rating=4.5,
+                    reviews=15,
+                    best_time_to_visit=row.get('peak_season') or f"{row.get('best_month_1', '')} to {row.get('best_month_2', '')}",
+                    min_temp=18.0,
+                    max_temp=30.0,
+                    elevation=row.get('elevation') or row.get('altitude_m') or "Sea level",
+                    nearest_airport=row.get('nearest_airport', 'Cochin International Airport (COK)'),
+                    activities=activities,
+                    highlights=highlights,
+                    latitude=lat,
+                    longitude=lng,
+                    is_hidden_gem=row.get('is_hidden_gem', 'False').lower() == 'true' or row.get('is_offbeat', 'False').lower() == 'true',
+                    is_trending=row.get('is_trending', 'False').lower() == 'true',
+                    price_range=row.get('price_range', 'mid-range')
+                )
+                db.add(db_dest)
+            db.commit()
+            print(f"Destinations seeded from CSV successfully ({len(records)} records).")
+        else:
+            for dest_data in SEED_DESTINATIONS:
+                db_dest = Destination(**dest_data)
+                db.add(db_dest)
+            db.commit()
+            print("Destinations seeded from fallback successfully.")
+
+    # 3. Seed Blog Posts
     if db.query(BlogPost).count() == 0:
         for blog_data in SEED_BLOG_POSTS:
             db_blog = BlogPost(**blog_data)

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -49,10 +49,10 @@ const categoryDetails: Record<string, { itinerary: string; food: string; spots: 
     food: 'Karimeen Pollichathu (pearl spot fish grilled in banana leaves), toddy, and Kerala red rice.',
     spots: 'Narrow village canals, bird sanctuary paths, and lakeside islets.',
     tips: [
-      'Book houseboats in advance to avoid high on-the-spot rates.',
-      'Carry mosquito repellent for evening and night hours.',
-      'Opt for canoeing/shikara to navigate narrow streams houseboats cannot reach.',
-      'Enjoy fresh local toddy responsibly at certified local shops.'
+      'Carry insect repellent for canal cruises.',
+      'Plan boat trips during sunset or early morning.',
+      'Eat fresh local food cooked on the boat.',
+      'Respect the privacy of local backwater inhabitants.'
     ]
   },
   'beach': {
@@ -131,8 +131,29 @@ export default function DestinationDetailsPage() {
   const [aiResponse, setAiResponse] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'itinerary' | 'food' | 'spots' | null>(null);
 
-  // Look up destination
-  const destination = destinations.find((d) => d.slug === slug);
+  const [destinationDetails, setDestinationDetails] = useState<any | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(`/api/destinations/${slug}`)
+      .then((res) => {
+        if (res.ok) return res.json();
+        throw new Error('API failed');
+      })
+      .then((data) => {
+        setDestinationDetails(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log('Using static fallback for destination:', err);
+        const staticDest = destinations.find((d) => d.slug === slug);
+        setDestinationDetails(staticDest || null);
+        setLoading(false);
+      });
+  }, [slug]);
+
+  const destination = destinationDetails;
 
   // Copy page link to clipboard
   const handleShare = () => {
@@ -155,6 +176,17 @@ export default function DestinationDetailsPage() {
       setAiLoading(false);
     }, 800);
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-950">
+        <div className="flex flex-col items-center gap-3">
+          <Compass className="w-10 h-10 text-emerald-500 animate-spin" />
+          <p className="text-sm text-gray-500 font-semibold">Retrieving destination records...</p>
+        </div>
+      </div>
+    );
+  }
 
   // 404 Render
   if (!destination) {
@@ -183,7 +215,7 @@ export default function DestinationDetailsPage() {
     );
   }
 
-  const categoryLabel = destination.category.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  const categoryLabel = destination.category.split('-').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
   const detailsConfig = categoryDetails[destination.category] || categoryDetails['hill-station'];
 
   return (
@@ -338,7 +370,7 @@ export default function DestinationDetailsPage() {
                 <Sparkles className="w-6 h-6 text-amber-500" /> Highlights
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {destination.highlights.map((highlight, idx) => (
+                {destination.highlights.map((highlight: string, idx: number) => (
                   <div
                     key={idx}
                     className="flex items-start gap-3 p-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/60 rounded-xl hover:border-emerald-500/30 transition-colors"
@@ -364,7 +396,7 @@ export default function DestinationDetailsPage() {
                 <Navigation className="w-6 h-6 text-emerald-500" /> Recommended Activities
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {destination.activities.map((activity, idx) => (
+                {destination.activities.map((activity: string, idx: number) => (
                   <motion.div
                     key={idx}
                     whileHover={{ y: -4 }}

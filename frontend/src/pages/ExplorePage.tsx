@@ -70,6 +70,37 @@ export function ExplorePage() {
   const [activeDistrict, setActiveDistrict] = useState(searchParams.get('district') || 'all');
   const [isDistrictDropdownOpen, setIsDistrictDropdownOpen] = useState(false);
 
+  // Dynamic state for data-driven dataset mapping
+  const [destinationsList, setDestinationsList] = useState<any[]>(destinations);
+  const [districtsList, setDistrictsList] = useState<any[]>(districts);
+
+  // Load from API if backend is running, fallback to static if offline
+  useEffect(() => {
+    fetch('/api/destinations')
+      .then((res) => {
+        if (res.ok) return res.json();
+        throw new Error('API failed');
+      })
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setDestinationsList(data);
+        }
+      })
+      .catch((err) => console.log('Using static fallback for destinations:', err));
+
+    fetch('/api/districts')
+      .then((res) => {
+        if (res.ok) return res.json();
+        throw new Error('API failed');
+      })
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setDistrictsList(data);
+        }
+      })
+      .catch((err) => console.log('Using static fallback for districts:', err));
+  }, []);
+
   // Sync URL search params to React state (for back/forward navigation)
   useEffect(() => {
     setSearchQuery(searchParams.get('search') || '');
@@ -110,14 +141,14 @@ export function ExplorePage() {
 
   // Filtered destinations list
   const filteredDestinations = useMemo(() => {
-    return destinations.filter((dest) => {
+    return destinationsList.filter((dest) => {
       const searchLower = searchQuery.toLowerCase();
       const matchesSearch =
         !searchQuery ||
         dest.name.toLowerCase().includes(searchLower) ||
         dest.district.toLowerCase().includes(searchLower) ||
         dest.shortDescription.toLowerCase().includes(searchLower) ||
-        dest.tags.some((tag) => tag.toLowerCase().includes(searchLower)) ||
+        dest.tags.some((tag: string) => tag.toLowerCase().includes(searchLower)) ||
         dest.category.toLowerCase().includes(searchLower);
 
       let matchesCategory = true;
@@ -130,7 +161,7 @@ export function ExplorePage() {
 
       let matchesDistrict = true;
       if (activeDistrict !== 'all') {
-        const matchedDistrict = districts.find(
+        const matchedDistrict = districtsList.find(
           (d) => d.slug === activeDistrict || d.name.toLowerCase() === activeDistrict.toLowerCase()
         );
         if (matchedDistrict) {
@@ -142,15 +173,15 @@ export function ExplorePage() {
 
       return matchesSearch && matchesCategory && matchesDistrict;
     });
-  }, [searchQuery, activeCategory, activeDistrict]);
+  }, [searchQuery, activeCategory, activeDistrict, destinationsList, districtsList]);
 
   // Display name of the active district filter
   const selectedDistrictName = useMemo(() => {
     if (activeDistrict === 'all') return 'All Districts';
-    return districts.find(
+    return districtsList.find(
       (d) => d.slug === activeDistrict || d.name.toLowerCase() === activeDistrict.toLowerCase()
     )?.name || activeDistrict;
-  }, [activeDistrict]);
+  }, [activeDistrict, districtsList]);
 
   // Category navigation items
   const categoriesList = useMemo(() => {
@@ -242,11 +273,11 @@ export function ExplorePage() {
                         >
                           All Districts
                         </button>
-                        {districts.map((d) => {
+                        {districtsList.map((d) => {
                           const isSelected = activeDistrict === d.slug || activeDistrict.toLowerCase() === d.name.toLowerCase();
                           return (
                             <button
-                              key={d.id}
+                              key={d.id || d.slug}
                               type="button"
                               onClick={() => {
                                 handleDistrictChange(d.slug);
@@ -409,7 +440,7 @@ export function ExplorePage() {
 
                       {/* Display hashtags */}
                       <div className="flex flex-wrap gap-1.5 mb-4">
-                        {destination.tags.slice(0, 3).map((tag) => (
+                        {destination.tags.slice(0, 3).map((tag: string) => (
                           <span
                             key={tag}
                             className="text-[10px] font-bold text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800/40 px-2.5 py-0.5 rounded-md border border-gray-200/20 dark:border-gray-700/20 capitalize"
