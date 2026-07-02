@@ -55,6 +55,28 @@ export default function Navbar() {
             : 'bg-transparent'
         )}
       >
+        {/* Top Contact Utility Bar */}
+        <div className="bg-slate-950/90 text-slate-300 text-[11px] py-2 px-6 border-b border-white/5 hidden sm:block backdrop-blur-md">
+          <div className="mx-auto max-w-7xl flex justify-between items-center">
+            <div className="flex items-center gap-6 font-medium">
+              <span className="flex items-center gap-1.5 hover:text-emerald-400 transition-colors cursor-pointer">
+                <span>📞</span> +91 93883 53046
+              </span>
+              <span className="flex items-center gap-1.5 hover:text-emerald-400 transition-colors cursor-pointer">
+                <span>✉️</span> info@keralax.ai
+              </span>
+            </div>
+            <div className="flex items-center gap-4 font-medium">
+              <span className="inline-flex items-center gap-1 text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20 text-[10px] font-bold uppercase tracking-wider">
+                ✓ Govt. Approved
+              </span>
+              <span className="text-slate-800">|</span>
+              <Link to="/about" className="hover:text-emerald-400 transition-colors">About Us</Link>
+              <Link to="/blog" className="hover:text-emerald-400 transition-colors">Travel Tips</Link>
+            </div>
+          </div>
+        </div>
+
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           {/* Logo */}
           <Link to="/" className="group flex items-center gap-2">

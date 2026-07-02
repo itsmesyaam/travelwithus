@@ -1,6 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search,
   MapPin,
@@ -11,6 +12,21 @@ import {
   Star,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
+const slides = [
+  {
+    url: 'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=1920&q=80',
+    title: 'Misty Tea Terraces of Munnar',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1920&q=80',
+    title: 'Serene Houseboat Canals of Alleppey',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=1920&q=80',
+    title: 'Scenic Coastal Cliffs of Varkala',
+  }
+];
 
 const stats = [
   { label: '500+ Destinations', icon: MapPin },
@@ -32,28 +48,53 @@ const fadeUp: any = {
 const headingWords = 'Discover the Magic of God\'s Own Country'.split(' ');
 
 export function HeroSection() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
-      {/* ── Animated gradient background ── */}
-      <div className="absolute inset-0 -z-20 bg-gradient-to-br from-emerald-950 via-teal-900 to-gray-950 animate-gradient-shift" />
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_30%_20%,rgba(16,185,129,.18),transparent_60%)]" />
-
-      {/* ── Floating decorative orbs ── */}
-      <div className="absolute top-[12%] left-[8%] h-72 w-72 rounded-full bg-emerald-500/20 blur-3xl animate-float" />
-      <div className="absolute bottom-[18%] right-[6%] h-96 w-96 rounded-full bg-teal-400/15 blur-3xl animate-float [animation-delay:2s]" />
-      <div className="absolute top-[55%] left-[55%] h-56 w-56 rounded-full bg-cyan-400/10 blur-2xl animate-float [animation-delay:4s]" />
+      {/* ── Background Slideshow with cross-fade & Ken Burns zoom ── */}
+      <div className="absolute inset-0 -z-20 overflow-hidden bg-slate-950">
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            key={currentSlide}
+            initial={{ opacity: 0, scale: 1 }}
+            animate={{ opacity: 1, scale: 1.06 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.8, ease: 'easeInOut' }}
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${slides[currentSlide].url})` }}
+          />
+        </AnimatePresence>
+        {/* Dark vignette overlay for text legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/50 to-slate-950/70" />
+      </div>
 
       {/* ── Content ── */}
       <motion.div
         variants={container}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-auto flex max-w-5xl flex-col items-center px-4 text-center"
+        className="relative z-10 mx-auto flex max-w-5xl flex-col items-center px-4 text-center mt-12 sm:mt-16"
       >
+        {/* Welcome Tag */}
+        <motion.span
+          variants={fadeUp}
+          className="mb-3 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-400/10 px-3 py-1 rounded-full border border-emerald-400/20"
+        >
+          🌴 Welcome to God&apos;s Own Country
+        </motion.span>
+
         {/* Heading */}
         <motion.h1
           variants={fadeUp}
-          className="mb-5 text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl"
+          className="mb-5 text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl font-sans"
         >
           {headingWords.map((word, i) => (
             <motion.span
@@ -69,7 +110,7 @@ export function HeroSection() {
               }}
               className={cn(
                 'inline-block mr-[0.3em]',
-                (word === "God's" || word === 'Own' || word === 'Country') &&
+                (word === "God's" || word === 'Own' || word === 'Country' || word === 'Magic') &&
                   'bg-gradient-to-r from-emerald-300 to-teal-200 bg-clip-text text-transparent'
               )}
             >
@@ -81,10 +122,26 @@ export function HeroSection() {
         {/* Sub-heading */}
         <motion.p
           variants={fadeUp}
-          className="mb-10 max-w-2xl text-base text-emerald-100/70 sm:text-lg md:text-xl"
+          className="mb-6 max-w-2xl text-base text-emerald-100/80 sm:text-lg md:text-xl font-medium"
         >
-          AI-powered travel planning for Kerala&apos;s most breathtaking destinations
+          The Smartest Way to Explore Kerala&apos;s Most Breathtaking Destinations.
         </motion.p>
+
+        {/* Trust Seals */}
+        <motion.div
+          variants={fadeUp}
+          className="mb-10 flex flex-wrap items-center justify-center gap-3 text-xs font-semibold"
+        >
+          <span className="flex items-center gap-1.5 bg-red-600/90 text-white px-3 py-1.5 rounded-md border border-red-500/20 uppercase tracking-wider text-[10px] font-extrabold shadow-md">
+            🛡️ GOVT. APPROVED PARTNER
+          </span>
+          <span className="flex items-center gap-1.5 bg-emerald-600/90 text-white px-3 py-1.5 rounded-md border border-emerald-500/20 uppercase tracking-wider text-[10px] font-extrabold shadow-md">
+            🏆 TRAVELERS&apos; CHOICE 2026
+          </span>
+          <span className="flex items-center gap-1.5 bg-slate-900/95 text-slate-200 px-3 py-1.5 rounded-md border border-white/5 uppercase tracking-wider text-[10px] font-extrabold shadow-md">
+            🔒 SAFE TOURISM CERTIFIED
+          </span>
+        </motion.div>
 
         {/* ── Quick-search widget ── */}
         <motion.div
