@@ -1,39 +1,49 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Waves, Mountain, Palmtree, Compass } from 'lucide-react';
+import { Waves, Mountain, Palmtree, Compass, Landmark, Flame } from 'lucide-react';
 
 const categories = [
   {
     id: 'backwaters',
     name: 'Backwaters',
     icon: Waves,
-    color: 'bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400 border-blue-100 dark:border-blue-900/60',
-    hoverColor: 'hover:bg-blue-100 hover:text-blue-700 dark:hover:bg-blue-900/60 hover:border-blue-300',
-    description: 'Serene houseboat cruises'
+    bgClass: 'from-blue-500/10 to-teal-500/5 hover:from-blue-500/20 hover:to-teal-500/10 text-blue-400 border-blue-500/10',
+    description: 'Serene houseboat channels'
   },
   {
-    id: 'hills',
+    id: 'hill-station',
     name: 'Hill Stations',
     icon: Mountain,
-    color: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 border-emerald-100 dark:border-emerald-900/60',
-    hoverColor: 'hover:bg-emerald-100 hover:text-emerald-700 dark:hover:bg-emerald-900/60 hover:border-emerald-300',
-    description: 'Misty valleys & tea estates'
+    bgClass: 'from-emerald-500/10 to-green-500/5 hover:from-emerald-500/20 hover:to-green-500/10 text-emerald-400 border-emerald-500/10',
+    description: 'Misty tea terraces'
   },
   {
-    id: 'beaches',
+    id: 'beach',
     name: 'Beaches',
     icon: Palmtree,
-    color: 'bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400 border-amber-100 dark:border-amber-900/60',
-    hoverColor: 'hover:bg-amber-100 hover:text-amber-700 dark:hover:bg-amber-900/60 hover:border-amber-300',
-    description: 'Golden sands & ocean cliffs'
+    bgClass: 'from-amber-500/10 to-orange-500/5 hover:from-amber-500/20 hover:to-orange-500/10 text-amber-400 border-amber-500/10',
+    description: 'Golden ocean cliffs'
   },
   {
     id: 'wildlife',
-    name: 'Wildlife & Culture',
+    name: 'Wildlife Reserves',
     icon: Compass,
-    color: 'bg-purple-50 text-purple-600 dark:bg-purple-950/40 dark:text-purple-400 border-purple-100 dark:border-purple-900/60',
-    hoverColor: 'hover:bg-purple-100 hover:text-purple-700 dark:hover:bg-purple-900/60 hover:border-purple-300',
-    description: 'Forest reserves & local arts'
+    bgClass: 'from-purple-500/10 to-indigo-500/5 hover:from-purple-500/20 hover:to-indigo-500/10 text-purple-400 border-purple-500/10',
+    description: 'Deep forest safaris'
+  },
+  {
+    id: 'heritage',
+    name: 'Cultural Heritage',
+    icon: Landmark,
+    bgClass: 'from-rose-500/10 to-pink-500/5 hover:from-rose-500/20 hover:to-pink-500/10 text-rose-400 border-rose-500/10',
+    description: 'Ancient temples & Kathakali'
+  },
+  {
+    id: 'adventure',
+    name: 'Adventure Trails',
+    icon: Flame,
+    bgClass: 'from-orange-500/10 to-red-500/5 hover:from-orange-500/20 hover:to-red-500/10 text-orange-400 border-orange-500/10',
+    description: 'Trekking & river rapids'
   }
 ];
 
@@ -41,46 +51,59 @@ export function QuickLinksSection() {
   const navigate = useNavigate();
 
   return (
-    <section className="relative py-16 bg-slate-50 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center mb-10">
-          <h2 className="font-serif text-3xl md:text-4xl font-normal text-gray-900 dark:text-white">
-            Choose Your <span className="italic font-light text-emerald-600 dark:text-emerald-400">Experience</span>
-          </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-            Hop directly into destinations matching your unique travel style
+    <section className="relative py-24 bg-slate-50 dark:bg-gray-950 overflow-hidden">
+      {/* Ambient glass background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/5 dark:bg-emerald-500/3 blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 space-y-4 md:space-y-0">
+          <div>
+            <span className="text-[10px] uppercase font-semibold text-emerald-500 dark:text-emerald-400 tracking-[0.2em] block mb-2">
+              Curated Moods
+            </span>
+            <h2 className="font-serif text-4xl md:text-5xl font-light text-slate-900 dark:text-white tracking-tight">
+              Choose your <span className="italic font-normal text-emerald-600 dark:text-emerald-400">sensory landscape.</span>
+            </h2>
+          </div>
+          <p className="text-sm text-slate-500 dark:text-slate-400 max-w-sm font-light">
+            Skip directly into hand-picked destinations matching your current travel mood.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-          {categories.map((cat, idx) => {
-            const Icon = cat.icon;
-            return (
-              <motion.div
-                key={cat.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="flex flex-col items-center text-center"
-              >
-                <button
+        {/* Horizontal Drag-Scrollable Category Track */}
+        <div className="overflow-x-auto pb-6 scrollbar-hide -mx-6 px-6">
+          <div className="flex gap-6 min-w-max">
+            {categories.map((cat, idx) => {
+              const Icon = cat.icon;
+              return (
+                <motion.button
+                  key={cat.id}
+                  initial={{ opacity: 0, x: 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
                   onClick={() => navigate(`/explore?category=${cat.id}`)}
-                  className={`w-24 h-24 rounded-full flex items-center justify-center border shadow-sm transition-all duration-300 ${cat.color} ${cat.hoverColor} group active:scale-95`}
+                  className={`group relative flex flex-col items-start p-6 w-64 rounded-2xl border bg-gradient-to-br backdrop-blur-md transition-all duration-300 text-left active:scale-[0.98] ${cat.bgClass}`}
                 >
-                  <Icon className="w-10 h-10 transition-transform duration-300 group-hover:scale-110" />
-                </button>
-                <span className="mt-4 font-semibold text-gray-800 dark:text-gray-200 text-sm md:text-base">
-                  {cat.name}
-                </span>
-                <span className="text-xs text-gray-400 dark:text-gray-500 mt-1 max-w-[150px]">
-                  {cat.description}
-                </span>
-              </motion.div>
-            );
-          })}
+                  <div className="p-3 rounded-xl bg-white/50 dark:bg-slate-900/50 border border-white/20 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <span className="mt-8 font-semibold text-slate-800 dark:text-slate-200 text-base">
+                    {cat.name}
+                  </span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400 mt-2 font-light line-clamp-2">
+                    {cat.description}
+                  </span>
+                  <div className="absolute bottom-6 right-6 opacity-0 translate-x-[-10px] group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-emerald-500">
+                    →
+                  </div>
+                </motion.button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
   );
 }
+

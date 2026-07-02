@@ -1,99 +1,87 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-const slides = [
-  {
-    url: 'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=1920&q=80',
-    title: 'Misty Tea Terraces of Munnar',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1920&q=80',
-    title: 'Serene Houseboat Canals of Alleppey',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=1920&q=80',
-    title: 'Scenic Coastal Cliffs of Varkala',
-  }
-];
-
 export function HeroSection() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 6000);
-    return () => clearInterval(timer);
-  }, []);
-
   return (
-    <section className="relative w-full h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden bg-slate-950">
-      {/* Background Ken Burns Slideshow */}
+    <section className="relative w-full h-screen min-h-[650px] flex items-center justify-center overflow-hidden bg-slate-950">
+      {/* ── Cinematic Autoplay Video Backdrop ── */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <AnimatePresence mode="popLayout">
-          <motion.div
-            key={currentSlide}
-            initial={{ opacity: 0, scale: 1 }}
-            animate={{ opacity: 1, scale: 1.05 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 2.0, ease: 'easeInOut' }}
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${slides[currentSlide].url})` }}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover scale-105 opacity-80 dark:opacity-70 transition-opacity duration-1000"
+          poster="https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=1920&q=80"
+        >
+          <source
+            src="https://assets.mixkit.co/videos/preview/mixkit-boat-on-the-water-with-tropical-vegetation-43184-large.mp4"
+            type="video/mp4"
           />
-        </AnimatePresence>
-        {/* Dark radial and linear gradient vignette for readability and premium look */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-transparent to-transparent dark:from-gray-950" />
+          {/* Fallback image */}
+          <div 
+            className="w-full h-full bg-cover bg-center"
+            style={{ backgroundImage: `url('https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=1920&q=80')` }}
+          />
+        </video>
+
+        {/* Cinematic radial and linear overlays for legibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-black/40 to-slate-50 dark:to-gray-950" />
+        <div className="absolute inset-0 bg-radial-at-c from-transparent via-black/30 to-black/60" />
       </div>
 
-      {/* Content Overlay */}
-      <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white space-y-8 select-none">
+      {/* ── Content Layout ── */}
+      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center text-white space-y-8 select-none">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
           className="space-y-4"
         >
-          <span className="text-xs uppercase tracking-[0.3em] font-semibold text-emerald-400">
-            Welcome to Kerala
-          </span>
+          <motion.span 
+            initial={{ opacity: 0, letterSpacing: '0.1em' }}
+            animate={{ opacity: 1, letterSpacing: '0.3em' }}
+            transition={{ duration: 1.5, delay: 0.2 }}
+            className="text-[10px] uppercase font-semibold text-emerald-400 tracking-[0.3em] block"
+          >
+            TravelWithUs • Experiences
+          </motion.span>
           <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-white font-normal leading-tight tracking-tight">
-            Explore <span className="italic font-light text-emerald-100">God's Own Country</span>
+            Discover the <span className="italic font-light text-emerald-100 block md:inline">soul of Kerala.</span>
           </h1>
           <p className="text-sm md:text-xl text-slate-100/90 max-w-2xl mx-auto font-light leading-relaxed">
-            Discover serene backwaters, misty hill stations, golden beaches, and rich cultural heritage. Plan your customized itinerary powered by local AI.
+            Personalized journeys, handcrafted by AI.
           </p>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 1.2, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="flex flex-wrap items-center justify-center gap-4"
         >
           <Link
             to="/planner"
-            className="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full font-bold text-sm shadow-xl active:scale-[0.98] transition-all"
+            className="px-8 py-3.5 bg-white text-gray-950 hover:bg-slate-100 rounded-full font-semibold text-sm shadow-xl active:scale-[0.98] transition-all duration-300"
           >
-            Plan Your Journey
+            Plan My Journey
           </Link>
           <Link
             to="/explore"
-            className="px-8 py-3.5 border border-white/40 text-white rounded-full font-bold text-sm backdrop-blur-md hover:bg-white/10 active:scale-[0.98] transition-all"
+            className="px-8 py-3.5 border border-white/30 text-white rounded-full font-semibold text-sm backdrop-blur-md hover:bg-white/10 active:scale-[0.98] transition-all duration-300"
           >
-            Explore Destinations
+            Explore Kerala
           </Link>
         </motion.div>
       </div>
 
-      {/* Multi-layered Wave Curve Divider */}
+      {/* ── Multi-layered Wave Curve Divider ── */}
       <div className="absolute bottom-0 left-0 right-0 z-20 pointer-events-none translate-y-[2px]">
         <svg
           viewBox="0 0 1440 120"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-auto text-slate-50 fill-current dark:text-gray-900"
+          className="w-full h-auto text-slate-50 fill-current dark:text-gray-950"
           preserveAspectRatio="none"
         >
           <path
@@ -112,4 +100,3 @@ export function HeroSection() {
     </section>
   );
 }
-

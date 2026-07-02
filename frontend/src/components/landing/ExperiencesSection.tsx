@@ -1,123 +1,114 @@
-import React from 'react';
 import { motion } from 'framer-motion';
-import {
-  Ship, Mountain, Umbrella, Binoculars,
-  Heart, Zap, Landmark, UtensilsCrossed,
-  ArrowRight,
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { SectionHeader } from '@/components/ui/SectionHeader';
-import type { Experience } from '@/data/kerala';
+import { ArrowRight, Star } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-interface ExperiencesSectionProps {
-  experiences: Experience[];
-}
-
-const iconMap: Record<string, React.ReactNode> = {
-  'ship': <Ship className="w-7 h-7" />,
-  'mountain': <Mountain className="w-7 h-7" />,
-  'umbrella': <Umbrella className="w-7 h-7" />,
-  'binoculars': <Binoculars className="w-7 h-7" />,
-  'heart': <Heart className="w-7 h-7" />,
-  'zap': <Zap className="w-7 h-7" />,
-  'landmark': <Landmark className="w-7 h-7" />,
-  'utensils': <UtensilsCrossed className="w-7 h-7" />,
-};
-
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as any },
-  },
-};
-
-const gradients = [
-  'from-emerald-500 to-teal-600',
-  'from-sky-500 to-blue-600',
-  'from-amber-500 to-orange-600',
-  'from-purple-500 to-violet-600',
-  'from-rose-500 to-pink-600',
-  'from-cyan-500 to-teal-500',
-  'from-indigo-500 to-blue-500',
-  'from-lime-500 to-green-600',
-];
-
-/**
- * Experiences/categories section with animated icon cards.
- * Each card has a gradient background and hover lift effect.
- */
-export function ExperiencesSection({ experiences }: ExperiencesSectionProps) {
+export function ExperiencesSection() {
   return (
-    <section className="py-24">
-      <div className="container">
-        <SectionHeader
-          badge="Curated For You"
-          title="Unforgettable Experiences"
-          description="From tranquil backwaters to thrilling adventures, Kerala offers something extraordinary for every traveler."
-        />
+    <section className="py-32 bg-slate-50 dark:bg-gray-950 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 space-y-32">
+        
+        {/* ── Spotlight 1: Munnar (Left Text, Right Image) ── */}
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-24">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
+            className="flex-1 space-y-6"
+          >
+            <span className="text-[10px] uppercase font-semibold text-emerald-500 dark:text-emerald-400 tracking-[0.2em] block">
+              Editorial Spotlight
+            </span>
+            <h3 className="font-serif text-4xl md:text-5xl font-light text-slate-900 dark:text-white leading-tight tracking-tight">
+              Misty slopes & <br />
+              <span className="italic font-normal text-emerald-600 dark:text-emerald-400">emerald horizons.</span>
+            </h3>
+            <p className="text-slate-600 dark:text-slate-300 font-light leading-relaxed text-sm md:text-base">
+              Munnar is a tapestry of endless tea plantations where morning clouds settle gently over silent valleys. Walk along quiet paths lined with wild eucalyptus, smell the sweet aroma of drying cardamoms, and witness the rare Nilgiri Tahr bounding gracefully across craggy clifftops at sunrise.
+            </p>
+            <div className="flex items-center gap-6 pt-4">
+              <Link
+                to="/destination/munnar"
+                className="group flex items-center gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+              >
+                Read Article 
+                <ArrowRight className="w-4 h-4 translate-x-0 group-hover:translate-x-1.5 transition-transform" />
+              </Link>
+              <span className="text-xs text-slate-400 dark:text-slate-500 flex items-center gap-1">
+                <Star className="w-3.5 h-3.5 fill-emerald-500 text-emerald-500" />
+                4.9/5 Rating
+              </span>
+            </div>
+          </motion.div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-50px' }}
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-        >
-          {experiences.map((experience, index) => (
-            <motion.div
-              key={experience.id}
-              variants={itemVariants}
-              whileHover={{ y: -8, scale: 1.03 }}
-              className="group relative rounded-2xl overflow-hidden cursor-pointer"
-            >
-              {/* Gradient background */}
-              <div
-                className={cn(
-                  'absolute inset-0 bg-gradient-to-br opacity-90 group-hover:opacity-100 transition-opacity duration-300',
-                  gradients[index % gradients.length]
-                )}
-              />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            className="flex-1 relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-2xl group cursor-pointer"
+          >
+            <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500 z-10" />
+            <img
+              src="https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=1200&q=80"
+              alt="Misty tea gardens of Munnar"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+            />
+          </motion.div>
+        </div>
 
-              {/* Decorative circle */}
-              <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-white/10 group-hover:scale-125 transition-transform duration-500" />
-              <div className="absolute -bottom-4 -left-4 w-20 h-20 rounded-full bg-white/5" />
+        {/* ── Spotlight 2: Alleppey (Right Text, Left Image) ── */}
+        <div className="flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-24">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
+            className="flex-1 space-y-6"
+          >
+            <span className="text-[10px] uppercase font-semibold text-emerald-500 dark:text-emerald-400 tracking-[0.2em] block">
+              Slow Travel
+            </span>
+            <h3 className="font-serif text-4xl md:text-5xl font-light text-slate-900 dark:text-white leading-tight tracking-tight">
+              Drifting through <br />
+              <span className="italic font-normal text-emerald-600 dark:text-emerald-400">labyrinths of palm.</span>
+            </h3>
+            <p className="text-slate-600 dark:text-slate-300 font-light leading-relaxed text-sm md:text-base">
+              The backwaters of Alleppey offer a sanctuary of slow-paced living. Board a hand-crafted wooden houseboat woven with coir knots, glide past quiet farming hamlets hugging narrow canals, and watch local fishermen cast nets under a warm, amber sky reflecting the beauty of old-world Kerala.
+            </p>
+            <div className="flex items-center gap-6 pt-4">
+              <Link
+                to="/destination/alleppey"
+                className="group flex items-center gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+              >
+                Read Article 
+                <ArrowRight className="w-4 h-4 translate-x-0 group-hover:translate-x-1.5 transition-transform" />
+              </Link>
+              <span className="text-xs text-slate-400 dark:text-slate-500 flex items-center gap-1">
+                <Star className="w-3.5 h-3.5 fill-emerald-500 text-emerald-500" />
+                4.8/5 Rating
+              </span>
+            </div>
+          </motion.div>
 
-              {/* Content */}
-              <div className="relative p-6 min-h-[200px] flex flex-col justify-between text-white">
-                <div>
-                  <div className="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                    {iconMap[experience.icon] || <Zap className="w-7 h-7" />}
-                  </div>
-                  <h3 className="text-lg font-bold mb-2">{experience.name}</h3>
-                  <p className="text-sm text-white/80 line-clamp-2">
-                    {experience.description}
-                  </p>
-                </div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            className="flex-1 relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-2xl group cursor-pointer"
+          >
+            <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500 z-10" />
+            <img
+              src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=80"
+              alt="Houseboat cruising the canals of Alleppey"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+            />
+          </motion.div>
+        </div>
 
-                <motion.div
-                  className="flex items-center gap-1 text-sm font-medium mt-4 text-white/90"
-                  whileHover={{ x: 4 }}
-                >
-                  Discover
-                  <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </motion.div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
       </div>
     </section>
   );
 }
+

@@ -1,7 +1,7 @@
 import React from 'react';
 import { HeroSection } from '@/components/landing/HeroSection';
 import { QuickLinksSection } from '@/components/landing/QuickLinksSection';
-import { BrandValueSection } from '@/components/landing/BrandValueSection';
+import { ExperiencesSection } from '@/components/landing/ExperiencesSection';
 import { FeaturedCarousel } from '@/components/landing/FeaturedCarousel';
 import { TourPackagesSection } from '@/components/landing/TourPackagesSection';
 import { BookingStepsSection } from '@/components/landing/BookingStepsSection';
@@ -22,8 +22,8 @@ export function HomePage() {
       {/* 2. Circular quick links (Mezenc concept) */}
       <QuickLinksSection />
 
-      {/* 3. Split stats and value points */}
-      <BrandValueSection />
+      {/* 3. Editorial magazine spotlights */}
+      <ExperiencesSection />
 
       {/* 4. Top Destinations portrait slider */}
       <FeaturedCarousel />
@@ -42,4 +42,5 @@ export function HomePage() {
     </main>
   );
 }
+
 
