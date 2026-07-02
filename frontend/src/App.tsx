@@ -8,6 +8,7 @@ import DestinationDetailsPage from '@/pages/DestinationDetailsPage';
 import { DistrictExplorerPage } from '@/pages/DistrictExplorerPage';
 import { SeasonalExplorerPage } from '@/pages/SeasonalExplorerPage';
 import { ThematicExplorerPage } from '@/pages/ThematicExplorerPage';
+import { TripPlannerPage } from '@/pages/TripPlannerPage';
 import { AboutPage, ContactPage, PrivacyPage, TermsPage } from '@/pages/StaticPages';
 
 // Scroll to top on route change helper
@@ -42,6 +43,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/explore" element={<ExplorePage />} />
+            <Route path="/planner" element={<TripPlannerPage />} />
             <Route path="/destination/:slug" element={<DestinationDetailsPage />} />
             <Route path="/districts" element={<DistrictExplorerPage />} />
             <Route path="/seasons" element={<SeasonalExplorerPage />} />
