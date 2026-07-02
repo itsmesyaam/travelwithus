@@ -8,8 +8,9 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from app.models import Base, User, TripPlan
 
 def migrate():
-    # Source SQLite database
-    sqlite_url = "sqlite:///travelwithus.db"
+    # Source SQLite database resolved dynamically relative to script path
+    db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "travelwithus.db")
+    sqlite_url = f"sqlite:///{db_path}"
     
     # Target Neon PostgreSQL database (loaded from environment)
     postgres_url = os.getenv("DATABASE_URL")
