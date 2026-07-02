@@ -7,6 +7,11 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] — 2026-07-02
 
 ### Added
+- **Landing Page Immersive Visuals & Trust Seals Redesign**:
+  - Implemented a Ken Burns cross-fading background image slider featuring Munnar, Alleppey, and Varkala travel imagery.
+  - Added a top utility header contact bar in the navbar displaying telephone, email, and travel tips links.
+  - Integrated red and emerald green Govt. Approved, Travelers' Choice, and Safe Tourism seals into the hero layout.
+  - Applied premium typography welcome badges to elevate the visual landing layout.
 - **Database Schema Improvements & Migrations**:
   - Normalized regions lookup table (`regions`).
   - Normalized districts table with geographic references (`districts` pointing to `regions`).
