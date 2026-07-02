@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, ChevronRight, Mountain, Waves, Compass } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import keralaMapImg from '@/assets/kerala_travel_map.jpg';
 
 interface Destination {
   name: string;
@@ -89,7 +90,7 @@ export function KeralaMap() {
             Explore Kerala by <span className="italic font-light text-emerald-600 dark:text-emerald-400">Region</span>
           </h2>
           <p className="text-sm md:text-base text-gray-500 dark:text-gray-400 mt-3 max-w-xl mx-auto font-light">
-            Click on the map regions or the sidebar list to see handpicked spots across Kerala.
+            Click on the interactive map pins or the sidebar list to discover handpicked spots across Kerala.
           </p>
         </div>
 
@@ -97,100 +98,89 @@ export function KeralaMap() {
           {/* Map Column (6 Cols) */}
           <div className="lg:col-span-6 flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-950 rounded-3xl border-2 border-dashed border-gray-200/80 dark:border-gray-800/80 relative overflow-hidden shadow-sm h-[580px]">
             {/* Fine print styling details: Coords and design accents */}
-            <div className="absolute top-4 left-6 text-[10px] font-mono text-gray-400 dark:text-gray-600 uppercase tracking-widest select-none">
+            <div className="absolute top-4 left-6 text-[10px] font-mono text-gray-400 dark:text-gray-600 uppercase tracking-widest select-none z-10">
               MALABAR COAST • 10.8505° N, 76.2711° E
             </div>
-            <div className="absolute bottom-4 right-6 text-[10px] font-mono text-gray-400 dark:text-gray-600 uppercase tracking-widest select-none">
+            <div className="absolute bottom-4 right-6 text-[10px] font-mono text-gray-400 dark:text-gray-600 uppercase tracking-widest select-none z-10">
               ARABIAN SEA
             </div>
 
-            {/* Styled SVG Map of Kerala */}
-            <svg
-              viewBox="0 0 250 500"
-              className="w-full h-[460px] select-none"
-            >
-              {/* Western Ghats dotted background contour */}
-              <path
-                d="M 160,40 Q 210,160 215,280 T 230,450"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeDasharray="4,6"
-                className="text-gray-300 dark:text-gray-800"
+            {/* Real Kerala Map Backed Image with Interactive Hotspots */}
+            <div className="relative w-full h-[480px] rounded-2xl overflow-hidden border border-gray-150 dark:border-gray-800 bg-slate-50 dark:bg-gray-900">
+              <img
+                src={keralaMapImg}
+                alt="Kerala Travel Map"
+                className="w-full h-full object-cover opacity-90 dark:opacity-85"
               />
-              <text
-                x="200"
-                y="150"
-                transform="rotate(76 200 150)"
-                className="text-[9px] font-sans tracking-[0.25em] fill-gray-400 dark:fill-gray-600 font-medium uppercase"
-              >
-                Western Ghats
-              </text>
 
-              {/* NORTH KERALA REGION */}
-              <motion.path
-                d="M 90,40 Q 120,45 130,95 T 140,170 C 130,175 110,170 100,160 Q 75,130 80,95 Z"
-                className={cn(
-                  "cursor-pointer transition-all duration-300 stroke-2",
-                  activeRegion === 'north'
-                    ? "fill-emerald-500/25 stroke-emerald-600 dark:stroke-emerald-400"
-                    : "fill-gray-100/60 dark:fill-gray-900/40 stroke-gray-300 dark:stroke-gray-800 hover:fill-emerald-500/10 hover:stroke-emerald-500/60"
-                )}
+              {/* Wayanad Pin Overlay */}
+              <div
+                className="absolute top-[22%] left-[45%] group pointer-events-auto cursor-pointer z-10"
                 onClick={() => setActiveRegion('north')}
-              />
+              >
+                <div className="relative flex items-center justify-center">
+                  <span className="absolute inline-flex h-5 w-5 rounded-full bg-emerald-400 opacity-75 animate-ping" />
+                  <span className={cn(
+                    "relative inline-flex rounded-full h-3 w-3 transition-colors duration-300",
+                    activeRegion === 'north' ? "bg-emerald-600" : "bg-emerald-400"
+                  )} />
+                </div>
+                <div className="absolute left-1/2 -translate-x-1/2 top-4 bg-white/95 dark:bg-gray-950/95 backdrop-blur-xs px-2 py-0.5 rounded-full text-[9px] font-semibold shadow-md text-gray-800 dark:text-gray-200 border border-gray-200/50 dark:border-gray-800/50 select-none pointer-events-none whitespace-nowrap transition-transform duration-300 group-hover:scale-105">
+                  Wayanad
+                </div>
+              </div>
 
-              {/* CENTRAL KERALA REGION */}
-              <motion.path
-                d="M 140,170 Q 150,195 165,240 T 180,310 C 160,315 140,300 130,285 Q 120,240 100,160 Z"
-                className={cn(
-                  "cursor-pointer transition-all duration-300 stroke-2",
-                  activeRegion === 'central'
-                    ? "fill-amber-500/25 stroke-amber-600 dark:stroke-amber-400"
-                    : "fill-gray-100/60 dark:fill-gray-900/40 stroke-gray-300 dark:stroke-gray-800 hover:fill-amber-500/10 hover:stroke-amber-500/60"
-                )}
+              {/* Munnar Pin Overlay */}
+              <div
+                className="absolute top-[48%] left-[62%] group pointer-events-auto cursor-pointer z-10"
                 onClick={() => setActiveRegion('central')}
-              />
+              >
+                <div className="relative flex items-center justify-center">
+                  <span className="absolute inline-flex h-5 w-5 rounded-full bg-amber-400 opacity-75 animate-ping" />
+                  <span className={cn(
+                    "relative inline-flex rounded-full h-3 w-3 transition-colors duration-300",
+                    activeRegion === 'central' ? "bg-amber-600" : "bg-amber-400"
+                  )} />
+                </div>
+                <div className="absolute left-1/2 -translate-x-1/2 top-4 bg-white/95 dark:bg-gray-950/95 backdrop-blur-xs px-2 py-0.5 rounded-full text-[9px] font-semibold shadow-md text-gray-800 dark:text-gray-200 border border-gray-200/50 dark:border-gray-800/50 select-none pointer-events-none whitespace-nowrap transition-transform duration-300 group-hover:scale-105">
+                  Munnar
+                </div>
+              </div>
 
-              {/* SOUTH KERALA REGION */}
-              <motion.path
-                d="M 180,310 Q 185,340 190,390 T 215,465 C 205,470 190,450 185,435 Q 165,390 130,285 Z"
-                className={cn(
-                  "cursor-pointer transition-all duration-300 stroke-2",
-                  activeRegion === 'south'
-                    ? "fill-sky-500/25 stroke-sky-600 dark:stroke-sky-400"
-                    : "fill-gray-100/60 dark:fill-gray-900/40 stroke-gray-300 dark:stroke-gray-800 hover:fill-sky-500/10 hover:stroke-sky-500/60"
-                )}
+              {/* Alleppey Pin Overlay */}
+              <div
+                className="absolute top-[72%] left-[68%] group pointer-events-auto cursor-pointer z-10"
                 onClick={() => setActiveRegion('south')}
-              />
+              >
+                <div className="relative flex items-center justify-center">
+                  <span className="absolute inline-flex h-5 w-5 rounded-full bg-sky-400 opacity-75 animate-ping" />
+                  <span className={cn(
+                    "relative inline-flex rounded-full h-3 w-3 transition-colors duration-300",
+                    activeRegion === 'south' ? "bg-sky-600" : "bg-sky-400"
+                  )} />
+                </div>
+                <div className="absolute left-1/2 -translate-x-1/2 top-4 bg-white/95 dark:bg-gray-950/95 backdrop-blur-xs px-2 py-0.5 rounded-full text-[9px] font-semibold shadow-md text-gray-800 dark:text-gray-200 border border-gray-200/50 dark:border-gray-800/50 select-none pointer-events-none whitespace-nowrap transition-transform duration-300 group-hover:scale-105">
+                  Alleppey
+                </div>
+              </div>
 
-              {/* Map Labels & Markers */}
-              {/* Wayanad Pin */}
-              <g className="pointer-events-none">
-                <circle cx="108" cy="98" r="4" className="fill-emerald-600 dark:fill-emerald-400" />
-                <circle cx="108" cy="98" r="8" className="stroke-emerald-600/30 fill-none stroke-[2] animate-ping" />
-                <text x="116" y="101" className="text-[10px] font-sans font-medium fill-gray-700 dark:fill-gray-300">Wayanad</text>
-              </g>
-
-              {/* Munnar Pin */}
-              <g className="pointer-events-none">
-                <circle cx="150" cy="230" r="4" className="fill-amber-600 dark:fill-amber-400" />
-                <circle cx="150" cy="230" r="8" className="stroke-amber-600/30 fill-none stroke-[2] animate-ping" />
-                <text x="158" y="233" className="text-[10px] font-sans font-medium fill-gray-700 dark:fill-gray-300">Munnar</text>
-              </g>
-
-              {/* Alleppey Pin */}
-              <g className="pointer-events-none">
-                <circle cx="162" cy="340" r="4" className="fill-sky-600 dark:fill-sky-400" />
-                <circle cx="162" cy="340" r="8" className="stroke-sky-600/30 fill-none stroke-[2] animate-ping" />
-                <text x="170" y="343" className="text-[10px] font-sans font-medium fill-gray-700 dark:fill-gray-300">Alleppey</text>
-              </g>
-
-              {/* Kovalam Pin */}
-              <g className="pointer-events-none">
-                <circle cx="196" cy="435" r="4" className="fill-sky-600 dark:fill-sky-400" />
-                <text x="156" y="450" className="text-[10px] font-sans font-medium fill-gray-700 dark:fill-gray-300">Kovalam</text>
-              </g>
-            </svg>
+              {/* Kovalam Pin Overlay */}
+              <div
+                className="absolute top-[88%] left-[80%] group pointer-events-auto cursor-pointer z-10"
+                onClick={() => setActiveRegion('south')}
+              >
+                <div className="relative flex items-center justify-center">
+                  <span className="absolute inline-flex h-5 w-5 rounded-full bg-sky-400 opacity-75 animate-ping" />
+                  <span className={cn(
+                    "relative inline-flex rounded-full h-3 w-3 transition-colors duration-300",
+                    activeRegion === 'south' ? "bg-sky-600" : "bg-sky-400"
+                  )} />
+                </div>
+                <div className="absolute left-1/2 -translate-x-1/2 top-4 bg-white/95 dark:bg-gray-950/95 backdrop-blur-xs px-2 py-0.5 rounded-full text-[9px] font-semibold shadow-md text-gray-800 dark:text-gray-200 border border-gray-200/50 dark:border-gray-800/50 select-none pointer-events-none whitespace-nowrap transition-transform duration-300 group-hover:scale-105">
+                  Kovalam
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Details Column (6 Cols) */}
@@ -247,7 +237,7 @@ export function KeralaMap() {
                 {selectedRegion.destinations.map((dest) => (
                   <div
                     key={dest.name}
-                    className="flex items-start gap-3 p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-900/60 transition-colors group cursor-pointer"
+                    className="flex items-start gap-3 p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-950/20 dark:hover:bg-gray-900/60 transition-colors group cursor-pointer"
                   >
                     <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500/10 dark:bg-emerald-500/5 text-emerald-600 dark:text-emerald-400 shrink-0">
                       <MapPin className="w-4 h-4" />
