@@ -1,573 +1,394 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft,
-  MapPin,
-  Star,
-  Compass,
-  Calendar,
-  Thermometer,
-  Plane,
-  Check,
-  Sparkles,
-  Navigation,
-  Share2,
-  ChevronRight,
-  MessageSquare,
-  AlertCircle
+  ArrowLeft, Star, MapPin, Calendar, Sun,
+  Compass, Navigation, BookOpen, Heart, CheckCircle2, Check,
+  Send, Bot, Sparkles, MessageSquare, ShieldAlert, X
 } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Card } from '@/components/ui/Card';
+import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 import { destinations } from '@/data/kerala';
 
-// Dynamic category style mapping
-const categoryColors: Record<string, string> = {
-  'hill-station': 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/25',
-  'backwaters': 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/25',
-  'beach': 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/25',
-  'wildlife': 'bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/25',
-  'heritage': 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/25',
-  'pilgrimage': 'bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/25',
-  'adventure': 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/25',
-  'waterfall': 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/25',
-};
-
-// Category descriptions for AI dynamic responses
-const categoryDetails: Record<string, { itinerary: string; food: string; spots: string; tips: string[] }> = {
-  'hill-station': {
-    itinerary: 'Morning: Trek misty peaks or walk tea plantations. Afternoon: Visit local dams and spice gardens. Evening: Enjoy sunset views and local tea.',
-    food: 'Fresh cardamom tea, hot Appam with Veg Stew, banana fritters, and locally harvested honey.',
-    spots: 'Hidden valleys, mist points, and sunrise lookouts.',
-    tips: [
-      'Carry warm clothing as temperature dips in the evenings.',
-      'Plan early starts to avoid thick fog on mountain paths.',
-      'Pre-book permits for peak hikes (e.g. Chembra Peak).',
-      'Purchase spices and tea from authorized estate outlets.'
-    ]
-  },
-  'backwaters': {
-    itinerary: 'Morning: Canoe narrow canals for village life views. Afternoon: Traditional lunch on a houseboat. Evening: Sunset cruise on the lake.',
-    food: 'Karimeen Pollichathu (pearl spot fish grilled in banana leaves), toddy, and Kerala red rice.',
-    spots: 'Narrow village canals, bird sanctuary paths, and lakeside islets.',
-    tips: [
-      'Carry insect repellent for canal cruises.',
-      'Plan boat trips during sunset or early morning.',
-      'Eat fresh local food cooked on the boat.',
-      'Respect the privacy of local backwater inhabitants.'
-    ]
-  },
-  'beach': {
-    itinerary: 'Morning: Swimming or early surf lessons. Afternoon: Ayurvedic massage at a beachside spa. Evening: Walk along cliffs or light house at sunset.',
-    food: 'Spicy fish curry, grilled prawns, coconut water, and tapioca chips.',
-    spots: 'Cliff trails, isolated coves, and beachside rock formations.',
-    tips: [
-      'Use high SPF sunscreen and wear sunglasses/hats.',
-      'Pay attention to lifeguards and warning flags on the beach.',
-      'Evening walks are cooler and offer magnificent views of the Arabian Sea.',
-      'Dine at shacks for authentic, freshly caught seafood.'
-    ]
-  },
-  'wildlife': {
-    itinerary: 'Morning: Jungle safari or lake cruise. Afternoon: Guided forest walk. Evening: Tribal heritage presentation or wildlife movie.',
-    food: 'Traditional Kerala Sadya, bamboo rice payasam, and herbal coffee.',
-    spots: 'Animal drinking holes, bird nests, and watchtowers.',
-    tips: [
-      'Wear neutral, earth-toned clothing (khaki, olive, brown).',
-      'Maintain absolute silence during safaris to avoid disturbing wildlife.',
-      'Book safaris online well in advance via the Forest Department.',
-      'Carry binoculars and zoom lenses for bird and animal spotting.'
-    ]
-  },
-  'heritage': {
-    itinerary: 'Morning: Heritage walking tour of palaces and monuments. Afternoon: Museum visits. Evening: Traditional art form performance.',
-    food: 'Spicy biryani, Kerala parotta with curry, and local sweet snacks.',
-    spots: 'Ancient murals, antique shops, and historic street lanes.',
-    tips: [
-      'Dress respectfully when visiting heritage monuments and palaces.',
-      'Hire certified guides to understand historical mural work.',
-      'Rent a bicycle to explore heritage streets at your own pace.',
-      'Check local listings for Kathakali or Kalaripayattu performances.'
-    ]
-  },
-  'pilgrimage': {
-    itinerary: 'Morning: Participate in morning prayers/rituals. Afternoon: Visit temple museum. Evening: Walk temple pond surrounding paths.',
-    food: 'Pure vegetarian temple prasadam, payasam, and simple local meals.',
-    spots: 'Temple ponds, ancient Gopurams, and historical shrine structures.',
-    tips: [
-      'Check the dress code; many temples require traditional attire.',
-      'Footwear must be left outside the temple complex.',
-      'Photography is strictly prohibited inside the main shrine.',
-      'Respect local customs, prayers, and silent zones.'
-    ]
-  },
-  'adventure': {
-    itinerary: 'Morning: Trekking or peak climbing. Afternoon: Kayaking or ziplining. Evening: Campfire and stargazing.',
-    food: 'Steamed puttu with kadala curry, local energy snacks, and black tea.',
-    spots: 'Windswept ridges, rocky cliffs, and river rafting routes.',
-    tips: [
-      'Wear sturdy trekking shoes with good grip.',
-      'Stay hydrated and carry ample drinking water.',
-      'Never venture into deep forests or climb peaks without a certified guide.',
-      'Check local weather conditions before embarking on outdoor activities.'
-    ]
-  },
-  'waterfall': {
-    itinerary: 'Morning: Trek to the base of the waterfall. Afternoon: Relax at nearby forest picnic spots. Evening: Capture long exposure photographs.',
-    food: 'Hot pepper tea, tapioca with fish curry, and fresh tropical fruits.',
-    spots: 'Forest trails, misty viewpoints, and waterfall stream banks.',
-    tips: [
-      'Rocks near waterfalls are extremely slippery; stay within safety barriers.',
-      'Avoid swimming during heavy monsoon flows; currents are treacherous.',
-      'Keep your electronics inside waterproof bags.',
-      'Carry salt or spray for forest leeches during rainy months.'
-    ]
-  }
-};
-
 export default function DestinationDetailsPage() {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug } = useParams();
   const navigate = useNavigate();
-  const [copied, setCopied] = useState(false);
-  const [aiLoading, setAiLoading] = useState(false);
-  const [aiResponse, setAiResponse] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'itinerary' | 'food' | 'spots' | null>(null);
-
-  const [destinationDetails, setDestinationDetails] = useState<any | null>(null);
+  const [destination, setDestination] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
+  // Chatbot State
+  const [chatOpen, setChatOpen] = useState(false);
+  const [chatMessages, setChatMessages] = useState<Array<{ sender: 'user' | 'bot'; text: string }>>([]);
+  const [chatInput, setChatInput] = useState('');
+  const [botLoading, setBotLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
+    // Attempt database API fetch, fallback to local dataset lookup
     fetch(`/api/destinations/${slug}`)
       .then((res) => {
         if (res.ok) return res.json();
-        throw new Error('API failed');
+        throw new Error('API offline');
       })
       .then((data) => {
-        setDestinationDetails(data);
-        setLoading(false);
+        if (data && data.name) {
+          setDestination(data);
+        } else {
+          fallbackLookup();
+        }
       })
-      .catch((err) => {
-        console.log('Using static fallback for destination:', err);
-        const staticDest = destinations.find((d) => d.slug === slug);
-        setDestinationDetails(staticDest || null);
+      .catch(() => {
+        fallbackLookup();
+      })
+      .finally(() => {
         setLoading(false);
       });
   }, [slug]);
 
-  const destination = destinationDetails;
-
-  // Copy page link to clipboard
-  const handleShare = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const fallbackLookup = () => {
+    const matched = destinations.find((d) => d.slug === slug);
+    setDestination(matched || null);
   };
 
-  // Generate AI Recommendation
-  const handleAiRecommend = (type: 'itinerary' | 'food' | 'spots') => {
-    setAiLoading(true);
-    setActiveTab(type);
-    setAiResponse(null);
-    
-    setTimeout(() => {
-      if (destination) {
-        const details = categoryDetails[destination.category] || categoryDetails['hill-station'];
-        setAiResponse(details[type]);
+  useEffect(() => {
+    if (destination) {
+      setChatMessages([
+        {
+          sender: 'bot',
+          text: `Namaste! I am your TravelWithUs local concierge. Ask me anything about exploring the beauty of ${destination.name}.`,
+        },
+      ]);
+    }
+  }, [destination]);
+
+  const handleSendMsg = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!chatInput.trim() || !destination) return;
+
+    const userText = chatInput.trim();
+    setChatMessages((prev) => [...prev, { sender: 'user', text: userText }]);
+    setChatInput('');
+    setBotLoading(true);
+
+    try {
+      const response = await fetch('/api/chat/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          destination_id: destination.id || destination.slug,
+          question: userText,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Fallback chat response');
       }
-      setAiLoading(false);
-    }, 800);
+
+      const data = await response.json();
+      setChatMessages((prev) => [...prev, { sender: 'bot', text: data.reply }]);
+    } catch (err) {
+      // Local graceful fallback response
+      setTimeout(() => {
+        let reply = `In ${destination.name}, you should definitely experience the local sights. `;
+        if (userText.toLowerCase().includes('food') || userText.toLowerCase().includes('eat')) {
+          reply += `Make sure to try traditional Kerala meals served on a banana leaf, fresh seafood curries, and appam with stew.`;
+        } else if (userText.toLowerCase().includes('visit') || userText.toLowerCase().includes('best')) {
+          reply += `The best time to visit is during ${destination.bestTimeToVisit}. We recommend starting early in the morning to enjoy mist-free views.`;
+        } else {
+          reply += `Exploring early morning yields peaceful photo moments. Let me know if you would like packing suggestions or route advice!`;
+        }
+        setChatMessages((prev) => [...prev, { sender: 'bot', text: reply }]);
+      }, 600);
+    } finally {
+      setBotLoading(false);
+    }
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-950">
-        <div className="flex flex-col items-center gap-3">
-          <Compass className="w-10 h-10 text-emerald-500 animate-spin" />
-          <p className="text-sm text-gray-500 font-semibold">Retrieving destination records...</p>
-        </div>
+      <div className="flex items-center justify-center min-h-screen bg-sand-warm dark:bg-gray-950">
+        <Compass className="w-10 h-10 text-emerald-deep animate-spin" />
       </div>
     );
   }
 
-  // 404 Render
   if (!destination) {
     return (
-      <div className="min-h-[80vh] flex items-center justify-center px-4 bg-white dark:bg-gray-950">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="max-w-md w-full text-center p-8 rounded-2xl glass border border-gray-200 dark:border-gray-800 shadow-xl"
-        >
-          <div className="inline-flex p-4 bg-emerald-50 dark:bg-emerald-950/50 rounded-full text-emerald-600 dark:text-emerald-400 mb-6">
-            <AlertCircle className="w-12 h-12" />
-          </div>
-          <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-2">Destination Not Found</h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-            The destination you are looking for does not exist or might have been renamed. Let's get you back on track.
-          </p>
-          <button
-            onClick={() => navigate(-1)}
-            className="w-full btn btn-primary flex justify-center items-center gap-2 cursor-pointer text-white"
-          >
-            <ArrowLeft className="w-4 h-4" /> Go Back
-          </button>
-        </motion.div>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-sand-warm dark:bg-gray-950 text-center px-6">
+        <ShieldAlert className="w-12 h-12 text-gold mb-4" />
+        <h2 className="font-serif text-3xl font-bold text-emerald-deep dark:text-white">Sanctuary Not Registered</h2>
+        <p className="text-xs text-slate-400 mt-2 max-w-sm">
+          The requested destination could not be located in our registry. Try browsing explore to see all spots.
+        </p>
+        <Link to="/explore" className="mt-6 px-6 py-2.5 bg-emerald-deep text-white text-xs font-bold uppercase tracking-widest rounded-full">
+          Browse Registry
+        </Link>
       </div>
     );
   }
 
-  const categoryLabel = destination.category.split('-').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-  const detailsConfig = categoryDetails[destination.category] || categoryDetails['hill-station'];
-
   return (
-    <div className="bg-slate-50 dark:bg-gray-950 text-slate-800 dark:text-slate-100 min-h-screen pb-20">
+    <div className="bg-sand-warm dark:bg-gray-950 min-h-screen transition-colors duration-500 relative">
       
-      {/* 1. Large Hero Header (50vh) */}
-      <div className="relative h-[50vh] md:h-[60vh] w-full overflow-hidden bg-slate-900">
+      {/* ── PARALLAX COVER HEADER (50vh) ── */}
+      <div className="relative w-full h-[55vh] min-h-[400px] overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 hover:scale-105"
-          style={{ backgroundImage: `url(${destination.coverImage})` }}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 scale-[1.02]"
+          style={{ backgroundImage: `url(${destination.coverImage || destination.image})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
         
-        {/* Navigation & Share Row */}
-        <div className="absolute top-6 left-0 right-0 z-10">
-          <div className="container flex justify-between items-center">
-            <button
-              onClick={() => navigate(-1)}
-              className="flex items-center gap-2 px-4 py-2 rounded-full glass text-white text-sm font-semibold hover:bg-white/20 transition-all cursor-pointer shadow-sm"
-            >
-              <ArrowLeft className="w-4 h-4" /> Back
-            </button>
-            <button
-              onClick={handleShare}
-              className="flex items-center gap-2 px-4 py-2 rounded-full glass text-white text-sm font-semibold hover:bg-white/20 transition-all cursor-pointer shadow-sm"
-            >
-              <Share2 className="w-4 h-4" />
-              {copied ? 'Copied!' : 'Share'}
-            </button>
-          </div>
+        {/* Cinematic dark linear overlays */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-sand-warm dark:to-gray-950" />
+
+        {/* Back navigation buttons */}
+        <div className="absolute top-28 left-6 md:left-12 z-10">
+          <button
+            onClick={() => navigate(-1)}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-black/30 backdrop-blur-md border border-white/10 text-white text-xs font-bold uppercase tracking-widest hover:bg-black/55 transition-all cursor-pointer"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Sanctuary Directory</span>
+          </button>
         </div>
 
-        {/* Hero Meta (Overlaid) */}
-        <div className="absolute bottom-8 left-0 right-0">
-          <div className="container">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
-              className="max-w-4xl"
-            >
-              {/* Badges */}
-              <div className="flex flex-wrap gap-2 mb-4">
-                <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-white/25 text-white backdrop-blur-md">
-                  {categoryLabel}
-                </span>
-                {destination.isHiddenGem && (
-                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500 text-slate-950 flex items-center gap-1">
-                    <Sparkles className="w-3 h-3 fill-slate-950" /> Hidden Gem
-                  </span>
-                )}
-                {destination.isTrending && (
-                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500 text-white">
-                    Trending
-                  </span>
-                )}
-              </div>
+        {/* Floating Typography Details inside header bounds */}
+        <div className="absolute bottom-12 left-6 md:left-12 right-6 z-10 max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-end gap-6 text-white">
+          <div className="space-y-3.5">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge className="bg-gold text-emerald-deep border-none text-[9px] font-bold uppercase tracking-widest py-1 px-3 rounded-full">
+                {destination.category.replace('-', ' ')}
+              </Badge>
+              {destination.isHiddenGem && (
+                <Badge className="bg-emerald-deep text-white dark:bg-emerald-400 dark:text-emerald-deep border-none text-[9px] font-bold uppercase tracking-widest py-1 px-3 rounded-full flex items-center gap-1">
+                  <Sparkles className="w-2.5 h-2.5 fill-current" /> Hidden Gem
+                </Badge>
+              )}
+            </div>
+            <div className="flex items-center gap-1.5 text-gold text-xs font-bold uppercase tracking-widest">
+              <MapPin className="w-4 h-4" />
+              <span>{destination.district}</span>
+            </div>
+            <h1 className="font-serif text-4xl md:text-6xl font-normal leading-tight tracking-tight">
+              {destination.name}
+            </h1>
+          </div>
 
-              {/* Title & Location */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight mb-3">
-                {destination.name}
-              </h1>
-              <div className="flex items-center gap-2 text-slate-300 font-medium text-lg">
-                <MapPin className="w-5 h-5 text-emerald-400" />
-                <span>{destination.district} District, {destination.region}</span>
-              </div>
-            </motion.div>
+          {/* Rating Widget */}
+          <div className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-black/35 backdrop-blur-md border border-white/10 shrink-0">
+            <Star className="w-4.5 h-4.5 fill-amber-400 text-amber-400" />
+            <span className="text-base font-bold text-white">{destination.rating}</span>
+            <span className="text-[10px] text-white/50 tracking-widest uppercase font-bold">({destination.reviews} Reviews)</span>
           </div>
         </div>
       </div>
 
-      {/* Main Container */}
-      <div className="container mt-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {/* ── MAIN THREE-COLUMN MAGAZINE CONTAINER ── */}
+      <div className="max-w-6xl mx-auto px-6 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
-          {/* Left Column (Main details) */}
-          <div className="lg:col-span-2 space-y-12">
+          {/* Column 1: Sanctuary Details & Story spreads (8 Cols) */}
+          <div className="lg:col-span-8 space-y-12">
             
-            {/* Description & Overview */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="space-y-4"
-            >
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
-                <Compass className="w-6 h-6 text-emerald-500" /> Overview
-              </h2>
-              <p className="text-lg text-slate-600 dark:text-gray-300 leading-relaxed font-normal">
+            {/* Minimal Luxury parameters strip */}
+            <div className="grid grid-cols-3 gap-3.5 p-6 bg-white dark:bg-gray-900 border border-emerald-950/5 dark:border-white/5 rounded-2xl shadow-sm">
+              <div className="text-center space-y-1.5 border-r border-emerald-950/5 dark:border-white/5">
+                <span className="block text-[9px] uppercase font-bold tracking-widest text-slate-400">Best Season</span>
+                <span className="text-xs font-bold text-emerald-deep dark:text-white">{destination.bestTimeToVisit.split(' (')[0]}</span>
+              </div>
+              <div className="text-center space-y-1.5 border-r border-emerald-950/5 dark:border-white/5">
+                <span className="block text-[9px] uppercase font-bold tracking-widest text-slate-400">Temperature</span>
+                <span className="text-xs font-bold text-emerald-deep dark:text-white">
+                  {destination.temperature.min}°C – {destination.temperature.max}°C
+                </span>
+              </div>
+              <div className="text-center space-y-1.5">
+                <span className="block text-[9px] uppercase font-bold tracking-widest text-slate-400">Elevation</span>
+                <span className="text-xs font-bold text-emerald-deep dark:text-white">{destination.elevation || 'Sea Level'}</span>
+              </div>
+            </div>
+
+            {/* Overview paragraph */}
+            <div className="space-y-4">
+              <span className="text-[9px] uppercase font-bold tracking-widest text-gold block">
+                Sanctuary Overview
+              </span>
+              <p className="font-serif text-lg md:text-xl font-light text-emerald-deep/80 dark:text-sand-warm/80 leading-relaxed">
                 {destination.description}
               </p>
-            </motion.section>
+            </div>
 
-            {/* 2. Quick Info Grid Card */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 p-6 rounded-2xl shadow-sm">
-                
-                {destination.elevation && (
-                  <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800/50">
-                    <span className="text-xs font-semibold text-slate-400 dark:text-slate-500 block mb-1 uppercase tracking-wider">Elevation</span>
-                    <span className="text-base font-bold text-slate-800 dark:text-slate-200">{destination.elevation}</span>
-                  </div>
-                )}
-                
-                <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800/50">
-                  <span className="text-xs font-semibold text-slate-400 dark:text-slate-500 block mb-1 uppercase tracking-wider">Best Time</span>
-                  <span className="text-base font-bold text-slate-800 dark:text-slate-200">{destination.bestTimeToVisit}</span>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800/50">
-                  <span className="text-xs font-semibold text-slate-400 dark:text-slate-500 block mb-1 uppercase tracking-wider">Temperature</span>
-                  <span className="text-base font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1">
-                    <Thermometer className="w-4 h-4 text-rose-500" />
-                    {destination.temperature.min}°C - {destination.temperature.max}°C
-                  </span>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800/50 md:col-span-2">
-                  <span className="text-xs font-semibold text-slate-400 dark:text-slate-500 block mb-1 uppercase tracking-wider">Nearest Airport</span>
-                  <span className="text-base font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-                    <Plane className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-                    <span className="line-clamp-1">{destination.nearestAirport}</span>
-                  </span>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800/50">
-                  <span className="text-xs font-semibold text-slate-400 dark:text-slate-500 block mb-1 uppercase tracking-wider">Rating</span>
-                  <span className="text-base font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1">
-                    <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                    {destination.rating} <span className="text-xs text-slate-400 font-normal">({destination.reviews.toLocaleString()})</span>
-                  </span>
-                </div>
-
-              </div>
-            </motion.section>
-
-            {/* 4. Highlights Section */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="space-y-4"
-            >
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
-                <Sparkles className="w-6 h-6 text-amber-500" /> Highlights
-              </h2>
+            {/* Highlights checking lists */}
+            <div className="space-y-6">
+              <h3 className="font-serif text-xl font-bold border-b border-emerald-950/5 pb-2">
+                Sanctuary Highlights
+              </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {destination.highlights.map((highlight: string, idx: number) => (
-                  <div
-                    key={idx}
-                    className="flex items-start gap-3 p-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/60 rounded-xl hover:border-emerald-500/30 transition-colors"
-                  >
-                    <div className="flex-shrink-0 p-1.5 bg-emerald-500/10 rounded-lg text-emerald-500 mt-0.5">
-                      <Check className="w-4 h-4" />
-                    </div>
-                    <span className="text-slate-600 dark:text-slate-300 font-medium">{highlight}</span>
+                {destination.highlights.map((high: string, idx: number) => (
+                  <div key={idx} className="flex items-center gap-3 p-3 bg-white dark:bg-gray-900 rounded-xl border border-emerald-950/5 dark:border-white/5 shadow-xs">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                    <span className="text-xs font-semibold text-emerald-deep/80 dark:text-sand-warm/80">{high}</span>
                   </div>
                 ))}
               </div>
-            </motion.section>
+            </div>
 
-            {/* 5. Activities Section */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="space-y-4"
-            >
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
-                <Navigation className="w-6 h-6 text-emerald-500" /> Recommended Activities
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {destination.activities.map((activity: string, idx: number) => (
-                  <motion.div
-                    key={idx}
-                    whileHover={{ y: -4 }}
-                    className="p-5 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800/70 rounded-xl shadow-xs hover:border-emerald-500 dark:hover:border-emerald-500/80 transition-colors duration-300 flex flex-col justify-between"
-                  >
-                    <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 tracking-wider block mb-2 uppercase">Activity {idx + 1}</span>
-                    <h3 className="text-base font-bold text-slate-800 dark:text-slate-200 mb-4">{activity}</h3>
-                    <div className="flex items-center text-xs font-semibold text-emerald-600 dark:text-emerald-400 group cursor-pointer gap-1">
-                      <span>Learn more</span>
-                      <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.section>
-
-            {/* 6. Practical Travel Tips (Frosted Glass Card) */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="glass p-6 md:p-8 space-y-4">
-                <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
-                  <AlertCircle className="w-6 h-6 text-emerald-600 dark:text-emerald-400" /> Practical Travel Tips
-                </h2>
-                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                  To ensure a smooth and memorable visit to {destination.name}, our local travel experts suggest keeping these tips in mind:
-                </p>
-                <ul className="space-y-3.5">
-                  {detailsConfig.tips.map((tip, idx) => (
-                    <li key={idx} className="flex gap-3 text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
-                      <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mt-2 flex-shrink-0" />
-                      <span>{tip}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </motion.section>
-
-            {/* 7. Map Coordinates Widget */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="space-y-4"
-            >
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
-                <MapPin className="w-6 h-6 text-emerald-500" /> Location Coordinates
-              </h2>
-              <div className="bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 p-6 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 bg-emerald-500/10 rounded-2xl text-emerald-500">
-                    <MapPin className="w-8 h-8" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-slate-800 dark:text-slate-200 text-lg">Geographic Coordinates</h3>
-                    <p className="text-sm text-slate-400 dark:text-slate-500 mt-1 font-mono">
-                      Latitude: {destination.coordinates.lat.toFixed(4)} | Longitude: {destination.coordinates.lng.toFixed(4)}
+            {/* Excursions / Activities grid */}
+            <div className="space-y-6">
+              <h3 className="font-serif text-xl font-bold border-b border-emerald-950/5 pb-2">
+                Suggested Excursions
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {destination.activities.map((act: string, idx: number) => (
+                  <Card key={idx} className="p-6 bg-white dark:bg-gray-900 border border-emerald-950/5 dark:border-white/5 shadow-sm">
+                    <span className="text-[9px] uppercase font-bold tracking-widest text-gold block mb-1">Activity 0{idx + 1}</span>
+                    <h4 className="font-serif text-lg font-bold text-emerald-deep dark:text-white mb-2">{act}</h4>
+                    <p className="text-xs text-emerald-deep/60 dark:text-sand-warm/60 leading-relaxed">
+                      Custom tailored excursion option for travelers seeking authentic local experiences in {destination.name}.
                     </p>
-                  </div>
-                </div>
-                <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${destination.coordinates.lat},${destination.coordinates.lng}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-emerald-500 dark:hover:border-emerald-500 text-sm font-semibold hover:text-emerald-500 transition-all flex items-center gap-2 cursor-pointer w-full md:w-auto justify-center"
-                >
-                  <Navigation className="w-4 h-4" /> Open in Google Maps
-                </a>
+                  </Card>
+                ))}
               </div>
-            </motion.section>
+            </div>
+
+            {/* Practical details (Airport and coordinates) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="p-6 bg-mist/50 dark:bg-gray-900/50 rounded-2xl border border-emerald-950/5 dark:border-white/5 text-xs">
+                <span className="block text-[9px] uppercase font-bold tracking-widest text-slate-400 mb-2">Transit Airport Access</span>
+                <p className="font-semibold text-emerald-deep/80 dark:text-sand-warm/90">{destination.nearestAirport}</p>
+              </div>
+              <div className="p-6 bg-mist/50 dark:bg-gray-900/50 rounded-2xl border border-emerald-950/5 dark:border-white/5 text-xs">
+                <span className="block text-[9px] uppercase font-bold tracking-widest text-slate-400 mb-2">Coordinates Map rose</span>
+                <p className="font-mono text-emerald-deep/70 dark:text-sand-warm/80">
+                  Latitude: {destination.coordinates.lat}° N / Longitude: {destination.coordinates.lng}° E
+                </p>
+              </div>
+            </div>
 
           </div>
 
-          {/* Right Column (AI Sidebar) */}
-          <div className="space-y-6 lg:h-fit lg:sticky lg:top-24">
+          {/* Column 2: Traveler's Field Journal side pane (4 Cols) */}
+          <div className="lg:col-span-4 space-y-8 lg:sticky lg:top-28">
             
-            {/* 8. AI Recommendations Sidebar */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="relative overflow-hidden rounded-2xl border border-emerald-500/20 dark:border-emerald-500/10 shadow-lg"
+            {/* Field journal notebook card */}
+            <Card className="p-8 bg-[#FBF6EE] dark:bg-gray-900 border-2 border-dashed border-emerald-950/10 dark:border-white/10 rounded-3xl shadow-sm text-emerald-deep dark:text-sand-warm">
+              <span className="text-[9px] uppercase font-bold tracking-widest text-gold flex items-center gap-1 mb-3">
+                <BookOpen className="w-3.5 h-3.5" /> Field Journal Notes
+              </span>
+              <h3 className="font-serif text-xl font-bold mb-4">Practical Travel Tips</h3>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-2.5 text-xs text-emerald-deep/70 dark:text-sand-warm/70">
+                  <Check className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
+                  <span>Start early in the morning to beat the tropical heat or mists.</span>
+                </li>
+                <li className="flex items-start gap-2.5 text-xs text-emerald-deep/70 dark:text-sand-warm/70">
+                  <Check className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
+                  <span>Carry light cotton wear and standard monsoon rain gear.</span>
+                </li>
+                <li className="flex items-start gap-2.5 text-xs text-emerald-deep/70 dark:text-sand-warm/70">
+                  <Check className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
+                  <span>Respect local pilgrimage sanctuary dress codes.</span>
+                </li>
+              </ul>
+            </Card>
+
+            {/* Quick concierge callout widget button */}
+            <button
+              onClick={() => setChatOpen(true)}
+              className="w-full py-4.5 bg-emerald-deep dark:bg-emerald-400 text-white dark:text-emerald-deep rounded-full text-xs font-bold uppercase tracking-widest shadow-md flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-[1.01] active:scale-[0.99]"
             >
-              {/* Emerald header banner */}
-              <div className="bg-gradient-to-r from-emerald-600 to-teal-700 p-6 text-white relative">
-                <div className="absolute top-0 right-0 w-24 h-24 rounded-full bg-white/5 translate-x-1/3 -translate-y-1/3" />
-                <div className="flex items-center gap-2.5 mb-2">
-                  <Sparkles className="w-5 h-5 text-amber-300 fill-amber-300 animate-pulse" />
-                  <span className="text-xs font-bold uppercase tracking-widest text-emerald-100">TravelWithUs Concierge</span>
-                </div>
-                <h3 className="text-xl font-bold tracking-tight">Ask Travel AI</h3>
-                <p className="text-xs text-white/80 mt-1">Get instant personalized guidance for your journey to {destination.name}.</p>
-              </div>
-
-              {/* Bot panel body */}
-              <div className="p-6 bg-white dark:bg-slate-900 space-y-6">
-                
-                {/* AI Chat Bubble */}
-                <div className="flex gap-3">
-                  <div className="w-7 h-7 rounded-full bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
-                    <Sparkles className="w-3.5 h-3.5 fill-emerald-500/20" />
-                  </div>
-                  <div className="bg-slate-50 dark:bg-slate-950 p-4 rounded-2xl rounded-tl-none border border-slate-100 dark:border-slate-800 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                    Hello! I'm your local AI travel assistant. Choose a recommendation topic below to generate details for {destination.name}:
-                  </div>
-                </div>
-
-                {/* Option Chips */}
-                <div className="flex flex-col gap-2">
-                  {[
-                    { id: 'itinerary', label: 'Suggest a 2-Day Itinerary' },
-                    { id: 'food', label: 'Local Food Recommendations' },
-                    { id: 'spots', label: 'Photographer\'s Checklist' }
-                  ].map((btn) => (
-                    <button
-                      key={btn.id}
-                      onClick={() => handleAiRecommend(btn.id as any)}
-                      className={`flex items-center justify-between px-4 py-3 rounded-xl border text-left text-sm font-semibold cursor-pointer transition-all ${
-                        activeTab === btn.id
-                          ? 'bg-emerald-500 border-emerald-500 text-white dark:text-slate-950'
-                          : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-emerald-500 hover:text-emerald-500'
-                      }`}
-                    >
-                      <span>{btn.label}</span>
-                      <ChevronRight className="w-4 h-4" />
-                    </button>
-                  ))}
-                </div>
-
-                {/* Interactive response window */}
-                <AnimatePresence mode="wait">
-                  {(aiLoading || aiResponse) && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="p-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 relative"
-                    >
-                      {aiLoading ? (
-                        <div className="flex items-center gap-3 text-slate-400 py-3">
-                          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-bounce delay-100" />
-                          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-bounce delay-200" />
-                          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-bounce delay-300" />
-                          <span className="text-xs font-semibold font-sans tracking-wide">Crafting AI suggestions...</span>
-                        </div>
-                      ) : (
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">AI Response</span>
-                            <MessageSquare className="w-3.5 h-3.5 text-slate-400" />
-                          </div>
-                          <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300 animate-fade-in">
-                            {aiResponse}
-                          </p>
-                        </div>
-                      )}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-              </div>
-            </motion.div>
-
+              <Bot className="w-4 h-4 text-gold fill-gold" />
+              <span>Ask Local Concierge</span>
+            </button>
           </div>
 
         </div>
       </div>
+
+      {/* ── SLIDE OUT CONCIERGE CHAT WINDOW ── */}
+      <AnimatePresence>
+        {chatOpen && (
+          <>
+            {/* Screen overlay background */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.4 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setChatOpen(false)}
+              className="fixed inset-0 bg-black z-40 cursor-pointer"
+            />
+
+            {/* Chatbox panel */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 28, stiffness: 260 }}
+              className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-white dark:bg-gray-900 shadow-2xl z-50 border-l border-emerald-950/5 dark:border-white/5 flex flex-col justify-between"
+            >
+              {/* Header */}
+              <div className="p-6 bg-emerald-deep text-white flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-white/10 rounded-xl">
+                    <Bot className="w-5 h-5 text-gold fill-gold" />
+                  </div>
+                  <div>
+                    <h3 className="font-serif text-lg font-bold">Local Concierge</h3>
+                    <p className="text-[10px] text-white/50 tracking-wider font-sans uppercase">Expert advice for {destination.name}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setChatOpen(false)}
+                  className="p-1 rounded-full hover:bg-white/10 text-white transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Chat Message Scroll */}
+              <div className="flex-1 p-6 overflow-y-auto space-y-4 bg-sand-warm/30 dark:bg-gray-950/20">
+                {chatMessages.map((msg, idx) => (
+                  <div
+                    key={idx}
+                    className={cn(
+                      "flex items-end gap-2.5 max-w-[80%] rounded-2xl p-4.5 text-xs leading-relaxed",
+                      msg.sender === 'user'
+                        ? "ml-auto bg-emerald-deep text-white rounded-br-none"
+                        : "bg-white dark:bg-gray-900 border border-emerald-950/5 dark:border-white/5 rounded-bl-none text-emerald-deep dark:text-sand-warm shadow-xs"
+                    )}
+                  >
+                    <p>{msg.text}</p>
+                  </div>
+                ))}
+                {botLoading && (
+                  <div className="flex items-center gap-2 p-4 max-w-[50%] bg-white dark:bg-gray-900 rounded-2xl border text-xs text-slate-400">
+                    <Compass className="w-4 h-4 animate-spin text-gold" />
+                    <span>Typing...</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Form Input Footer */}
+              <form onSubmit={handleSendMsg} className="p-4 border-t border-emerald-950/5 dark:border-white/5 bg-white dark:bg-gray-900 flex items-center gap-2">
+                <input
+                  type="text"
+                  placeholder={`Ask about ${destination.name}...`}
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  className="flex-1 px-4 py-3 rounded-xl border border-emerald-950/10 dark:border-white/10 bg-sand-warm dark:bg-gray-950 text-xs font-semibold focus:outline-none focus:border-gold"
+                />
+                <button
+                  type="submit"
+                  className="p-3 bg-emerald-deep dark:bg-emerald-400 text-white dark:text-emerald-deep rounded-xl hover:scale-102 active:scale-98 transition-all cursor-pointer"
+                >
+                  <Send className="w-4 h-4" />
+                </button>
+              </form>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
     </div>
   );

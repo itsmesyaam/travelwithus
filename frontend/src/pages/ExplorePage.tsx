@@ -1,114 +1,83 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Search,
-  MapPin,
-  Star,
-  Compass,
-  Ship,
-  Mountain,
-  Umbrella,
-  Trees,
-  Heart,
-  Tent,
-  Landmark,
-  Utensils,
-  ChevronDown,
-  X,
-  ArrowRight,
-  SlidersHorizontal,
+  Search, MapPin, SlidersHorizontal, Compass, Star,
+  ArrowRight, X, ChevronDown, Check, Sparkles, Sliders
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { Badge } from '@/components/ui/Badge';
-import { destinations, experiences, districts } from '@/data/kerala';
+import { destinations, districts, experiences } from '@/data/kerala';
 
-// Map experience slug to a matching Lucide icon for horizontal scroll selector
 const CATEGORY_ICONS: Record<string, any> = {
-  'all': Compass,
-  'backwater-cruises': Ship,
-  'hill-station-retreats': Mountain,
-  'beach-holidays': Umbrella,
-  'wildlife-safari': Trees,
-  'ayurveda-wellness': Heart,
-  'adventure-sports': Tent,
-  'cultural-heritage': Landmark,
-  'food-spice-tours': Utensils,
+  'backwaters-cruises': Compass,
+  'hill-station-retreats': Compass,
+  'beach-holidays': Compass,
+  'wildlife-safari': Compass,
+  'ayurveda-wellness': Compass,
+  'adventure-sports': Compass,
+  'cultural-heritage': Compass,
+  'food-spice-tours': Compass,
 };
 
-// Animation variants for container staggering
-const containerVariants: any = {
+const containerVariants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.04,
-    },
-  },
-};
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 }
+  }
+} as const;
 
-// Animation variants for individual cards
-const cardVariants: any = {
-  hidden: { opacity: 0, y: 25 },
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
   show: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.25, 1, 0.5, 1],
-    },
-  },
-};
+    transition: { type: 'spring', stiffness: 260, damping: 25 }
+  }
+} as const;
 
 export function ExplorePage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  
-  // Local filter states initialized from URL search params for bookmarkable states
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   const [activeCategory, setActiveCategory] = useState(searchParams.get('category') || 'all');
   const [activeDistrict, setActiveDistrict] = useState(searchParams.get('district') || 'all');
   const [isDistrictDropdownOpen, setIsDistrictDropdownOpen] = useState(false);
+  const [showFiltersMobile, setShowFiltersMobile] = useState(false);
 
-  // Dynamic state for data-driven dataset mapping
+  // Dynamic state loaded from local mock with API fallback
   const [destinationsList, setDestinationsList] = useState<any[]>(destinations);
   const [districtsList, setDistrictsList] = useState<any[]>(districts);
 
-  // Load from API if backend is running, fallback to static if offline
   useEffect(() => {
     fetch('/api/destinations')
       .then((res) => {
         if (res.ok) return res.json();
-        throw new Error('API failed');
+        throw new Error('API offline');
       })
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setDestinationsList(data);
-        }
+        if (Array.isArray(data) && data.length > 0) setDestinationsList(data);
       })
-      .catch((err) => console.log('Using static fallback for destinations:', err));
+      .catch((err) => console.log('Destinations fallback to kerala.ts:', err));
 
     fetch('/api/districts')
       .then((res) => {
         if (res.ok) return res.json();
-        throw new Error('API failed');
+        throw new Error('API offline');
       })
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setDistrictsList(data);
-        }
+        if (Array.isArray(data) && data.length > 0) setDistrictsList(data);
       })
-      .catch((err) => console.log('Using static fallback for districts:', err));
+      .catch((err) => console.log('Districts fallback to kerala.ts:', err));
   }, []);
 
-  // Sync URL search params to React state (for back/forward navigation)
   useEffect(() => {
     setSearchQuery(searchParams.get('search') || '');
     setActiveCategory(searchParams.get('category') || 'all');
     setActiveDistrict(searchParams.get('district') || 'all');
   }, [searchParams]);
 
-  // Update URL search parameters when filters are changed
   const updateFilters = (search: string, category: string, district: string) => {
     const newParams: Record<string, string> = {};
     if (search) newParams.search = search;
@@ -139,7 +108,6 @@ export function ExplorePage() {
     setSearchParams({});
   };
 
-  // Filtered destinations list
   const filteredDestinations = useMemo(() => {
     return destinationsList.filter((dest) => {
       const searchLower = searchQuery.toLowerCase();
@@ -175,7 +143,6 @@ export function ExplorePage() {
     });
   }, [searchQuery, activeCategory, activeDistrict, destinationsList, districtsList]);
 
-  // Display name of the active district filter
   const selectedDistrictName = useMemo(() => {
     if (activeDistrict === 'all') return 'All Districts';
     return districtsList.find(
@@ -183,7 +150,6 @@ export function ExplorePage() {
     )?.name || activeDistrict;
   }, [activeDistrict, districtsList]);
 
-  // Category navigation items
   const categoriesList = useMemo(() => {
     const list = [{ slug: 'all', name: 'All', icon: Compass }];
     experiences.forEach((exp) => {
@@ -197,69 +163,68 @@ export function ExplorePage() {
   }, []);
 
   return (
-    <div className="relative py-12 bg-white dark:bg-gray-950 min-h-screen overflow-hidden transition-colors duration-300">
+    <div className="relative py-24 bg-sand-warm dark:bg-gray-950 min-h-screen overflow-hidden transition-colors duration-500">
       {/* Decorative premium ambient glow effects */}
-      <div className="absolute top-1/4 -left-20 w-[450px] h-[450px] bg-emerald-500/5 dark:bg-emerald-500/[0.03] rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 -right-20 w-[450px] h-[450px] bg-teal-500/5 dark:bg-teal-500/[0.03] rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 -left-20 w-[550px] h-[550px] bg-emerald-500/5 dark:bg-emerald-500/[0.02] rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 -right-20 w-[550px] h-[550px] bg-teal-500/5 dark:bg-teal-500/[0.02] rounded-full blur-3xl pointer-events-none" />
 
-      <div className="container relative z-10 px-4 mx-auto max-w-7xl">
+      <div className="container relative z-10 px-6 mx-auto max-w-7xl">
         <SectionHeader
-          badge="Interactive Map & Guide"
-          title="Explore Kerala Spots"
-          description="Find your next sanctuary in the serene backwaters, mist-shrouded tea plantations, and pristine ocean cliffs."
+          badge="Interactive Guide"
+          title="Sanctuary Registry"
+          description="Browse handcrafted destinations spanning serene coastal bays, cool tea slopes, and silent valleys."
         />
 
-        {/* Premium Glassmorphic Filters Panel */}
-        <div className="bg-white/60 dark:bg-gray-900/40 backdrop-blur-xl border border-gray-200/50 dark:border-gray-800/50 rounded-3xl p-6 shadow-xl shadow-black/[0.02] dark:shadow-black/[0.1] mb-8">
-          {/* Row 1: Search input & District Selector */}
+        {/* Premium Glassmorphic Filters Board */}
+        <div className="bg-white/50 dark:bg-gray-900/40 backdrop-blur-2xl border border-emerald-950/[0.04] dark:border-white/[0.02] rounded-[32px] p-6 shadow-sm shadow-emerald-950/[0.01] mb-10">
+          
+          {/* Row 1: Search & dropdown filters */}
           <div className="flex flex-col md:flex-row gap-4 mb-6">
-            {/* Search Box */}
+            {/* Search Bar */}
             <div className="relative flex-grow">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-deep/40 dark:text-sand-warm/30 w-4.5 h-4.5" />
               <input
                 type="text"
-                placeholder="Search destinations, tags, activities..."
-                className="w-full pl-12 pr-10 py-3.5 rounded-2xl bg-gray-100/50 dark:bg-gray-800/40 border border-gray-200/40 dark:border-gray-800/60 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-transparent backdrop-blur-sm transition-all text-sm text-gray-800 dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500"
+                placeholder="Search sanctuaries, moods, tags..."
+                className="w-full pl-12 pr-10 py-3.5 rounded-2xl bg-sand-warm/60 dark:bg-gray-950/40 border border-emerald-950/[0.04] dark:border-white/5 focus:outline-none focus:ring-1 focus:ring-gold focus:border-transparent transition-all text-xs font-bold uppercase tracking-widest text-emerald-deep dark:text-sand-warm placeholder:text-emerald-deep/30 dark:placeholder:text-sand-warm/20"
                 value={searchQuery}
                 onChange={(e) => handleSearchChange(e.target.value)}
               />
               {searchQuery && (
                 <button
                   onClick={() => handleSearchChange('')}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-650 dark:hover:text-gray-250 p-1"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-450 hover:text-red-500 p-1"
                 >
                   <X className="w-4 h-4" />
                 </button>
               )}
             </div>
 
-            {/* Custom Dropdown District Picker */}
+            {/* Custom Dropdown District selector */}
             <div className="relative w-full md:w-64">
               <button
                 type="button"
                 onClick={() => setIsDistrictDropdownOpen(!isDistrictDropdownOpen)}
-                className="flex items-center justify-between gap-2 px-4 py-3.5 rounded-2xl bg-gray-100/50 dark:bg-gray-800/40 border border-gray-200/40 dark:border-gray-800/60 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200/20 dark:hover:bg-gray-850 transition-all w-full text-left"
+                className="flex items-center justify-between gap-2 px-5 py-3.5 rounded-2xl bg-sand-warm/60 dark:bg-gray-950/40 border border-emerald-950/[0.04] dark:border-white/5 text-xs font-bold uppercase tracking-widest text-emerald-deep dark:text-sand-warm hover:bg-emerald-950/5 dark:hover:bg-white/5 transition-all w-full text-left"
               >
                 <span className="flex items-center gap-2 truncate">
-                  <MapPin className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                  <MapPin className="w-4 h-4 text-gold flex-shrink-0" />
                   <span className="truncate">{selectedDistrictName}</span>
                 </span>
-                <ChevronDown className={cn("w-4 h-4 text-gray-400 transition-transform duration-200 flex-shrink-0", isDistrictDropdownOpen && "rotate-180")} />
+                <ChevronDown className={cn("w-4 h-4 text-emerald-deep/30 transition-transform duration-200 flex-shrink-0", isDistrictDropdownOpen && "rotate-180")} />
               </button>
 
               <AnimatePresence>
                 {isDistrictDropdownOpen && (
                   <>
-                    {/* Backdrop to dismiss on click-out */}
                     <div className="fixed inset-0 z-20" onClick={() => setIsDistrictDropdownOpen(false)} />
                     <motion.div
-                      initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                      transition={{ duration: 0.15, ease: 'easeOut' }}
-                      className="absolute right-0 mt-2 w-full rounded-2xl bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200/50 dark:border-gray-850 shadow-2xl overflow-hidden z-30"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 8 }}
+                      className="absolute right-0 mt-2 w-full rounded-2xl bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-emerald-950/5 dark:border-white/5 shadow-xl overflow-hidden z-30"
                     >
-                      <div className="max-h-60 overflow-y-auto py-2 scrollbar-thin scrollbar-thumb-gray-200/80 dark:scrollbar-thumb-gray-800">
+                      <div className="max-h-60 overflow-y-auto py-2">
                         <button
                           type="button"
                           onClick={() => {
@@ -267,8 +232,8 @@ export function ExplorePage() {
                             setIsDistrictDropdownOpen(false);
                           }}
                           className={cn(
-                            "w-full text-left px-4 py-2.5 text-sm hover:bg-emerald-50 dark:hover:bg-emerald-950/40 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors",
-                            activeDistrict === 'all' ? "bg-emerald-50/50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 font-semibold" : "text-gray-700 dark:text-gray-300"
+                            "w-full text-left px-5 py-2.5 text-xs font-bold uppercase tracking-wider hover:bg-emerald-50 dark:hover:bg-gray-950 hover:text-emerald-700 transition-colors",
+                            activeDistrict === 'all' ? "text-emerald-700 font-black" : "text-gray-600 dark:text-gray-400"
                           )}
                         >
                           All Districts
@@ -284,8 +249,8 @@ export function ExplorePage() {
                                 setIsDistrictDropdownOpen(false);
                               }}
                               className={cn(
-                                "w-full text-left px-4 py-2.5 text-sm hover:bg-emerald-50 dark:hover:bg-emerald-950/40 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors",
-                                isSelected ? "bg-emerald-50/50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 font-semibold" : "text-gray-700 dark:text-gray-300"
+                                "w-full text-left px-5 py-2.5 text-xs font-bold uppercase tracking-wider hover:bg-emerald-50 dark:hover:bg-gray-950 hover:text-emerald-700 transition-colors",
+                                isSelected ? "text-emerald-700 font-black" : "text-gray-600 dark:text-gray-400"
                               )}
                             >
                               {d.name}
@@ -300,17 +265,18 @@ export function ExplorePage() {
             </div>
           </div>
 
-          {/* Row 2: Category Chips List */}
-          <div className="border-t border-gray-200/40 dark:border-gray-800/40 pt-5">
-            <div className="flex items-center justify-between mb-3.5">
-              <span className="text-xs font-bold text-gray-450 dark:text-gray-500 uppercase tracking-wider">
-                Filter by Category
+          {/* Row 2: Scrollable Categories Chips */}
+          <div className="border-t border-emerald-950/[0.04] dark:border-white/5 pt-5">
+            <div className="flex items-center justify-between mb-4 px-1">
+              <span className="text-[10px] font-bold text-emerald-deep/40 dark:text-sand-warm/30 uppercase tracking-widest">
+                Curate by Experience Theme
               </span>
-              <span className="hidden sm:inline-flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-500">
-                <SlidersHorizontal className="w-3.5 h-3.5" /> Scroll to explore themes
+              <span className="hidden sm:inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-emerald-deep/30 dark:text-sand-warm/20">
+                <Sliders className="w-3 h-3" /> Scroll for themes
               </span>
             </div>
-            <div className="flex items-center gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-1.5 -mx-2 px-2">
+            
+            <div className="flex items-center gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-1">
               {categoriesList.map((cat) => {
                 const Icon = cat.icon;
                 const isActive = activeCategory === cat.slug;
@@ -320,56 +286,56 @@ export function ExplorePage() {
                     type="button"
                     onClick={() => handleCategoryChange(cat.slug)}
                     className={cn(
-                      "flex items-center gap-2.5 px-4.5 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap border transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md",
+                      "flex items-center gap-2.5 px-5 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest border transition-all duration-300 cursor-pointer",
                       isActive
-                        ? "bg-gradient-to-r from-emerald-600 to-teal-500 border-transparent text-white scale-[1.02] shadow-emerald-500/20 dark:shadow-emerald-900/10"
-                        : "bg-white/40 dark:bg-gray-900/40 border-gray-200/50 dark:border-gray-800/80 text-gray-600 dark:text-gray-400 hover:bg-gray-100/50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200"
+                        ? "bg-emerald-deep text-white dark:bg-emerald-400 dark:text-emerald-deep border-transparent"
+                        : "bg-sand-warm/40 dark:bg-gray-950/20 border-emerald-950/[0.04] dark:border-white/5 text-emerald-deep/75 dark:text-sand-warm/75 hover:bg-emerald-950/5 dark:hover:bg-white/5"
                     )}
                   >
-                    <Icon className={cn("w-4 h-4", isActive ? "text-white animate-pulse" : "text-emerald-500")} />
+                    <Icon className={cn("w-3.5 h-3.5", isActive ? "text-white dark:text-emerald-deep" : "text-emerald-600 dark:text-emerald-400")} />
                     <span>{cat.name}</span>
                   </button>
                 );
               })}
             </div>
           </div>
+
         </div>
 
-        {/* Dynamic Results Statement */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-8 px-1">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Showing <span className="font-bold text-emerald-600 dark:text-emerald-400">{filteredDestinations.length}</span> of{" "}
-            <span className="font-semibold text-gray-800 dark:text-gray-300">{destinations.length}</span> destinations
+        {/* Results Info Row */}
+        <div className="flex justify-between items-center mb-8 px-2">
+          <p className="text-xs font-bold uppercase tracking-wider text-emerald-deep/45 dark:text-sand-warm/40">
+            Showing <span className="text-emerald-700 dark:text-emerald-400">{filteredDestinations.length}</span> of {destinations.length} spots
           </p>
           {(searchQuery || activeCategory !== 'all' || activeDistrict !== 'all') && (
             <button
               onClick={handleReset}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 bg-red-50 dark:bg-red-950/20 px-3.5 py-1.5 rounded-full hover:underline transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-red-500 bg-red-55/10 hover:bg-red-500/10 px-4 py-2 rounded-full cursor-pointer transition-colors"
             >
-              <X className="w-3 h-3" /> Clear all filters
+              <X className="w-3 h-3" /> Clear filters
             </button>
           )}
         </div>
 
-        {/* Destination Reveal Animation / Grid Layout */}
+        {/* Grid display */}
         <AnimatePresence mode="wait">
           {filteredDestinations.length === 0 ? (
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
-              className="text-center py-20 bg-white/40 dark:bg-gray-900/10 border border-dashed border-gray-250 dark:border-gray-800 rounded-3xl backdrop-blur-sm max-w-md mx-auto"
+              className="text-center py-20 max-w-sm mx-auto"
             >
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 mb-4 animate-bounce">
+              <div className="inline-flex p-4 bg-emerald-500/5 rounded-full text-emerald-600 mb-4 animate-bounce">
                 <Compass className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">No Destinations Found</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 max-w-sm mx-auto mb-6 px-4">
-                We couldn't find any places matching your filters. Try search keywords or choosing a different district.
+              <h3 className="font-serif text-2xl font-bold text-gray-800 dark:text-white">No Sanctuaries Found</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">
+                Try alternative keywords or district filters. We curatively update the registry continuously.
               </p>
               <button
                 onClick={handleReset}
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-semibold text-sm hover:from-emerald-500 hover:to-teal-400 transition-all shadow-md shadow-emerald-500/10"
+                className="mt-6 px-6 py-2.5 rounded-full bg-gold text-emerald-deep font-bold text-xs uppercase tracking-widest hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer"
               >
                 Reset Search
               </button>
@@ -386,64 +352,65 @@ export function ExplorePage() {
                   key={destination.id}
                   variants={cardVariants}
                   layout
-                  className="group flex flex-col justify-between h-full bg-white dark:bg-gray-900/60 border border-gray-100 dark:border-gray-850 rounded-2xl overflow-hidden shadow-md shadow-black/[0.01] hover:shadow-xl dark:shadow-black/[0.12] transition-all duration-300 relative hover:-translate-y-2 hover:border-emerald-500/20 dark:hover:border-emerald-500/15"
+                  className="group flex flex-col justify-between h-full bg-white dark:bg-gray-900/40 border border-emerald-950/[0.04] dark:border-white/5 rounded-3xl overflow-hidden hover:shadow-lg dark:hover:shadow-black/20 hover:-translate-y-1.5 transition-all duration-500 relative"
                 >
-                  <Link to={`/destination/${destination.slug}`} className="block relative aspect-[4/3] overflow-hidden">
-                    {/* Destination Image */}
+                  <Link to={`/destination/${destination.slug}`} className="block relative aspect-[4/3] overflow-hidden bg-mist">
+                    {/* Cover image */}
                     <div
-                      className="w-full h-full bg-gradient-to-br from-emerald-100 to-teal-200 dark:from-emerald-950 dark:to-teal-900 transition-transform duration-700 group-hover:scale-110"
+                      className="w-full h-full transition-transform duration-700 group-hover:scale-105"
                       style={{
                         backgroundImage: `url(${destination.image})`,
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                       }}
                     />
-                    {/* Gradient Overlay for visual readibility */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                     
+                    {/* Gradients */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+
                     {/* Top badging */}
                     <div className="absolute top-4 left-4 flex flex-wrap gap-1.5 z-10">
-                      <Badge variant="emerald" size="sm" className="capitalize backdrop-blur-md bg-emerald-900/60 text-emerald-100 border-none">
+                      <Badge variant="emerald" className="bg-emerald-deep/70 dark:bg-emerald-400/90 text-white dark:text-emerald-deep border-none text-[9px] font-bold uppercase tracking-widest py-1 px-2.5 rounded-full">
                         {destination.category.replace('-', ' ')}
                       </Badge>
                       {destination.isHiddenGem && (
-                        <Badge variant="amber" size="sm" className="backdrop-blur-md bg-amber-900/60 text-amber-200 border-none">
-                          Hidden Gem
+                        <Badge className="bg-gold text-emerald-deep border-none text-[9px] font-bold uppercase tracking-widest py-1 px-2.5 rounded-full flex items-center gap-1">
+                          <Sparkles className="w-2.5 h-2.5 fill-emerald-deep" /> Hidden Gem
                         </Badge>
                       )}
                     </div>
 
-                    {/* Rating badge */}
-                    <div className="absolute top-4 right-4 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/45 backdrop-blur-md text-white text-xs font-semibold border border-white/10 z-10">
-                      <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400 flex-shrink-0" />
+                    {/* Rating */}
+                    <div className="absolute top-4 right-4 flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-md text-white text-[10px] font-bold border border-white/10 z-10">
+                      <Star className="w-3 h-3 fill-amber-400 text-amber-400 shrink-0" />
                       <span>{destination.rating}</span>
                     </div>
 
-                    {/* Image overlay details */}
+                    {/* Overlay metadata */}
                     <div className="absolute bottom-4 left-4 right-4 z-10">
-                      <div className="flex items-center gap-1 text-emerald-450 dark:text-emerald-400 text-xs font-bold mb-1 uppercase tracking-wider">
+                      <div className="flex items-center gap-1 text-gold text-[10px] font-bold uppercase tracking-widest mb-1">
                         <MapPin className="w-3.5 h-3.5" />
                         <span>{destination.district}</span>
                       </div>
-                      <h3 className="text-xl font-bold text-white tracking-wide leading-tight group-hover:text-emerald-100 transition-colors">
+                      <h3 className="font-serif text-2xl font-normal text-white tracking-wide leading-tight group-hover:text-emerald-350 transition-colors">
                         {destination.name}
                       </h3>
                     </div>
                   </Link>
 
-                  {/* Card description and metadata */}
-                  <div className="p-5 flex flex-col justify-between flex-grow">
+                  {/* Body description */}
+                  <div className="p-6 flex flex-col justify-between flex-grow">
                     <div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed mb-4">
+                      <p className="text-xs text-emerald-deep/60 dark:text-sand-warm/60 line-clamp-2 leading-relaxed mb-6 font-normal">
                         {destination.shortDescription}
                       </p>
 
-                      {/* Display hashtags */}
-                      <div className="flex flex-wrap gap-1.5 mb-4">
+                      {/* Hashtags */}
+                      <div className="flex flex-wrap gap-1.5 mb-6">
                         {destination.tags.slice(0, 3).map((tag: string) => (
                           <span
                             key={tag}
-                            className="text-[10px] font-bold text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800/40 px-2.5 py-0.5 rounded-md border border-gray-200/20 dark:border-gray-700/20 capitalize"
+                            className="text-[9px] font-bold text-slate-400 dark:text-slate-500 bg-sand-warm/50 dark:bg-gray-950/20 px-2.5 py-1 rounded-lg border border-emerald-950/[0.04] dark:border-white/5 capitalize tracking-wider"
                           >
                             #{tag}
                           </span>
@@ -451,19 +418,19 @@ export function ExplorePage() {
                       </div>
                     </div>
 
-                    {/* Bottom Metadata & CTA Action Link */}
-                    <div className="flex items-center justify-between border-t border-gray-100 dark:border-gray-800/60 pt-4 mt-auto">
+                    {/* Bottom row metadata */}
+                    <div className="flex items-center justify-between border-t border-emerald-950/5 dark:border-white/5 pt-4 mt-auto">
                       <div className="flex flex-col">
-                        <span className="text-[10px] uppercase font-bold tracking-wider text-gray-400 dark:text-gray-500">Best Season</span>
-                        <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
-                          {destination.bestTimeToVisit.split(' (')[0] || destination.bestTimeToVisit}
+                        <span className="text-[9px] uppercase font-bold tracking-widest text-slate-400 dark:text-slate-500">Best Season</span>
+                        <span className="text-xs font-semibold text-emerald-deep/80 dark:text-sand-warm/95">
+                          {destination.bestTimeToVisit.split(' (')[0]}
                         </span>
                       </div>
                       <Link
                         to={`/destination/${destination.slug}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 dark:hover:text-emerald-350 transition-colors group/btn cursor-pointer"
+                        className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-emerald-deep dark:text-emerald-450 hover:text-emerald-600 group/btn cursor-pointer"
                       >
-                        Explore Spot
+                        <span>Explore</span>
                         <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover/btn:translate-x-1" />
                       </Link>
                     </div>
