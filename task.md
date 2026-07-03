@@ -22,6 +22,12 @@
 - `[x]` Backend: SQLAlchemy models + database schema
 - `[x]` Backend: Kerala seed data
 - `[x]` Backend: Basic API endpoints
+- `[x]` Polish alignments, spacing, and micro-interactions across the entire page layout.
+- `[x]` Compile frontend production build to verify zero compile or import errors.
+- `[x]` Program robust offline API fetch catch handlers across Explore, Details, and Planner screens.
+- `[x]` Configure production assets caching and client SPA rewrites inside `vercel.json`.
+- `[x]` Link and deploy the project to Vercel via CLI.
+- `[x]` Verify live deployment title updates and public accessibility.
 - `[x]` Git init + .gitignore + first commit
 - `[x]` Verify frontend builds and renders
 
