@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Sparkles, Compass, MapPin, Calendar, Users, DollarSign,
@@ -12,7 +13,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 
 // Step definition
-type Step = 'details' | 'preferences' | 'interests' | 'generating' | 'itinerary';
+type Step = 'details' | 'preferences' | 'interests' | 'generating' | 'itinerary' | 'coming-soon';
 
 export function TripPlannerPage() {
   const [currentStep, setCurrentStep] = useState<Step>('details');
@@ -88,7 +89,7 @@ export function TripPlannerPage() {
       });
 
       if (!response.ok) {
-        throw new Error("Could not contact the AI planning server.");
+        throw new Error("AI Planner coming soon");
       }
 
       const data = await response.json();
@@ -96,8 +97,9 @@ export function TripPlannerPage() {
       setCurrentStep('itinerary');
       setIsSaved(false);
     } catch (err: any) {
-      setError(err.message || "Failed to generate travel plan. Please try again.");
-      setCurrentStep('interests');
+      console.log('AI Planner server offline. Using coming-soon placeholder:', err);
+      setError(null);
+      setCurrentStep('coming-soon');
     } finally {
       setLoading(false);
     }
@@ -707,6 +709,38 @@ export function TripPlannerPage() {
                 <Button onClick={() => setCurrentStep('details')}>
                   Start Over / Plan Another Trip
                 </Button>
+              </div>
+            </motion.div>
+          )}
+
+          {currentStep === 'coming-soon' && (
+            <motion.div
+              key="step-coming-soon"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="text-center py-16 px-6 max-w-md mx-auto"
+            >
+              <div className="inline-flex p-4 bg-emerald-50 dark:bg-emerald-950/50 rounded-full text-emerald-600 dark:text-emerald-400 mb-6">
+                <Sparkles className="w-12 h-12 animate-pulse" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">AI Planner coming soon</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-8 leading-relaxed">
+                Our custom AI Planner is currently under development. We are fine-tuning the recommendations to curate the most premium travel plans for you.
+              </p>
+              <div className="flex flex-col gap-3">
+                <Link to="/explore" className="w-full btn btn-primary flex justify-center items-center gap-2 cursor-pointer text-white">
+                  <Compass className="w-4 h-4" /> Explore Destinations
+                </Link>
+                <button
+                  onClick={() => {
+                    setError(null);
+                    setCurrentStep('details');
+                  }}
+                  className="w-full py-3 border border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900 rounded-xl text-sm font-semibold transition-colors cursor-pointer"
+                >
+                  Edit Trip Details
+                </button>
               </div>
             </motion.div>
           )}
