@@ -34,7 +34,7 @@ const steps = [
 
 export function BookingStepsSection() {
   return (
-    <section className="py-24 bg-white dark:bg-gray-950 overflow-hidden">
+    <section className="py-24 bg-transparent dark:bg-gray-950 overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 space-y-24 md:space-y-36">
         {/* Title */}
         <div className="text-center max-w-xl mx-auto mb-16 space-y-3">

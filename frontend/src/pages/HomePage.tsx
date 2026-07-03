@@ -15,7 +15,7 @@ import { blogPosts } from '@/data/kerala';
  */
 export function HomePage() {
   return (
-    <main className="bg-white dark:bg-slate-950 transition-colors duration-300">
+    <main className="bg-sand-warm dark:bg-gray-950 transition-colors duration-500">
       {/* 1. Full-viewport Hero */}
       <HeroSection />
 

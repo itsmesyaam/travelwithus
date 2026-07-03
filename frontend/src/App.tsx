@@ -39,7 +39,7 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="flex flex-col min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+      <div className="flex flex-col min-h-screen bg-sand-warm dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
         <Navbar />
         {/* Main Content Area */}
         <div className="flex-grow pt-16">
