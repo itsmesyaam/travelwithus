@@ -5,4 +5,4 @@
 - `[x]` Overhaul travel article content in [BlogPage.tsx](file:///c:/Users/syam1/OneDrive/Desktop/travelwithme/frontend/src/pages/BlogPage.tsx)
 - `[x]` Expand fallback tourism metadata in [kerala.ts](file:///c:/Users/syam1/OneDrive/Desktop/travelwithme/frontend/src/data/kerala.ts)
 - `[x]` Verify production compilation using local build commands
-- `[ ]` Deploy updates to Vercel and commit all changes to Git
+- `[x]` Deploy updates to Vercel and commit all changes to Git
