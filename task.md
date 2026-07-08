@@ -1,10 +1,8 @@
-# Redesign Tasks — TravelWithUs Award Overhaul
+# Tasks — Content Overhaul & Backend Integration
 
-- `[x]` Rebuild design tokens and Google Serif fonts in [index.css](file:///c:/Users/syam1/OneDrive/Desktop/travelwithme/frontend/src/index.css)
-- `[x]` Redesign navigation structure in [Navbar.tsx](file:///c:/Users/syam1/OneDrive/Desktop/travelwithme/frontend/src/components/layout/Navbar.tsx)
-- `[x]` Redesign cinematic [HeroSection.tsx](file:///c:/Users/syam1/OneDrive/Desktop/travelwithme/frontend/src/components/landing/HeroSection.tsx)
-- `[x]` Redesign interactive organic SVG [KeralaMap.tsx](file:///c:/Users/syam1/OneDrive/Desktop/travelwithme/frontend/src/components/landing/KeralaMap.tsx)
-- `[x]` Redesign conversational planner [TripPlannerPage.tsx](file:///c:/Users/syam1/OneDrive/Desktop/travelwithme/frontend/src/pages/TripPlannerPage.tsx)
-- `[x]` Redesign search dashboard [ExplorePage.tsx](file:///c:/Users/syam1/OneDrive/Desktop/travelwithme/frontend/src/pages/ExplorePage.tsx)
-- `[x]` Redesign editorial spread [DestinationDetailsPage.tsx](file:///c:/Users/syam1/OneDrive/Desktop/travelwithme/frontend/src/pages/DestinationDetailsPage.tsx)
-- `[x]` Validate production compilation using local build commands
+- `[x]` Connect frontend to live backend rewrites in [vercel.json](file:///c:/Users/syam1/OneDrive/Desktop/travelwithme/frontend/vercel.json)
+- `[x]` Overhaul static page details (About, Contact, Privacy, Terms) in [StaticPages.tsx](file:///c:/Users/syam1/OneDrive/Desktop/travelwithme/frontend/src/pages/StaticPages.tsx)
+- `[x]` Overhaul travel article content in [BlogPage.tsx](file:///c:/Users/syam1/OneDrive/Desktop/travelwithme/frontend/src/pages/BlogPage.tsx)
+- `[x]` Expand fallback tourism metadata in [kerala.ts](file:///c:/Users/syam1/OneDrive/Desktop/travelwithme/frontend/src/data/kerala.ts)
+- `[x]` Verify production compilation using local build commands
+- `[ ]` Deploy updates to Vercel and commit all changes to Git

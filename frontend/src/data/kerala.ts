@@ -32,10 +32,16 @@ export interface Destination {
   nearestAirport: string;
   activities: string[];
   highlights: string[];
-  coordinates: { lat: number; lng: number };
+  coordinates: { lat: number; lng: number; details?: string };
   isHiddenGem: boolean;
   isTrending: boolean;
   priceRange: 'budget' | 'mid-range' | 'luxury';
+  
+  // Expanded Travel Consultant Parameters
+  historicalSummary?: string;
+  seasonalGuidelines?: string;
+  packingSuggestions?: string[];
+  transitDetails?: string;
 }
 
 export interface District {
@@ -45,6 +51,16 @@ export interface District {
   description: string;
   destinationCount: number;
   image: string;
+
+  // Expanded District Facts
+  hq?: string;
+  established?: string;
+  area?: string;
+  population?: string;
+  historicalSummary?: string;
+  keyFacts?: string[];
+  nearestAirport?: string;
+  coordinates?: { lat: number; lng: number };
 }
 
 export interface Season {
@@ -57,6 +73,10 @@ export interface Season {
   temperature: string;
   activities: string[];
   destinations: string[];
+
+  // Expanded Seasonal Guidelines
+  packingSuggestions?: string[];
+  travelGuidelines?: string[];
 }
 
 export interface Experience {
@@ -92,6 +112,20 @@ export interface BlogPost {
   category: string;
 }
 
+export interface PackingItem {
+  item: string;
+  category: 'Clothing' | 'Footwear' | 'Gear' | 'Personal Care' | 'Documents' | 'Medical';
+  necessity: 'Essential' | 'Recommended' | 'Optional';
+  notes: string;
+}
+
+export interface PackingRecommendation {
+  region: 'North Kerala' | 'Central Kerala' | 'South Kerala' | 'All Kerala' | 'Highlands' | 'Coastline & Backwaters' | 'Wildlife & Forest';
+  season: 'Monsoon' | 'Winter' | 'Summer' | 'All Seasons';
+  items: PackingItem[];
+  generalGuidelines: string[];
+}
+
 // ── Destinations (20) ───────────────────────────────────────
 
 export const destinations: Destination[] = [
@@ -114,7 +148,7 @@ export const destinations: Destination[] = [
     bestTimeToVisit: 'September to May',
     temperature: { min: 10, max: 25 },
     elevation: '1,600 m',
-    nearestAirport: 'Cochin International Airport (110 km)',
+    nearestAirport: 'Cochin International Airport (COK) - 110 km (approx. 3.5 to 4 hours drive via NH85. Roads are winding with beautiful valley views; hiring an experienced hill driver or pre-paid taxi from Ernakulam/COK is highly recommended).',
     activities: [
       'Tea plantation walks',
       'Trekking to Anamudi Peak',
@@ -129,10 +163,24 @@ export const destinations: Destination[] = [
       'Lakkam Waterfalls',
       'Tea Museum',
     ],
-    coordinates: { lat: 10.0889, lng: 77.0595 },
+    coordinates: { 
+      lat: 10.0889, 
+      lng: 77.0595,
+      details: 'Confluence of Mudrapuzha, Nallathanni, and Kundala mountain streams, Devikulam Taluk, Idukki District.'
+    },
     isHiddenGem: false,
     isTrending: true,
     priceRange: 'mid-range',
+    historicalSummary: 'Historically a summer resort for the British Government in South India, Munnar\'s development began in the late 19th century with the arrival of European planters like John Daniel Munro. The territory was originally held by the Poonjar Royal Family and was leased to the Kannan Devan Hills Produce Company. Tea cultivation was introduced extensively, transforming the rugged forest landscape into the sprawling, well-manicured plantation hills visible today.',
+    seasonalGuidelines: 'Monsoon (June-September) brings heavy rainfall, misty landscapes, and lower hotel rates, but outdoor trekking might be restricted due to slippery trails and landslides. Winter (October-February) is the peak season, offering clear skies, pleasant daytime weather (15°C to 22°C), and chilly nights (down to 10°C or lower), perfect for plantation walks and sightseeing. Summer (March-May) is mild and pleasant, ideal for escaping the plains\' heat.',
+    packingSuggestions: [
+      'Light woolens, cardigans, or fleece jackets for cool evenings (temperatures can drop to 10°C).',
+      'Sturdy walking shoes or hiking boots with good grip for plantation trails.',
+      'Umbrella or light raincoat (sudden mountain showers are common).',
+      'Insect repellent and skin moisturizers.',
+      'Motion sickness medication for navigating the winding hairpin turns.'
+    ],
+    transitDetails: 'Well-connected by KSRTC buses from Cochin, Madurai, and Kottayam. Driving requires caution during early morning mist and monsoon rains.'
   },
   {
     id: 'dest-002',
@@ -152,7 +200,7 @@ export const destinations: Destination[] = [
     reviews: 15320,
     bestTimeToVisit: 'October to March',
     temperature: { min: 22, max: 33 },
-    nearestAirport: 'Cochin International Airport (75 km)',
+    nearestAirport: 'Cochin International Airport (COK) - 75 km (approx. 2 hours drive via NH66. Easily accessible by pre-paid taxi, direct passenger train from Ernakulam, or KSRTC highway buses).',
     activities: [
       'Houseboat cruise',
       'Canoeing through narrow canals',
@@ -167,10 +215,24 @@ export const destinations: Destination[] = [
       'Alleppey Beach',
       'Krishnapuram Palace',
     ],
-    coordinates: { lat: 9.4981, lng: 76.3388 },
+    coordinates: { 
+      lat: 9.4981, 
+      lng: 76.3388,
+      details: 'Punnamada Lake and canal terminals area, Alappuzha Municipality.'
+    },
     isHiddenGem: false,
     isTrending: true,
     priceRange: 'luxury',
+    historicalSummary: 'Founded in the late 18th century by Raja Kesavadas, the visionary Prime Minister of the Kingdom of Travancore, Alappuzha was strategically developed as a port town to challenge Cochin\'s commercial dominance. It quickly became a bustling center of the coir industry and spice trade, earning the moniker \'Venice of the East\' from Lord Curzon due to its extensive system of canals built to transport goods.',
+    seasonalGuidelines: 'October to March (Winter) is the best time for houseboats as the weather is pleasant and less humid. March to May (Summer) is hot and humid, but offers good off-season deals. June to September (Monsoon) brings heavy rains; while cruising is incredibly scenic with lush vegetation, heavy downpours can occasionally halt operations for safety.',
+    packingSuggestions: [
+      'Light, breathable cotton clothing to stay comfortable in the tropical humidity.',
+      'Strong mosquito/insect repellent (essential for evening canal cruises).',
+      'Sunglasses, sun block, and a wide-brimmed sun hat.',
+      'Slippers or sandals that are easy to slip off when boarding houseboats.',
+      'Personal power bank, as power fluctuations can happen on older houseboats.'
+    ],
+    transitDetails: 'Alleppey Railway Station is well connected to major cities in India. Water transport department operates cheap public ferry services to Kottayam and surrounding islands.'
   },
   {
     id: 'dest-003',
@@ -191,7 +253,7 @@ export const destinations: Destination[] = [
     bestTimeToVisit: 'October to May',
     temperature: { min: 15, max: 29 },
     elevation: '700–2,100 m',
-    nearestAirport: 'Calicut International Airport (100 km)',
+    nearestAirport: 'Calicut International Airport (CCJ) - 100 km (approx. 3 hours drive via the scenic Thamarassery Churam mountain pass with 9 hairpin bends; drivers should be experienced with ghat driving).',
     activities: [
       'Edakkal Caves exploration',
       'Chembra Peak trek',
@@ -206,10 +268,24 @@ export const destinations: Destination[] = [
       'Pookode Lake',
       'Wayanad Wildlife Sanctuary',
     ],
-    coordinates: { lat: 11.6854, lng: 76.132 },
+    coordinates: { 
+      lat: 11.6854, 
+      lng: 76.1320,
+      details: 'High ranges of Western Ghats, northern region of Kerala bordering Karnataka.'
+    },
     isHiddenGem: false,
     isTrending: true,
     priceRange: 'mid-range',
+    historicalSummary: 'Wayanad\'s history is ancient, evidenced by the Neolithic carvings in Edakkal Caves. In medieval times, it was ruled by the Kutumbiyas and later the Western Ganga Dynasty, Hoysalas, and the Vijayanagara Empire. In the late 18th century, it was the site of the fierce guerrilla warfare led by Pazhassi Raja (the Lion of Kerala) against the British East India Company.',
+    seasonalGuidelines: 'October to May is ideal for trekking, sightseeing, and exploring caves under pleasant weather. Monsoon (June-September) experiences heavy downpours, making the ghat roads challenging but turning the waterfalls and forests into lush, dramatic spectacles.',
+    packingSuggestions: [
+      'Sturdy trekking boots or trail shoes with good grip for cave climbs and peak treks.',
+      'Moisture-wicking athletic wear and long pants to protect against leeches and brush.',
+      'A light pullover or jacket for cool evening temperatures at higher altitudes.',
+      'Leech socks and salt/antiseptic spray if trekking during or after rainy periods.',
+      'Rain jacket or waterproof poncho.'
+    ],
+    transitDetails: 'Direct road access from Kozhikode, Mysore, and Ooty. KSRTC and Karnataka Sarige buses run frequently.'
   },
   {
     id: 'dest-004',
@@ -229,7 +305,7 @@ export const destinations: Destination[] = [
     reviews: 11200,
     bestTimeToVisit: 'September to March',
     temperature: { min: 24, max: 33 },
-    nearestAirport: 'Trivandrum International Airport (15 km)',
+    nearestAirport: 'Trivandrum International Airport (TRV) - 15 km (approx. 20-30 minutes drive. Very convenient with direct flight connectivity across India and international gateways in the Middle East).',
     activities: [
       'Swimming & surfing',
       'Ayurvedic spa treatments',
@@ -244,10 +320,24 @@ export const destinations: Destination[] = [
       'Hawa Beach',
       'Kovalam Art Gallery',
     ],
-    coordinates: { lat: 8.3988, lng: 76.9782 },
+    coordinates: { 
+      lat: 8.3988, 
+      lng: 76.9782,
+      details: 'Southern coast of Kerala, 13 km south of Thiruvananthapuram city center.'
+    },
     isHiddenGem: false,
     isTrending: false,
     priceRange: 'mid-range',
+    historicalSummary: 'Kovalam was a quiet fishing village until the Maharaja of Travancore, Sri Chithira Thirunal Balarama Varma, promoted it as a private beach resort in the 1930s. In the 1970s, it became a major node on the Hippie Trail, transforming it into a world-famous coastal destination with hotels, wellness clinics, and restaurants.',
+    seasonalGuidelines: 'September to March offers excellent beach weather with calm seas and gentle breezes. Summer (March-May) is hot and humid with strong sun. Monsoon (June-August) sees rough seas, and swimming is strictly prohibited due to dangerous undercurrents.',
+    packingSuggestions: [
+      'Light linens and loose cotton garments suitable for warm coastal weather.',
+      'Swimwear, rash guards, and flip-flops.',
+      'High-SPF sunscreen (biodegradable preferred), sunglasses, and sun protective hats.',
+      'Beach towels and dry bags to protect phones and electronics from sand and spray.',
+      'Modest cover-ups for walking in the town off the beach.'
+    ],
+    transitDetails: 'Easily accessible via local taxis, auto-rickshaws, and city buses from Thiruvananthapuram Central Railway Station and city bus terminals.'
   },
   {
     id: 'dest-005',
@@ -267,7 +357,7 @@ export const destinations: Destination[] = [
     reviews: 8950,
     bestTimeToVisit: 'October to March',
     temperature: { min: 23, max: 33 },
-    nearestAirport: 'Trivandrum International Airport (42 km)',
+    nearestAirport: 'Trivandrum International Airport (TRV) - 42 km (approx. 1 hour and 15 minutes drive via the coastal road or NH66. Varkala is also well connected by direct trains from Trivandrum and Kochi).',
     activities: [
       'Cliff-top walks',
       'Yoga and meditation retreats',
@@ -282,10 +372,24 @@ export const destinations: Destination[] = [
       'Janardhana Swamy Temple',
       'Mineral water springs',
     ],
-    coordinates: { lat: 8.7333, lng: 76.7167 },
+    coordinates: { 
+      lat: 8.7333, 
+      lng: 76.7167,
+      details: 'North Cliff and Papanasam Beach sector, Varkala Municipality.'
+    },
     isHiddenGem: false,
     isTrending: true,
     priceRange: 'budget',
+    historicalSummary: 'Varkala has ancient spiritual roots. The Janardhana Swamy Temple is believed to be over 2,000 years old, serving as a prominent Vaishnavite shrine. Historically known as Balathirtham, it was a major pilgrimage site where rites for ancestors were performed on Papanasam Beach, which has always been famous for its mineral springs.',
+    seasonalGuidelines: 'October to March is the peak season with pleasant breezes and active cliff-top cafes. April to May is very hot and humid. Monsoon (June-September) brings dramatic cliffside views and rough waves, transforming it into a quiet, meditative retreat.',
+    packingSuggestions: [
+      'Bohemian-style loose cotton garments, shorts, and light t-shirts.',
+      'Slip-on shoes or sandals with good grip for walking down rocky cliff stairs.',
+      'Yoga wear and a reusable water bottle.',
+      'Sunscreen, swimsuit, and cash (as cliff ATMs can occasionally run out).',
+      'Modest clothing (covering shoulders and knees) for entering the historical temple.'
+    ],
+    transitDetails: 'Varkala Sivagiri Railway Station is connected to major cities in Kerala and neighboring states. Auto-rickshaws are readily available for transport between the station and the cliff.'
   },
   {
     id: 'dest-006',
@@ -305,7 +409,7 @@ export const destinations: Destination[] = [
     reviews: 14500,
     bestTimeToVisit: 'October to March',
     temperature: { min: 24, max: 34 },
-    nearestAirport: 'Cochin International Airport (30 km)',
+    nearestAirport: 'Cochin International Airport (COK) - 30 km (approx. 1 hour drive to Fort Kochi. The airport is the world\'s first fully solar-powered airport, offering excellent global connectivity).',
     activities: [
       'Fort Kochi heritage walk',
       'Chinese fishing nets viewing',
@@ -320,10 +424,24 @@ export const destinations: Destination[] = [
       'Santa Cruz Cathedral Basilica',
       'Kochi-Muziris Biennale',
     ],
-    coordinates: { lat: 9.9312, lng: 76.2673 },
+    coordinates: { 
+      lat: 9.9312, 
+      lng: 76.2673,
+      details: 'Fort Kochi and Mattancherry historic sectors, Ernakulam District.'
+    },
     isHiddenGem: false,
     isTrending: false,
     priceRange: 'mid-range',
+    historicalSummary: 'An ancient spice trading port, Kochi rose to prominence after a massive flood in 1341 opened its harbor, replacing Cranganore (Muziris) as the region\'s main port. It became the first European colonial settlement in India when Portuguese explorer Pedro Álvares Cabral arrived in 1500, followed by Vasco da Gama. It was subsequently occupied by the Dutch and British, leaving a unique, layered architectural legacy.',
+    seasonalGuidelines: 'October to March is highly pleasant, featuring cultural events like the Kochi-Muziris Biennale (biennial) and Cochin Carnival. Summer (March-May) is humid. Monsoon (June-September) is wet but showcases a fresh, clean side of the historic town.',
+    packingSuggestions: [
+      'Smart casual cotton wear, comfortable for walking and dining.',
+      'Comfortable walking shoes or sneakers for heritage walking tours.',
+      'Umbrella or light poncho for unexpected coastal showers.',
+      'Sunglasses, sun block, and a small backpack.',
+      'Modest clothing (shoulders and knees covered) for synagogues, churches, and temples.'
+    ],
+    transitDetails: 'Served by Ernakulam Junction (ERS) and Ernakulam Town (ERN) railway stations. Water Metro operates modern, air-conditioned catamarans between Vyttila, Kakkanad, Fort Kochi, and Bolgatty.'
   },
   {
     id: 'dest-007',
@@ -344,7 +462,7 @@ export const destinations: Destination[] = [
     bestTimeToVisit: 'September to May',
     temperature: { min: 15, max: 30 },
     elevation: '900–1,800 m',
-    nearestAirport: 'Madurai Airport (136 km)',
+    nearestAirport: 'Madurai Airport (IXM) - 136 km (approx. 3.5 hours drive across state lines). Alternatively, Cochin International Airport (COK) is 145 km away (approx. 4 hours drive).',
     activities: [
       'Periyar Lake boat cruise',
       'Bamboo rafting',
@@ -359,10 +477,24 @@ export const destinations: Destination[] = [
       'Mangala Devi Temple',
       'Chellarkovil viewpoint',
     ],
-    coordinates: { lat: 9.6003, lng: 77.1747 },
+    coordinates: { 
+      lat: 9.6003, 
+      lng: 77.1747,
+      details: 'Periyar Lake and Kumily area, Western Ghats border, Idukki District.'
+    },
     isHiddenGem: false,
     isTrending: false,
     priceRange: 'mid-range',
+    historicalSummary: 'Thekkady and the Periyar region were historically dense, uninhabited forests ruled by local chieftains. In 1895, the construction of the Mullaperiyar Dam submerged low-lying forests, creating the Periyar Lake. The surrounding area was declared a sanctuary in 1934 by the Maharaja of Travancore to protect the fauna, eventually becoming a Tiger Reserve in 1978.',
+    seasonalGuidelines: 'September to May is excellent for forest walks and boat cruises. Wildlife spotting peaks in dry summer months (March-May) as animals gather near the lake, though the weather is warm. Monsoon is beautiful for lush greenery but restricts jungle treks.',
+    packingSuggestions: [
+      'Earthy or neutral-colored clothing (khaki, green, brown) to blend in during safaris.',
+      'Comfortable walking boots or sturdy shoes for forest hikes.',
+      'Binoculars and a zoom camera lens for wildlife viewing.',
+      'Insect repellent and lightweight long-sleeve shirts.',
+      'Warm layers (light jacket or fleece) for chilly night safaris and early morning cruises.'
+    ],
+    transitDetails: 'Direct bus services from Kottayam, Cochin, and Madurai. The main hub is Kumily, 4 km from Thekkady lake entrance.'
   },
   {
     id: 'dest-008',
@@ -382,7 +514,7 @@ export const destinations: Destination[] = [
     reviews: 8640,
     bestTimeToVisit: 'November to February',
     temperature: { min: 22, max: 33 },
-    nearestAirport: 'Cochin International Airport (85 km)',
+    nearestAirport: 'Cochin International Airport (COK) - 85 km (approx. 2 hours drive via the Ernakulam-Vaikom road. Safe and well-maintained asphalt highways).',
     activities: [
       'Houseboat stay',
       'Kumarakom Bird Sanctuary visit',
@@ -397,10 +529,24 @@ export const destinations: Destination[] = [
       'Pathiramanal Island',
       'Bay Island Driftwood Museum',
     ],
-    coordinates: { lat: 9.5921, lng: 76.4307 },
+    coordinates: { 
+      lat: 9.5921, 
+      lng: 76.4307,
+      details: 'Eastern shore of Vembanad Lake, Kottayam District.'
+    },
     isHiddenGem: false,
     isTrending: false,
     priceRange: 'luxury',
+    historicalSummary: 'Kumarakom was originally a swampy wetland reclaimed for agriculture in the mid-19th century by Alfred George Baker, an English planner. He planted rubber and coconut trees and built the Baker Bungalow, which paved the way for the region\'s transformation into a world-renowned resort destination.',
+    seasonalGuidelines: 'November to February is the peak birdwatching season, coinciding with the arrival of migratory birds. Summer (March-May) is warm. Monsoon (June-September) offers quiet lake views and is the best time to experience traditional Ayurvedic rejuvenation.',
+    packingSuggestions: [
+      'Lightweight cottons and linens in light colors.',
+      'Strong mosquito/insect repellent, particularly for sunset and evening hours.',
+      'Sun block, sunglasses, and hat.',
+      'Camera with a good zoom lens (minimum 300mm for bird photography) and binoculars.',
+      'Slip-on sandals or canvas shoes for resort walks and boating.'
+    ],
+    transitDetails: 'Kottayam is the nearest railway station (15 km). Taxis and auto-rickshaws are easily available at the station. Local ferry services connect to Alleppey.'
   },
   {
     id: 'dest-009',
@@ -420,7 +566,7 @@ export const destinations: Destination[] = [
     reviews: 7820,
     bestTimeToVisit: 'June to October (monsoon flow) / September to January (safe access)',
     temperature: { min: 22, max: 32 },
-    nearestAirport: 'Cochin International Airport (55 km)',
+    nearestAirport: 'Cochin International Airport (COK) - 55 km (approx. 1 hour and 15 minutes drive. A very smooth ride through rubber plantations and rural roads).',
     activities: [
       'Waterfall viewing',
       'Jungle trekking',
@@ -435,10 +581,24 @@ export const destinations: Destination[] = [
       'Great Hornbill sightings',
       'Sholayar Dam',
     ],
-    coordinates: { lat: 10.2855, lng: 76.57 },
+    coordinates: { 
+      lat: 10.2855, 
+      lng: 76.5700,
+      details: 'Chalakudy River basin, Sholayar Forest Range, Thrissur District.'
+    },
     isHiddenGem: false,
     isTrending: true,
     priceRange: 'budget',
+    historicalSummary: 'Historically a wild, remote forest corridor of the Sholayar range, the area around Athirappilly was occupied by indigenous tribal communities (Kadar). In modern times, it became a focal point of conservation debates in the late 20th century, where local activists successfully blocked a proposed hydroelectric project that would have destroyed the ecosystem.',
+    seasonalGuidelines: 'June to October (Monsoon) is the most dramatic time when the waterfall is at its thunderous best, though paths near the base may be closed. September to January is the safest window for exploring the base and swimming in designated zones.',
+    packingSuggestions: [
+      'Waterproof jacket, poncho, or umbrella to protect against heavy spray.',
+      'Non-slip footwear, water shoes, or trekking sandals with excellent grip.',
+      'A change of dry clothes and towel (stored in a waterproof bag).',
+      'Waterproof cover or dry bag for cameras, phones, and electronics.',
+      'Insect repellent for the forest trails.'
+    ],
+    transitDetails: 'Well-connected by road from Chalakudy (30 km), which is the nearest railway station. Local buses and taxis run frequently.'
   },
   {
     id: 'dest-010',
@@ -458,7 +618,7 @@ export const destinations: Destination[] = [
     reviews: 5430,
     bestTimeToVisit: 'October to March',
     temperature: { min: 23, max: 34 },
-    nearestAirport: 'Mangalore International Airport (50 km)',
+    nearestAirport: 'Mangalore International Airport (IXE) - 50 km (approx. 1.5 hours drive via NH66. Alternatively, Kannur International Airport is 110 km south).',
     activities: [
       'Bekal Fort exploration',
       'Beach walks',
@@ -473,10 +633,24 @@ export const destinations: Destination[] = [
       'Valiyaparamba Backwaters',
       'Chandragiri Fort',
     ],
-    coordinates: { lat: 12.3928, lng: 75.0337 },
+    coordinates: { 
+      lat: 12.3928, 
+      lng: 75.0337,
+      details: 'Arabian Sea headland, Kasaragod District, North Malabar.'
+    },
     isHiddenGem: true,
     isTrending: false,
     priceRange: 'luxury',
+    historicalSummary: 'Bekal Fort was constructed in 1650 CE by Shivappa Nayaka of the Keladi Nayaka dynasty. Strategically built on a sea-facing promontory to defend against maritime attacks, it later passed to Hyder Ali, Tipu Sultan, and eventually the British East India Company after Tipu\'s fall in 1799.',
+    seasonalGuidelines: 'October to March is ideal for exploring the fort and walking along the beach. Summer is hot but offers breezy evenings. Monsoon (June-September) is extremely dramatic, with giant waves crashing against the fort\'s stone bastions.',
+    packingSuggestions: [
+      'Breathable linen or cotton clothing to handle the coastal humidity.',
+      'Comfortable walking shoes or sneakers for traversing the vast, rocky fort complex.',
+      'Sunglasses, sun block, and a wide-brimmed sun hat.',
+      'Camera gear with protective filters to shield against sea-salt spray.',
+      'Umbrella for shade during hot days or cover during rains.'
+    ],
+    transitDetails: 'Kasaragod (16 km) and Kanhangad (12 km) are the nearest railway stations. Pre-paid taxis and auto-rickshaws are readily available.'
   },
   {
     id: 'dest-011',
@@ -496,7 +670,7 @@ export const destinations: Destination[] = [
     reviews: 4200,
     bestTimeToVisit: 'October to March',
     temperature: { min: 23, max: 33 },
-    nearestAirport: 'Cochin International Airport (80 km)',
+    nearestAirport: 'Cochin International Airport (COK) - 80 km (approx. 2 hours drive via NH66. Well-connected by rail via the nearby Alappuzha or Cherthala stations).',
     activities: [
       'Beach walks',
       'Village cycling tours',
@@ -511,10 +685,24 @@ export const destinations: Destination[] = [
       'Butterfly Garden',
       'St. Andrew\'s Church',
     ],
-    coordinates: { lat: 9.5942, lng: 76.2889 },
+    coordinates: { 
+      lat: 9.5942, 
+      lng: 76.2889,
+      details: 'Mararikulam coastal village, Alappuzha District.'
+    },
     isHiddenGem: true,
     isTrending: false,
     priceRange: 'luxury',
+    historicalSummary: 'Marari derives its name from Mararikulam, a quiet fishing village. Historically, the local economy depended entirely on traditional coir making and sea fishing. In recent decades, it was developed as a model for sustainable, low-impact eco-tourism, preserving its traditional village layout.',
+    seasonalGuidelines: 'October to March is perfect for beach activities, sunbathing, and outdoor dining. Summer is hot. Monsoon is quiet, wet, and perfect for resort-based wellness retreats.',
+    packingSuggestions: [
+      'Light beachwear, linens, and light cotton clothes.',
+      'Swimwear, rash guard, and flip-flops.',
+      'High-SPF sunscreen, sunglasses, and sun protective hat.',
+      'Insect repellent for the evenings.',
+      'A light book or e-reader for peaceful beachside relaxation.'
+    ],
+    transitDetails: 'Local trains stop at Mararikulam railway station. Taxis can easily be arranged from Cochin or Alleppey.'
   },
   {
     id: 'dest-012',
@@ -535,7 +723,7 @@ export const destinations: Destination[] = [
     bestTimeToVisit: 'September to May',
     temperature: { min: 12, max: 25 },
     elevation: '1,100 m',
-    nearestAirport: 'Cochin International Airport (100 km)',
+    nearestAirport: 'Cochin International Airport (COK) - 100 km (approx. 3 hours drive. Winding mountain roads via Pala offer spectacular views of deep ravines).',
     activities: [
       'Paragliding',
       'Pine forest trekking',
@@ -550,10 +738,24 @@ export const destinations: Destination[] = [
       'Kurisumala Ashram',
       'Vagamon Paragliding Festival',
     ],
-    coordinates: { lat: 9.6862, lng: 76.9064 },
+    coordinates: { 
+      lat: 9.6862, 
+      lng: 76.9064,
+      details: 'Highland border of Idukki and Kottayam districts.'
+    },
     isHiddenGem: true,
     isTrending: true,
     priceRange: 'budget',
+    historicalSummary: 'Initially a remote forest, Vagamon\'s plantation history began when the British discovered its moderate climate and fertile soil. They established tea and coffee estates. In the mid-20th century, Cistercian monks founded the Kurisumala Ashram, introducing dairy farming and sustainable agriculture to the hills.',
+    seasonalGuidelines: 'September to May is excellent for paragliding and trekking. Winters (December-February) are cool and misty. Monsoons bring heavy fog and rainfall, making it green but limiting visibility.',
+    packingSuggestions: [
+      'Windbreaker or light sweater (evenings can be breezy and cool).',
+      'Trekking shoes or sneakers with good traction.',
+      'Umbrella or light rain jacket.',
+      'Mosquito repellent.',
+      'Sufficient cash (limited ATM availability in the local town).'
+    ],
+    transitDetails: 'Direct road access from Kottayam (60 km) and Ernakulam. KSRTC buses operate to Vagamon from Pala and Ernakulam.'
   },
   {
     id: 'dest-013',
@@ -574,7 +776,7 @@ export const destinations: Destination[] = [
     bestTimeToVisit: 'September to May',
     temperature: { min: 14, max: 24 },
     elevation: '1,100 m',
-    nearestAirport: 'Trivandrum International Airport (61 km)',
+    nearestAirport: 'Trivandrum International Airport (TRV) - 61 km (approx. 1.5 to 2 hours drive. Winding forest road with 22 hairpin bends; caution is required during rains).',
     activities: [
       'Glass Bridge walkway',
       'Trekking to Golden Valley',
@@ -589,10 +791,24 @@ export const destinations: Destination[] = [
       'Golden Valley',
       'Deer Park',
     ],
-    coordinates: { lat: 8.7576, lng: 77.1154 },
+    coordinates: { 
+      lat: 8.7576, 
+      lng: 77.1154,
+      details: 'Nedumangad Taluk, Agasthyamala Biosphere Reserve, southern Western Ghats.'
+    },
     isHiddenGem: true,
     isTrending: false,
     priceRange: 'budget',
+    historicalSummary: 'Ponmudi was originally inhabited by the Kani hill tribe. It was developed as a small hill station by the Travancore Royal Family and later by the state forest department. It serves as a vital eco-tourism corridor in the Agasthyamala Biosphere Reserve.',
+    seasonalGuidelines: 'September to May is the best time to visit. Winter mornings feature dense fog that clears by noon. Monsoon visits offer lush green views but driving up the 22 hairpins requires caution due to mist and wet roads.',
+    packingSuggestions: [
+      'Light jacket or sweater for misty mornings and cool summit winds.',
+      'Raincoat or windcheater (the high peak attracts sudden clouds).',
+      'Comfortable walking shoes.',
+      'Camera or smartphone for panoramic valley views.',
+      'Water bottle and light snacks (limited eateries on the hilltop).'
+    ],
+    transitDetails: 'KSRTC runs daily buses from Trivandrum Nedumangad bus station. Renting a car or hiring a taxi is popular for weekend trips.'
   },
   {
     id: 'dest-014',
@@ -613,7 +829,7 @@ export const destinations: Destination[] = [
     bestTimeToVisit: 'September to May',
     temperature: { min: 12, max: 26 },
     elevation: '1,572 m',
-    nearestAirport: 'Coimbatore Airport (80 km)',
+    nearestAirport: 'Coimbatore International Airport (CJB) - 110 km (approx. 3 hours drive via Palakkad). Alternatively, Cochin International Airport (COK) is 120 km away.',
     activities: [
       'Seetharkundu viewpoint trek',
       'Orange and coffee plantation tours',
@@ -628,10 +844,24 @@ export const destinations: Destination[] = [
       'Kesavan Para (Phantom Rock)',
       'Pothundi Dam',
     ],
-    coordinates: { lat: 10.5274, lng: 76.6854 },
+    coordinates: { 
+      lat: 10.5274, 
+      lng: 76.6854,
+      details: 'Nelliampathy Forest Range, Palakkad District.'
+    },
     isHiddenGem: true,
     isTrending: false,
     priceRange: 'budget',
+    historicalSummary: 'During the British colonial era, Nelliyampathy was leased from the Vengunad Kovilakam (local rulers) by British planters to cultivate tea, coffee, and cardamom. It remained a relatively isolated highland settlement, preserving its raw shola ecosystems and wildlife corridors.',
+    seasonalGuidelines: 'September to May is best. December and January are dry and cool. Monsoon (June-August) transforms the hills with numerous seasonal waterfalls but limits outdoor activities due to heavy forest downpours.',
+    packingSuggestions: [
+      'Warm clothing for nights (cardigan, jacket).',
+      'Sturdy trekking footwear with good traction.',
+      'Leech socks or protection sprays if walking through plantation trails.',
+      'Insect repellent and sunblock.',
+      'A basic first-aid kit.'
+    ],
+    transitDetails: 'Access is via Nenmara town (30 km), passing through Pothundi Dam. Winding road has 10 hairpin bends. Local public buses run from Nenmara.'
   },
   {
     id: 'dest-015',
@@ -652,7 +882,7 @@ export const destinations: Destination[] = [
     bestTimeToVisit: 'October to May',
     temperature: { min: 12, max: 26 },
     elevation: '1,200 m',
-    nearestAirport: 'Cochin International Airport (175 km)',
+    nearestAirport: 'Cochin International Airport (COK) - 175 km (approx. 5 hours drive via Pathanamthitta. Access requires prior booking/permission from the Forest Department).',
     activities: [
       'Jeep safari through cardamom hills',
       'Night safari',
@@ -667,10 +897,24 @@ export const destinations: Destination[] = [
       'Cardamom hills',
       'Night wildlife safaris',
     ],
-    coordinates: { lat: 9.4064, lng: 77.1408 },
+    coordinates: { 
+      lat: 9.4064, 
+      lng: 77.1408,
+      details: 'Inside Periyar Tiger Reserve, Pathanamthitta District.'
+    },
     isHiddenGem: true,
     isTrending: false,
     priceRange: 'mid-range',
+    historicalSummary: 'Gavi was historically a cardamom plantation estate managed by the Gavi Forest Development Corporation for Sri Lankan repatriates. In the early 2000s, it was identified as an ecological haven and converted into a highly regulated, community-led eco-tourism project.',
+    seasonalGuidelines: 'September to May is ideal. Winters are cool and pleasant. Monsoon (June-September) is wet and misty; while gorgeous, the forest trails become muddy and leech-prone.',
+    packingSuggestions: [
+      'Neutral or dark forest-colored clothing (avoid bright reds, yellows, and whites).',
+      'Leech socks and insect repellent.',
+      'Binoculars and a good flashlight.',
+      'Warm pullover or jacket for cool highland forest nights.',
+      'Rain jacket/waterproof covers for gear.'
+    ],
+    transitDetails: 'Vehicular access is restricted. Visitors must take the official KSRTC bus from Pathanamthitta/Kumily or book an approved tour package with a forest vehicle permit.'
   },
   {
     id: 'dest-016',
@@ -690,7 +934,7 @@ export const destinations: Destination[] = [
     reviews: 3420,
     bestTimeToVisit: 'October to March',
     temperature: { min: 20, max: 32 },
-    nearestAirport: 'Trivandrum International Airport (72 km)',
+    nearestAirport: 'Trivandrum International Airport (TRV) - 72 km (approx. 2 hours drive via the Shenkottai Road). Direct rail connectivity via the historic Thenmala Railway Station.',
     activities: [
       'Canopy walkway',
       'Suspension bridge crossing',
@@ -705,10 +949,24 @@ export const destinations: Destination[] = [
       'Sculptured Garden',
       'Shendurney Wildlife Sanctuary',
     ],
-    coordinates: { lat: 8.9591, lng: 77.0641 },
+    coordinates: { 
+      lat: 8.9591, 
+      lng: 77.0641,
+      details: 'Kallada River basin, Pathanapuram Taluk, Kollam District.'
+    },
     isHiddenGem: true,
     isTrending: false,
     priceRange: 'budget',
+    historicalSummary: 'Thenmala\'s modern history is tied to the construction of the Kallada Dam (Parappar Dam) in the late 20th century. In 1999, the state government chose the surrounding area to create India\'s first planned eco-tourism project, utilizing the natural terrain and Shendurney forests.',
+    seasonalGuidelines: 'October to March offers pleasant weather for outdoor activities, boating, and canopy walking. Monsoon is beautiful for dam views. Summer can be hot and humid, but suitable for leisure visits.',
+    packingSuggestions: [
+      'Comfortable athletic clothing suitable for climbing, biking, and walking.',
+      'Good walking shoes or sneakers.',
+      'Swimsuit (if participating in water sports or dam boating).',
+      'Mosquito repellent.',
+      'Sun hat and sunscreen.'
+    ],
+    transitDetails: 'Direct train access on the Kollam-Shenkottai line. National Highway 744 passes directly through Thenmala town.'
   },
   {
     id: 'dest-017',
@@ -728,7 +986,7 @@ export const destinations: Destination[] = [
     reviews: 3780,
     bestTimeToVisit: 'September to March',
     temperature: { min: 24, max: 33 },
-    nearestAirport: 'Trivandrum International Airport (30 km)',
+    nearestAirport: 'Trivandrum International Airport (TRV) - 30 km (approx. 45-60 minutes drive. Very close to the capital city, making it easy to access).',
     activities: [
       'Backwater cruise through mangroves',
       'Golden Sand Beach visit',
@@ -743,10 +1001,24 @@ export const destinations: Destination[] = [
       'Mangrove forests',
       'Floating resort',
     ],
-    coordinates: { lat: 8.3131, lng: 77.0671 },
+    coordinates: { 
+      lat: 8.3131, 
+      lng: 77.0671,
+      details: 'Neyyar River estuary, Neyyattinkara Taluk, Thiruvananthapuram District.'
+    },
     isHiddenGem: true,
     isTrending: false,
     priceRange: 'luxury',
+    historicalSummary: 'Poovar was an ancient port city known as Pokhar. According to historical lore, the legendary King Marthanda Varma of Travancore sought refuge here during a rebellion. Impressed by the blooming red flowers along the Neyyar River, he named it \'Poo-var\' (meaning \'flower river\').',
+    seasonalGuidelines: 'September to March offers stable estuary waters and beautiful sunsets. Summer is hot but breezy. Monsoons see high river levels and strong currents where the river meets the sea, which may restrict boating.',
+    packingSuggestions: [
+      'Lightweight cotton clothes and resort wear.',
+      'Insect repellent (important for backwater and river channels).',
+      'Sun block, sunglasses, and beach hat.',
+      'Slip-on sandals or waterproof shoes.',
+      'Waterproof phone case or dry bag for boat rides.'
+    ],
+    transitDetails: 'Boat terminals are located in Poovar town. Resort bookings usually include motorboat transfers from the parking terminal.'
   },
   {
     id: 'dest-018',
@@ -767,7 +1039,7 @@ export const destinations: Destination[] = [
     bestTimeToVisit: 'September to February',
     temperature: { min: 10, max: 22 },
     elevation: '2,100 m',
-    nearestAirport: 'Calicut International Airport (95 km)',
+    nearestAirport: 'Calicut International Airport (CCJ) - 95 km (approx. 3 hours drive to the base camp at Meppadi. Trekking passes must be procured from the Forest Office at Meppadi).',
     activities: [
       'Chembra Peak trek',
       'Heart-shaped lake viewpoint',
@@ -782,10 +1054,24 @@ export const destinations: Destination[] = [
       'Shola forest trails',
       'Sunrise from the peak',
     ],
-    coordinates: { lat: 11.5973, lng: 76.0808 },
+    coordinates: { 
+      lat: 11.5973, 
+      lng: 76.0808,
+      details: 'Vythiri Taluk, southern Wayanad, Western Ghats.'
+    },
     isHiddenGem: false,
     isTrending: true,
     priceRange: 'budget',
+    historicalSummary: 'The peak has been a landmark for travelers in the Wayanad region for centuries. Historically, British surveyors used it as a triangulation point. Local legends associate the heart-shaped lake (Hridayasarasu) with celestial beings who came down to bathe in its pristine, perennial waters.',
+    seasonalGuidelines: 'September to February is the best trekking window. The trek is closed or heavily restricted during peak monsoons (June-August) for safety. Summer treks are hot and dry but offer clear summit visibility.',
+    packingSuggestions: [
+      'Hiking shoes or trail running shoes with excellent grip (essential for steep slopes).',
+      '2 to 3 liters of water per person (no plastic containers allowed unless security tagged).',
+      'Energy snacks, electrolyte packets, and a light lunch.',
+      'Sun hat, sunscreen, and sunglasses.',
+      'Leech socks (highly recommended for the forest sections).'
+    ],
+    transitDetails: 'Reach Meppadi town via bus from Kalpetta (12 km). From Meppadi, hire a local jeep to the Chembra trekking office and base camp.'
   },
   {
     id: 'dest-019',
@@ -806,7 +1092,7 @@ export const destinations: Destination[] = [
     bestTimeToVisit: 'September to November / April to May',
     temperature: { min: 5, max: 20 },
     elevation: '1,200–2,695 m',
-    nearestAirport: 'Cochin International Airport (120 km)',
+    nearestAirport: 'Cochin International Airport (COK) - 120 km (approx. 4 hours drive to Rajamala entrance). Pre-paid buses run from Munnar town, which is 15 km away.',
     activities: [
       'Nilgiri tahr spotting',
       'Guided nature walks',
@@ -821,10 +1107,24 @@ export const destinations: Destination[] = [
       'Neelakurinji bloom (next: 2030)',
       'Rajamala slopes',
     ],
-    coordinates: { lat: 10.1723, lng: 77.0611 },
+    coordinates: { 
+      lat: 10.1723, 
+      lng: 77.0611,
+      details: 'High ranges of Devikulam Taluk, Munnar, Idukki District.'
+    },
     isHiddenGem: false,
     isTrending: false,
     priceRange: 'budget',
+    historicalSummary: 'Originally managed as a private game preserve by the Kannan Devan Hills Produce Company during the British era, the area was declared a sanctuary in 1975 due to its ecological significance. In 1978, it was upgraded to a National Park to protect the Nilgiri tahr.',
+    seasonalGuidelines: 'Open from September to January and April to May. The park is closed to visitors during the calving season of the Nilgiri tahr (usually February to March). Monsoon brings heavy rain and strong winds.',
+    packingSuggestions: [
+      'Warm clothing layers (the park is wind-swept and temperature can drop to 5°C).',
+      'Rain jacket or windproof jacket.',
+      'Comfortable walking shoes (safari buses drop you at Rajamala, followed by a 2 km uphill walk).',
+      'Binoculars and camera with zoom lens.',
+      'Sunscreen and sun hat.'
+    ],
+    transitDetails: 'Private vehicles are parked at the forest station. Park-operated safari buses transport visitors to the tourism zone in Rajamala.'
   },
   {
     id: 'dest-020',
@@ -845,7 +1145,7 @@ export const destinations: Destination[] = [
     bestTimeToVisit: 'December to April',
     temperature: { min: 16, max: 28 },
     elevation: '900–2,383 m',
-    nearestAirport: 'Coimbatore Airport (80 km)',
+    nearestAirport: 'Coimbatore International Airport (CJB) - 80 km (approx. 2.5 hours drive to Mukkali entry gate). Calicut International Airport (CCJ) is 100 km away.',
     activities: [
       'Guided forest treks',
       'Lion-tailed macaque spotting',
@@ -860,10 +1160,24 @@ export const destinations: Destination[] = [
       'Kunthipuzha River',
       'Sairandhri — park headquarters',
     ],
-    coordinates: { lat: 11.0833, lng: 76.4333 },
+    coordinates: { 
+      lat: 11.0833, 
+      lng: 76.4333,
+      details: 'Mannarkkad Taluk, Palakkad District, Nilgiri Biosphere Reserve.'
+    },
     isHiddenGem: true,
     isTrending: false,
     priceRange: 'budget',
+    historicalSummary: 'Local legends refer to Silent Valley as Sairandhrivanam, where Draupadi (disguised as Sairandhri) lived with the Pandavas during their exile. In the 1970s, it became the battlefield for the \'Save Silent Valley\' movement, one of India\'s most successful environmental campaigns, which stopped a hydroelectric dam and led to its declaration as a National Park in 1984.',
+    seasonalGuidelines: 'December to April is the dry winter/spring season, ideal for spotting wildlife and comfortable forest trekking. The park remains open in monsoon, but forest trails are extremely wet and infested with leeches.',
+    packingSuggestions: [
+      'Sturdy hiking boots with excellent wet grip.',
+      'Leech socks (compulsory/highly recommended for walking in the undergrowth).',
+      'Insect repellent and hand sanitizer.',
+      'Raincoat or waterproof poncho.',
+      'Neutral-colored, quick-dry clothing.'
+    ],
+    transitDetails: 'Visitors must check in at Mukkali, 23 km from Sairandhri. Forest department jeeps are hired from Mukkali to enter the park. Permits should be booked in advance.'
   },
 ];
 
@@ -878,6 +1192,19 @@ export const districts: District[] = [
       'Kerala\'s capital city — a blend of royal heritage, golden beaches like Kovalam and Varkala, the world-renowned Padmanabhaswamy Temple, and cutting-edge space research at Thumba.',
     destinationCount: 5,
     image: '/api/placeholder/800/600',
+    hq: 'Thiruvananthapuram',
+    established: '1 November 1956',
+    area: '2,192 sq km',
+    population: 'Approx. 3.3 million',
+    coordinates: { lat: 8.5241, lng: 76.9366 },
+    nearestAirport: 'Trivandrum International Airport (TRV)',
+    historicalSummary: 'Historically the seat of the Kingdom of Travancore, Thiruvananthapuram was established as the capital in 1795 by Maharaja Dharma Raja. The city\'s name is derived from the deity of the Padmanabhaswamy Temple, Lord Anantha. It is a major educational, royal, and scientific hub, being the birthplace of India\'s space program.',
+    keyFacts: [
+      'Southernmost district of Kerala, bordering Tamil Nadu.',
+      'Home to the Padmanabhaswamy Temple, widely considered the wealthiest place of worship in the world.',
+      'Contains the first IT park in India, Technopark, established in 1990.',
+      'Features Agasthyamala, a biosphere reserve rich in medicinal herbs and rare fauna.'
+    ]
   },
   {
     id: 'dist-02',
@@ -887,6 +1214,19 @@ export const districts: District[] = [
       'The gateway to Kerala\'s backwaters, Kollam offers Ashtamudi Lake cruises, the historic cashew industry, Thenmala eco-tourism, and Jatayu Earth\'s Centre — the world\'s largest bird sculpture.',
     destinationCount: 3,
     image: '/api/placeholder/800/600',
+    hq: 'Kollam',
+    established: '1 November 1956',
+    area: '2,492 sq km',
+    population: 'Approx. 2.6 million',
+    coordinates: { lat: 8.8932, lng: 76.6141 },
+    nearestAirport: 'Trivandrum International Airport (TRV) - 70 km',
+    historicalSummary: 'Kollam (historically Quilon) is one of the oldest ports on the Arabian Sea, mentioned in Roman, Chinese, and Arab travelogues. It was a major node in the ancient spice trade and a base for Portuguese, Dutch, and British merchants. The Malayalam era (Kollavarsham) is believed to have commenced from Kollam in 825 CE.',
+    keyFacts: [
+      'Known as the Cashew Capital of the World due to its extensive processing industries.',
+      'Gateway to the Ashtamudi Lake backwaters, the second-largest lake in Kerala.',
+      'Home to the Jatayu Earth\'s Center, featuring the world\'s largest bird sculpture.',
+      'Famed for historic Chinese fishing net ruins and traditional coir weaving.'
+    ]
   },
   {
     id: 'dist-03',
@@ -896,6 +1236,19 @@ export const districts: District[] = [
       'The pilgrimage capital of Kerala, home to the famed Sabarimala Ayyappa Temple, the eco-tourism haven of Gavi, and Periyar Tiger Reserve\'s western reaches.',
     destinationCount: 2,
     image: '/api/placeholder/800/600',
+    hq: 'Pathanamthitta',
+    established: '1 November 1982',
+    area: '2,637 sq km',
+    population: 'Approx. 1.2 million',
+    coordinates: { lat: 9.2648, lng: 76.7870 },
+    nearestAirport: 'Trivandrum International Airport (TRV) - 110 km',
+    historicalSummary: 'Pathanamthitta was historically part of the Pandalam Kingdom, which had close ties to the Travancore Royal Family. Pandalam is celebrated as the birthplace of Lord Ayyappa, the deity of Sabarimala. The district was carved out of parts of Kollam, Alappuzha, and Idukki in 1982.',
+    keyFacts: [
+      'Pilgrimage Capital of Kerala, hosting the Sabarimala Ayyappa temple.',
+      'Over 50% of the district\'s area is covered by dense reserve forests.',
+      'Hosts the Aranmula Snake Boat Race (Uthrattathi Vallamkali) and Aranmula Kannadi (metal mirror making).',
+      'Gavi, an eco-tourism village in Periyar Tiger Reserve, lies here.'
+    ]
   },
   {
     id: 'dist-04',
@@ -905,6 +1258,19 @@ export const districts: District[] = [
       'The "Venice of the East" — legendary houseboat cruises, the Nehru Trophy Boat Race, serene Marari Beach, and the vast Vembanad backwater network.',
     destinationCount: 4,
     image: '/api/placeholder/800/600',
+    hq: 'Alappuzha',
+    established: '17 August 1957',
+    area: '1,414 sq km',
+    population: 'Approx. 2.1 million',
+    coordinates: { lat: 9.4981, lng: 76.3388 },
+    nearestAirport: 'Cochin International Airport (COK) - 75 km',
+    historicalSummary: 'Developed as a port town in the late 18th century by Raja Kesavadas of Travancore, Alappuzha became a bustling center of the coir industry and spice trade. Its extensive system of canals and backwaters earned it the name \'Venice of the East\'.',
+    keyFacts: [
+      'Smallest district in Kerala by land area, but highly populated.',
+      'Known for the Vembanad Lake, the longest lake in India.',
+      'Kuttanad region in Alappuzha is famous for farming below sea level (underwater rice cultivation).',
+      'Hosts the world-famous Nehru Trophy Boat Race on Punnamada Lake.'
+    ]
   },
   {
     id: 'dist-05',
@@ -914,6 +1280,19 @@ export const districts: District[] = [
       'Kerala\'s land of letters and latex — Kumarakom bird sanctuary, rubber plantations, ancient churches, and the eastern gateway to the Vembanad backwaters.',
     destinationCount: 2,
     image: '/api/placeholder/800/600',
+    hq: 'Kottayam',
+    established: '1 November 1956',
+    area: '2,203 sq km',
+    population: 'Approx. 1.9 million',
+    coordinates: { lat: 9.5916, lng: 76.5224 },
+    nearestAirport: 'Cochin International Airport (COK) - 90 km',
+    historicalSummary: 'Historically ruled by the Thekkumkur kingdom, Kottayam later merged into Travancore. It was at the forefront of social reforms, including the Vaikom Satyagraha (1924-25) against untouchability. It was the first town in India to achieve 100% literacy in 1989.',
+    keyFacts: [
+      'Known as the \'Land of Letters, Latex, and Lakes\' (Akshara Nagari).',
+      'A primary hub of natural rubber production in India.',
+      'Home to the Kumarakom Bird Sanctuary and extensive Vembanad backwaters.',
+      'Birthplace of major Malayalam print media houses.'
+    ]
   },
   {
     id: 'dist-06',
@@ -923,6 +1302,19 @@ export const districts: District[] = [
       'Kerala\'s spice garden and highland wonderland — Munnar tea estates, Thekkady wildlife, Vagamon meadows, and the iconic double-curvature arch dam.',
     destinationCount: 5,
     image: '/api/placeholder/800/600',
+    hq: 'Painavu',
+    established: '26 January 1972',
+    area: '4,358 sq km',
+    population: 'Approx. 1.1 million',
+    coordinates: { lat: 9.8500, lng: 76.9700 },
+    nearestAirport: 'Cochin International Airport (COK) - 110 km',
+    historicalSummary: 'Idukki was historically covered in dense mountain forests and inhabited by tribal communities like the Muthuvans. The region became prominent during the British era when tea estates were established in Munnar. In 1976, the grand Idukki Arch Dam, one of the tallest in Asia, was commissioned.',
+    keyFacts: [
+      'Second-largest district in Kerala but has the lowest population density.',
+      'Home to Anamudi, the highest peak in South India (2,695 m).',
+      'Hosts major wildlife reserves including Eravikulam National Park and Periyar Tiger Reserve.',
+      'Produces a massive share of Kerala\'s hydroelectric power and spices like cardamom.'
+    ]
   },
   {
     id: 'dist-07',
@@ -932,6 +1324,19 @@ export const districts: District[] = [
       'The commercial capital housing cosmopolitan Kochi — Fort Kochi heritage, Chinese fishing nets, Lulu Mall (India\'s largest), and the Kochi-Muziris Biennale.',
     destinationCount: 3,
     image: '/api/placeholder/800/600',
+    hq: 'Kakkanad',
+    established: '1 April 1958',
+    area: '3,068 sq km',
+    population: 'Approx. 3.4 million',
+    coordinates: { lat: 9.9816, lng: 76.2998 },
+    nearestAirport: 'Cochin International Airport (COK) - 30 km',
+    historicalSummary: 'Historically the core of the Kingdom of Cochin, Ernakulam has been a commercial crossroads for millennia. The port town of Cochin rose to prominence after Muziris was destroyed. It became a colonial battleground between the Portuguese, Dutch, and British before becoming a modern cosmopolitan hub.',
+    keyFacts: [
+      'Commercial and financial capital of Kerala.',
+      'Hosts the Cochin Shipyard, Southern Naval Command, and Kochi InfoPark.',
+      'Home to the historic enclave of Fort Kochi and Jew Town.',
+      'Cochin Port is one of the largest natural harbors in India.'
+    ]
   },
   {
     id: 'dist-08',
@@ -941,6 +1346,19 @@ export const districts: District[] = [
       'Kerala\'s cultural capital — home to the spectacular Thrissur Pooram festival, Athirappilly Falls, Guruvayur Temple, and the Sahitya Akademi (Academy of Letters).',
     destinationCount: 3,
     image: '/api/placeholder/800/600',
+    hq: 'Thrissur',
+    established: '1 November 1956',
+    area: '3,032 sq km',
+    population: 'Approx. 3.2 million',
+    coordinates: { lat: 10.5276, lng: 76.2144 },
+    nearestAirport: 'Cochin International Airport (COK) - 50 km',
+    historicalSummary: 'Historically ruled by the Cochin Royal Family, Thrissur (Trichur) rose to cultural prominence under the reign of Sakthan Thampuran in the late 18th century. He remodeled the city, cleared surrounding forests, and established the Thrissur Pooram festival, cementing its place as Kerala\'s cultural heart.',
+    keyFacts: [
+      'Cultural Capital of Kerala, housing Kerala Sangeetha Nataka Akademi and Sahitya Akademi.',
+      'Famous for the Vadakkunnathan Temple and the grand Thrissur Pooram festival.',
+      'Hosts Athirappilly and Vazhachal waterfalls, Kerala\'s largest falls.',
+      'Major center for gold jewelry manufacturing and banking.'
+    ]
   },
   {
     id: 'dist-09',
@@ -950,6 +1368,19 @@ export const districts: District[] = [
       'The granary of Kerala — Palakkad Gap, Nelliyampathy hills, Silent Valley\'s primeval forests, Malampuzha Dam gardens, and rich agrarian heritage.',
     destinationCount: 3,
     image: '/api/placeholder/800/600',
+    hq: 'Palakkad',
+    established: '1 January 1957',
+    area: '4,480 sq km',
+    population: 'Approx. 2.8 million',
+    coordinates: { lat: 10.7867, lng: 76.6547 },
+    nearestAirport: 'Coimbatore International Airport (CJB) - 60 km',
+    historicalSummary: 'Known as the gateway to Kerala due to the Palakkad Gap in the Western Ghats. Historically ruled by the Palakkad Rajas, it was later occupied by Hyder Ali and Tipu Sultan of Mysore, who built the Palakkad Fort in 1766, which subsequently fell to the British.',
+    keyFacts: [
+      'Granary of Kerala due to its extensive paddy cultivation.',
+      'Features the Palakkad Gap, a 30-km natural break in the Western Ghats mountain range.',
+      'Home to Silent Valley National Park, a primeval rainforest ecosystem.',
+      'Rich in Carnatic music tradition and temple art forms.'
+    ]
   },
   {
     id: 'dist-10',
@@ -959,6 +1390,19 @@ export const districts: District[] = [
       'A district steeped in Mappila heritage — Nilambur teak forests, Kadalundi bird sanctuary, historic mosques, and the ancient martial art of Kalaripayattu.',
     destinationCount: 2,
     image: '/api/placeholder/800/600',
+    hq: 'Malappuram',
+    established: '16 June 1969',
+    area: '3,554 sq km',
+    population: 'Approx. 4.1 million',
+    coordinates: { lat: 11.0720, lng: 76.0740 },
+    nearestAirport: 'Calicut International Airport (CCJ) - 25 km',
+    historicalSummary: 'Malappuram was historically a military headquarters for the Zamorins of Calicut and later for the British. It was the epicenter of the Malabar Rebellion (Moplah Riots) of 1921. It was carved out as a separate district in 1969 to promote regional development.',
+    keyFacts: [
+      'Most populous district in Kerala.',
+      'Known for the Nilambur Teak Forests, home to the world\'s oldest teak plantation (Conolly\'s Plot).',
+      'Major center of Mappila songs, Islamic learning, and football culture.',
+      'Hosts Kottakkal Arya Vaidya Sala, a globally renowned Ayurvedic center.'
+    ]
   },
   {
     id: 'dist-11',
@@ -968,6 +1412,19 @@ export const districts: District[] = [
       'The City of Spices where Vasco da Gama first landed in 1498 — Kappad Beach, Kozhikode halwa, Beypore boatbuilding, and the literary heritage of Thakazhi and Vaikom Muhammad Basheer.',
     destinationCount: 3,
     image: '/api/placeholder/800/600',
+    hq: 'Kozhikode',
+    established: '1 January 1957',
+    area: '2,344 sq km',
+    population: 'Approx. 3.1 million',
+    coordinates: { lat: 11.2588, lng: 75.7804 },
+    nearestAirport: 'Calicut International Airport (CCJ) - 28 km',
+    historicalSummary: 'Kozhikode (Calicut) was the capital of the powerful Zamorins (Samudiris) of Calicut. In 1498, Portuguese explorer Vasco da Gama landed at Kappad Beach near Calicut, opening the sea route from Europe to India and changing global trade history forever.',
+    keyFacts: [
+      'Known as the \'City of Spices\' and recognized by UNESCO as India\'s first \'City of Literature\'.',
+      'Famous for Beypore Uru (traditional wooden dhow/boat building).',
+      'Celebrated for Malabar cuisine, especially Kozhikodan Biryani and Halwa.',
+      'Main port of trade for Arabian, Chinese, and European merchants.'
+    ]
   },
   {
     id: 'dist-12',
@@ -977,6 +1434,19 @@ export const districts: District[] = [
       'A misty highland district of ancient caves, dense rainforests, tribal settlements, Chembra Peak, and UNESCO-listed Western Ghats biodiversity.',
     destinationCount: 4,
     image: '/api/placeholder/800/600',
+    hq: 'Kalpetta',
+    established: '1 November 1980',
+    area: '2,131 sq km',
+    population: 'Approx. 817,000',
+    coordinates: { lat: 11.6050, lng: 76.0830 },
+    nearestAirport: 'Calicut International Airport (CCJ) - 100 km',
+    historicalSummary: 'Wayanad is dotted with Neolithic archaeological remnants. It was ruled by the Pazhassi Rajas of Kottayam dynasty. King Pazhassi Raja led an iconic guerrilla campaign against the British East India Company from the safety of Wayanad\'s dense forests before his death in 1805.',
+    keyFacts: [
+      'Only district in Kerala that borders both Karnataka and Tamil Nadu.',
+      'Home to the highest concentration of tribal population in Kerala.',
+      'Hosts Edakkal Caves, showcasing rock carvings from the Neolithic era.',
+      'Major producer of spices, tea, coffee, and aromatic rice like Gandhakasala.'
+    ]
   },
   {
     id: 'dist-13',
@@ -986,6 +1456,19 @@ export const districts: District[] = [
       'The land of looms and lore — Theyyam rituals, St. Angelo Fort, Payyambalam Beach, handloom weaving, and the Malabar freedom movement\'s legacy.',
     destinationCount: 3,
     image: '/api/placeholder/800/600',
+    hq: 'Kannur',
+    established: '1 January 1957',
+    area: '2,966 sq km',
+    population: 'Approx. 2.5 million',
+    coordinates: { lat: 11.8745, lng: 75.3704 },
+    nearestAirport: 'Kannur International Airport (CNN) - 25 km',
+    historicalSummary: 'Historically known as Cannanore, Kannur was an ancient port city ruled by the Kolathiri Rajas. It was the only Muslim Sultanate in Kerala, the Arakkal Kingdom, who ruled nearby islands. St. Angelo Fort was built here in 1505 by the Portuguese explorer Francisco de Almeida.',
+    keyFacts: [
+      'Known as the \'Land of Looms and Lore\' (famous for handlooms and Theyyam rituals).',
+      'Home to Muzhappilangad Beach, Asia\'s longest drive-in beach.',
+      'St. Angelo Fort and the Arakkal Palace reflect its diverse colonial history.',
+      'Major center for theyyam performances, which are sacred ritual dances.'
+    ]
   },
   {
     id: 'dist-14',
@@ -995,6 +1478,19 @@ export const districts: District[] = [
       'Kerala\'s northernmost frontier — Bekal Fort, Valiyaparamba backwaters, Ananthapura Lake Temple (the only lake temple in India), and the land of seven languages.',
     destinationCount: 2,
     image: '/api/placeholder/800/600',
+    hq: 'Kasaragod',
+    established: '24 May 1984',
+    area: '1,992 sq km',
+    population: 'Approx. 1.3 million',
+    coordinates: { lat: 12.5102, lng: 74.9852 },
+    nearestAirport: 'Mangalore International Airport (IXE) - 55 km',
+    historicalSummary: 'Kasaragod was historically under the Kolathiri Rajas and later the Vijayanagara Empire. In the 17th century, the Keladi Nayakas built several forts in the region, including the Bekal Fort. It was later administered by Mysore rulers and then the British.',
+    keyFacts: [
+      'Northernmost district of Kerala, bordering Karnataka.',
+      'Known as the \'Land of Seven Languages\' (Sapthabhasha Sangamabhoomi).',
+      'Home to Bekal Fort, the largest and best-preserved fort in Kerala.',
+      'Hosts the Ananthapura Lake Temple, the only lake temple in Kerala, historically guarded by a vegetarian crocodile.'
+    ]
   },
 ];
 
@@ -1019,6 +1515,19 @@ export const seasons: Season[] = [
       'Monsoon cuisine festivals',
     ],
     destinations: ['munnar', 'wayanad', 'athirappilly', 'thekkady', 'vagamon'],
+    packingSuggestions: [
+      'Sturdy, windproof umbrella and high-quality raincoat or poncho.',
+      'Quick-dry, synthetic clothing rather than heavy denims.',
+      'Waterproof backpack covers and Ziploc bags for protecting phones and passports.',
+      'Waterproof footwear with non-slip rubber soles (aquashoes or trekking sandals).',
+      'Leech-guard socks if planning any nature walks.'
+    ],
+    travelGuidelines: [
+      'Check daily weather and landslide warnings before traveling to high-altitude areas like Munnar and Wayanad.',
+      'Avoid swimming in sea beaches or rivers as currents are extremely treacherous during the monsoon.',
+      'Keep buffer days in your itinerary, as heavy rains can lead to temporary road closures.',
+      'Avail Ayurvedic treatments only from government-accredited (Green Leaf/Olive Leaf) wellness centers.'
+    ]
   },
   {
     id: 'season-02',
@@ -1038,6 +1547,18 @@ export const seasons: Season[] = [
       'Festival celebrations (Christmas, New Year)',
     ],
     destinations: ['alleppey', 'kumarakom', 'kovalam', 'varkala', 'munnar', 'kochi'],
+    packingSuggestions: [
+      'Light woolen layers, fleece, or cardigans for early mornings and nights in hill stations.',
+      'Comfortable cotton clothing for coastal and plains exploration during daytime.',
+      'Swimwear, sunglasses, and high-quality sunblock for the beaches.',
+      'Binoculars and zoom lens cameras for birdwatching and wildlife safaris.',
+      'Hand sanitizers, light walking shoes.'
+    ],
+    travelGuidelines: [
+      'Book houseboats, flights, and resorts at least 3-4 months in advance as this is the peak peak-season.',
+      'Expect larger crowds at popular heritage spots like Fort Kochi and Kovalam Beach.',
+      'Plan wildlife safaris early in the morning for the best chances of animal sightings.'
+    ]
   },
   {
     id: 'season-03',
@@ -1057,6 +1578,19 @@ export const seasons: Season[] = [
       'Summer camp adventures for families',
     ],
     destinations: ['munnar', 'wayanad', 'vagamon', 'ponmudi', 'nelliyampathy', 'chembra-peak'],
+    packingSuggestions: [
+      'Extremely light, breathable linen or cotton garments to cope with humidity.',
+      'Wide-brimmed sun hats, sunglasses, and strong UV-protective sunscreen.',
+      'Electrolyte packets (ORS) and a reusable insulated water bottle.',
+      'Comfortable hiking sandals and lightweight sneakers.',
+      'Light cotton sheets or towels.'
+    ],
+    travelGuidelines: [
+      'Stay hydrated; drink coconut water (Elaneer) and lime water frequently.',
+      'Avoid outdoor activities during peak sun hours (12 PM to 3 PM) in coastal areas.',
+      'Excellent time for budget travelers as luxury resorts offer heavy discounts.',
+      'Book Thrissur Pooram tickets and accommodation well in advance if visiting in April/May.'
+    ]
   },
 ];
 
@@ -1261,4 +1795,79 @@ export const blogPosts: BlogPost[] = [
     readTime: '7 min read',
     category: 'How-To',
   },
+];
+
+// ── Packing Recommendations ──────────────────────────────────
+
+export const packingRecommendations: PackingRecommendation[] = [
+  {
+    region: 'Highlands',
+    season: 'All Seasons',
+    generalGuidelines: [
+      'Layering is key in the highlands as temperature shifts dramatically between daytime sun and night mist.',
+      'Always pack rain protection regardless of the season since localized mountain showers are common.',
+      'Protect against insect bites in forested or plantation areas with long-sleeved clothes.'
+    ],
+    items: [
+      { item: 'Fleece jacket or warm sweater', category: 'Clothing', necessity: 'Essential', notes: 'Especially for Munnar, Wayanad, and Vagamon where night temperatures dip to 10°C.' },
+      { item: 'Sturdy trekking boots or trail shoes', category: 'Footwear', necessity: 'Essential', notes: 'With good grip for loose gravel, damp soil, and steep plantation trails.' },
+      { item: 'Moisture-wicking active wear', category: 'Clothing', necessity: 'Recommended', notes: 'Keeps you dry and comfortable during uphill climbs.' },
+      { item: 'Leech protection socks', category: 'Clothing', necessity: 'Recommended', notes: 'Highly recommended for deep forest trekking during or post-monsoon.' },
+      { item: 'Insect repellent spray/cream', category: 'Personal Care', necessity: 'Essential', notes: 'Protects against mosquitoes and forest bugs.' },
+      { item: 'Motion sickness tablets', category: 'Medical', necessity: 'Recommended', notes: 'Very useful for negotiating multiple hairpin bends on mountain ghat roads.' },
+      { item: 'Insulated reusable water bottle', category: 'Gear', necessity: 'Essential', notes: 'Keeps water cold or hot tea warm during long outdoor treks.' }
+    ]
+  },
+  {
+    region: 'Coastline & Backwaters',
+    season: 'All Seasons',
+    generalGuidelines: [
+      'Loose-fitting, natural fiber garments are your best defense against coastal humidity.',
+      'Sun safety is crucial; the tropical sun reflects intensely off water and white sand.',
+      'Be respectful of local sensibilities by using cover-ups when away from the main resort beach areas.'
+    ],
+    items: [
+      { item: 'Light cotton or linen shirts/trousers', category: 'Clothing', necessity: 'Essential', notes: 'Breathable fabric to manage high tropical humidity.' },
+      { item: 'Swimwear and rash guards', category: 'Clothing', necessity: 'Essential', notes: 'For beach swimming, water sports, and pool lounging.' },
+      { item: 'Broad-spectrum UV sunscreen (SPF 50+)', category: 'Personal Care', necessity: 'Essential', notes: 'Preferably reef-safe to prevent environmental damage.' },
+      { item: 'Polarized sunglasses', category: 'Gear', necessity: 'Recommended', notes: 'Reduces intense water glare during backwater and beach activities.' },
+      { item: 'Wide-brimmed sun hat', category: 'Clothing', necessity: 'Recommended', notes: 'Shields face and neck from midday heat.' },
+      { item: 'Water-resistant sandals/flip-flops', category: 'Footwear', necessity: 'Essential', notes: 'Easy to remove when boarding houseboats or canoes.' },
+      { item: 'Waterproof dry bag', category: 'Gear', necessity: 'Recommended', notes: 'Protects cameras, phones, and wallets from water splashes during boat rides.' }
+    ]
+  },
+  {
+    region: 'Wildlife & Forest',
+    season: 'All Seasons',
+    generalGuidelines: [
+      'Avoid bright colors that can startle or attract animals; blend into the environment.',
+      'Cover your skin fully to prevent scratches from dense brush and bites from forest insects.',
+      'Silence is golden: carry gear that doesn\'t make rustling noises when moving.'
+    ],
+    items: [
+      { item: 'Earth-toned clothing (khaki, olive, brown)', category: 'Clothing', necessity: 'Essential', notes: 'Helps you blend into the natural surroundings on safaris.' },
+      { item: 'Ankle-length hiking trousers', category: 'Clothing', necessity: 'Essential', notes: 'Protects against forest thorns, nettles, and insects.' },
+      { item: 'High-power binoculars', category: 'Gear', necessity: 'Recommended', notes: 'Crucial for viewing birds, elephants, and canopy-dwelling primates.' },
+      { item: 'Compact LED flashlight/headlamp', category: 'Gear', necessity: 'Essential', notes: 'Required for night safaris and early morning trails.' },
+      { item: 'Antiseptic wipes and cream', category: 'Medical', necessity: 'Recommended', notes: 'For quick cleaning of minor cuts or insect bites.' },
+      { item: 'Camera with telephoto lens', category: 'Gear', necessity: 'Optional', notes: 'Great for documenting bird species and distant mammals.' }
+    ]
+  },
+  {
+    region: 'All Kerala',
+    season: 'Monsoon',
+    generalGuidelines: [
+      'Waterproofing everything is the main priority during the heavy downpours.',
+      'Synthetic, quick-drying fabrics are much easier to manage than thick denim or cotton.',
+      'Check local alerts daily for rainfall or wind updates.'
+    ],
+    items: [
+      { item: 'Heavy-duty windproof umbrella', category: 'Gear', necessity: 'Essential', notes: 'Standard umbrellas can fold in strong coastal monsoon gusts.' },
+      { item: 'Breathable waterproof raincoat or poncho', category: 'Clothing', necessity: 'Essential', notes: 'Keeps hands free for photography or hiking.' },
+      { item: 'Quick-dry synthetic clothing', category: 'Clothing', necessity: 'Essential', notes: 'Polyester or nylon fabrics that dry quickly in high humidity.' },
+      { item: 'Silica gel packs', category: 'Gear', necessity: 'Recommended', notes: 'Keep inside camera bags and passport pouches to absorb moisture.' },
+      { item: 'Waterproof phone pouch', category: 'Gear', necessity: 'Essential', notes: 'Enables taking photos in rain without damaging the screen.' },
+      { item: 'Anti-fungal dusting powder', category: 'Medical', necessity: 'Recommended', notes: 'Helps keep feet dry and prevents infections from wearing wet shoes.' }
+    ]
+  }
 ];

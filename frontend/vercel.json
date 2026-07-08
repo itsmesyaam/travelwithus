@@ -14,7 +14,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "http://localhost:8000/api/$1"
+      "destination": "https://backend-two-delta-owgj08a4g6.vercel.app/api/$1"
     },
     {
       "source": "/(.*)",
